@@ -1,0 +1,81 @@
+/* ======================================================================== */
+/* FILE: client/src/Pages/Admin/Products/Categories/NewCategoryPage.css    */
+/* ======================================================================== */
+
+/* Uses .page-container, .form-page, .form-header, .form-title, .form-subtitle */
+/* .stylish-form, .form-fieldset, .form-group, .form-label, .required, */
+/* .optional-text, .form-control, .file-input, .form-text, .form-actions */
+/* .alert, .btn styles from App.css */
+
+
+/* --- Image Preview Specific Styles --- */
+.image-preview-wrapper {
+    margin-top: 1rem;
+    border: 1px dashed var(--color-border);
+    border-radius: var(--border-radius-medium);
+    padding: 1rem;
+    min-height: 150px; /* Ensure minimum height */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--color-background); /* Light background */
+    position: relative; /* For positioning the clear button */
+}
+
+.image-preview-container {
+    position: relative;
+    max-width: 100%; /* Ensure preview fits */
+    max-height: 250px; /* Limit preview height */
+}
+.image-preview-container.active {
+    border: 2px solid var(--color-highlight); /* Highlight border when active */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
+}
+
+.image-preview {
+  display: block; /* Remove extra space below image */
+  max-width: 100%;
+  max-height: 250px; /* Match container max-height */
+  height: auto;
+  border-radius: var(--border-radius-small);
+  object-fit: contain; /* Show whole image */
+}
+
+.image-preview-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+}
+.image-preview-placeholder svg {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    opacity: 0.6;
+}
+
+
+.image-clear-btn {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    line-height: 1;
+    padding: 0;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+.image-clear-btn:hover {
+    background-color: rgba(217, 54, 62, 0.8); /* Reddish hover */
+}

@@ -1,0 +1,171 @@
+/* ======================================================================== */
+/* FILE: client/src/Components/Layout/Header.css                           */
+/* ======================================================================== */
+
+.admin-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.8rem 1.5rem;
+    background-color: var(--color-background-light); /* White background */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+    height: var(--header-height);
+    position: sticky; /* Make header stick to top */
+    top: 0;
+    z-index: 900; /* Below modals */
+    border-bottom: 1px solid var(--color-border-light);
+  }
+  
+  /* --- Sidebar Toggle Button in Header --- */
+  .header-toggle-btn {
+    background: none;
+    border: none;
+    color: var(--color-text-secondary);
+    font-size: 1.3rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    margin-right: 1rem; /* Space between toggle and search */
+    display: none; /* Initially hidden, shown via media query */
+  }
+  
+  .header-toggle-btn:hover {
+      color: var(--color-primary);
+  }
+  
+  
+  /* --- Search Bar --- */
+  .header-search-container {
+    position: relative;
+    flex-grow: 0; /* Don't let it grow excessively initially */
+    max-width: 400px; /* Limit search bar width */
+    width: 100%;
+  }
+  
+  .search-bar {
+    display: flex;
+    align-items: center;
+    background-color: var(--color-background); /* Light grey background */
+    border-radius: var(--border-radius-large);
+    padding: 0.5rem 0.8rem;
+    border: 1px solid var(--color-border-light);
+    transition: box-shadow 0.2s ease;
+  }
+  
+  .search-bar:focus-within {
+      border-color: var(--color-primary-light);
+      box-shadow: 0 0 0 2px var(--color-primary-extralight);
+  }
+  
+  
+  .search-icon {
+    color: var(--color-text-secondary);
+    margin-right: 0.6rem;
+    font-size: 1rem;
+  }
+  
+  .search-bar input {
+    border: none;
+    background: none;
+    outline: none;
+    width: 100%;
+    font-size: 0.95rem;
+    color: var(--color-text-main);
+  }
+  
+  .search-bar input::placeholder {
+      color: var(--color-text-secondary);
+      opacity: 0.8;
+  }
+  
+  /* --- Search Suggestions --- */
+  .search-suggestions {
+    position: absolute;
+    top: calc(100% + 5px); /* Position below search bar */
+    left: 0;
+    right: 0;
+    background-color: var(--color-background-light);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-medium);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    list-style: none;
+    padding: 0.5rem 0;
+    margin: 0;
+    max-height: 300px; /* Limit height */
+    overflow-y: auto;
+    z-index: 950; /* Above content, below header */
+  }
+  
+  .search-suggestions li {
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+    color: var(--color-text-main);
+  }
+  
+  .search-suggestions li:hover,
+  .search-suggestions li:focus {
+    background-color: var(--color-primary-extralight);
+    color: var(--color-primary-dark);
+  }
+  
+  .search-no-results {
+      position: absolute;
+      top: calc(100% + 5px);
+      left: 0;
+      right: 0;
+      background-color: var(--color-background-light);
+      border: 1px solid var(--color-border);
+      border-radius: var(--border-radius-medium);
+      padding: 0.8rem 1rem;
+      font-size: 0.9rem;
+      color: var(--color-text-secondary);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+       z-index: 950;
+  }
+  
+  
+  /* --- Other Header Actions --- */
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-left: auto; /* Push actions to the right */
+    padding-left: 1rem; /* Space from search bar */
+  }
+  
+  /* Example for action icons */
+  .header-actions svg {
+      font-size: 1.3rem;
+      color: var(--color-text-secondary);
+      cursor: pointer;
+      transition: color 0.2s ease;
+  }
+  .header-actions svg:hover {
+      color: var(--color-primary);
+  }
+  
+  
+  /* --- Responsive Adjustments --- */
+  @media (max-width: 768px) {
+      .admin-header {
+          padding: 0.5rem 1rem; /* Reduce padding */
+      }
+  
+      .header-toggle-btn {
+          display: block; /* Show hamburger */
+      }
+  
+      .header-search-container {
+          max-width: 250px; /* Reduce search width */
+      }
+  }
+  
+  @media (max-width: 576px) {
+       .header-search-container {
+          display: none; /* Hide search on very small screens */
+       }
+       .header-actions {
+           padding-left: 0.5rem;
+       }
+  }

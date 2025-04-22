@@ -1,0 +1,35 @@
+/* Use the shared styles from loginform.css */
+/* Add specific styles for RegistrationForm if needed below */
+
+/* Example: Style the OTP info box more */
+.otp-info {
+    background-color: #d1ecf1; /* Light cyan */
+    border-color: #bee5eb;
+    color: #0c5460; /* Dark cyan text */
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 25px;
+    font-size: 0.95rem;
+    border: 1px solid #bee5eb;
+    text-align: left; /* Align text left */
+    line-height: 1.5;
+  }
+  
+  .otp-info strong {
+      font-weight: 600;
+      color: #0a435c; /* Slightly darker */
+  }
+  
+  /* Example: Style the back button differently */
+  .btn-back {
+    background-color: #f8f9fa; /* Light gray */
+    color: #495057; /* Dark gray text */
+    border: 1px solid #ced4da;
+  }
+  
+  .btn-back:hover:not(:disabled) {
+    background-color: #e2e6ea;
+    border-color: #dae0e5;
+  }
+  
+  /* Add more specific styles here */

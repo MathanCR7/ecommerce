@@ -1,0 +1,597 @@
+/* Global Variables */
+:root {
+  --primary-color: #0f3460;
+  --secondary-color: #e94560; /* Accent color */
+  --accent-color-alt: #ff8d4d;
+  --light-bg: #f8f9fa;
+  --grey-bg: #f3f5f9;
+  --text-dark: #212529;
+  --text-medium: #495057;
+  --text-light: #6c757d;
+  --border-color: #dee2e6;
+  --white-color: #fff;
+  --header-height-desktop: 4rem;
+  --header-height-mobile: 3.5rem;
+  --navbar-height: 3.5rem;
+  --default-transition: all 0.3s ease; /* Default transition for effects */
+}
+
+/* General Reset/Base */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  margin: 0;
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; /* Add fallback fonts */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--white-color); /* Ensure base background */
+  color: var(--text-dark);
+}
+
+body.no-scroll {
+  overflow: hidden;
+}
+
+.container {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 15px;
+  padding-right: 15px;
+  width: 100%;
+}
+
+/* Links */
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: color 0.2s ease;
+}
+a:hover {
+  color: var(--secondary-color); /* Default link hover */
+}
+
+/* Buttons Reset */
+button {
+  border: none;
+  outline: none;
+  background-color: transparent;
+  cursor: pointer;
+  padding: 0;
+  font-family: inherit;
+  color: inherit;
+}
+
+/* Input Reset */
+input {
+  border: none;
+  outline: none;
+  background-color: transparent;
+  font-family: inherit;
+  width: 100%;
+  font-size: 1rem; /* Base font size */
+}
+
+::placeholder {
+  color: var(--text-light);
+  font-size: 0.9rem;
+  opacity: 1; /* Ensure placeholder is visible */
+}
+
+/* Font Awesome basic styling */
+[class^="fa-"], [class*=" fa-"] {
+   line-height: 1; /* Prevent extra space */
+}
+
+/* ==================== Head Part (Top Bar) ==================== */
+.head {
+  background-color: var(--primary-color);
+  min-height: 2.5rem;
+  padding: 0.5rem 0;
+  color: var(--white-color);
+  font-size: 0.85rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.head .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.head .left-row,
+.head .right-row {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.head .icon-flex {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  opacity: 0.9;
+}
+.head .icon-flex label {
+   cursor: default;
+}
+/* ==================== End Head Part ==================== */
+
+
+/* ==================== Search Part ==================== */
+.search {
+  background-color: var(--white-color);
+  padding: 0.8rem 0;
+  position: relative;
+  z-index: 100;
+  transition: var(--default-transition);
+  height: var(--header-height-desktop);
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--border-color); /* Add a subtle separator */
+}
+
+.search .container {
+  display: grid;
+  grid-template-columns: auto 1fr auto; /* Logo | Search | Icons */
+  align-items: center;
+  gap: 2rem; /* Increased gap */
+  width: 100%;
+}
+
+.search .logo {
+  grid-column: 1 / 2;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.search .logo img {
+  display: block;
+  max-height: 45px; /* Slightly larger max height */
+  width: auto;
+  object-fit: contain;
+}
+
+.search-box {
+  grid-column: 2 / 3;
+  width: 100%;
+  border: 1px solid var(--border-color);
+  border-radius: 25px;
+  background: var(--white-color);
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  height: 44px; /* Standard height */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04); /* Even subtler shadow */
+  transition: box-shadow 0.2s ease;
+}
+.search-box:focus-within { /* Highlight when focused */
+   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+   border-color: var(--primary-color);
+}
+
+.search-box i.fa-search {
+  padding: 0 0.8rem 0 1.1rem; /* More left padding */
+  font-size: 1rem;
+  color: var(--text-light);
+  opacity: 0.8;
+}
+
+.search-box input {
+  padding: 0.6rem 0.8rem 0.6rem 0; /* Adjust padding */
+  font-size: 0.95rem;
+  color: var(--text-dark);
+  flex-grow: 1;
+}
+
+/* "All Categories" button/span */
+.search-box span {
+  white-space: nowrap;
+  color: var(--text-medium);
+  border-left: 1px solid var(--border-color);
+  padding: 0 1.1rem;
+  font-size: 0.85rem; /* Slightly larger */
+  font-weight: 500;
+  cursor: pointer;
+  background-color: var(--grey-bg);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  transition: background-color 0.2s ease;
+}
+.search-box span:hover {
+  background-color: #e9ecef;
+}
+
+/* Search Icons */
+.search .icons-wrapper {
+  grid-column: 3 / 4;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1rem; /* Consistent gap */
+}
+
+.icon-circle-link { /* Style the link wrapper */
+  display: block; /* Ensure link takes space */
+  position: relative; /* For potential badges */
+}
+
+.icon-circle {
+  width: 42px; /* Slightly larger */
+  height: 42px;
+  background-color: var(--grey-bg);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem; /* Icon size */
+  color: var(--text-medium);
+  transition: var(--default-transition);
+  border: 1px solid transparent; /* Placeholder for hover effect */
+}
+.icon-circle:hover {
+  background-color: var(--white-color);
+  color: var(--primary-color);
+  border-color: var(--primary-color); /* Show border on hover */
+  transform: scale(1.05); /* Slight scale effect */
+}
+.icon-circle .fa-heart {
+  font-size: 1rem; /* Adjust specific icons if needed */
+}
+
+/* Cart specific styling */
+.cart {
+  position: relative;
+}
+.cart-link {
+  display: block;
+  position: relative;
+}
+
+.cart span.cart-count {
+  position: absolute;
+  top: -3px; /* Adjusted position */
+  right: -4px;
+  width: 20px; /* Slightly larger count badge */
+  height: 20px;
+  line-height: 20px;
+  border-radius: 50%;
+  text-align: center;
+  background-color: var(--secondary-color);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--white-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  pointer-events: none;
+  border: 1px solid var(--white-color); /* Add border for contrast */
+}
+/* ==================== End Search Part ==================== */
+
+
+/* ==================== Navbar Part Styling ==================== */
+.navbar-wrapper {
+  background-color: var(--white-color);
+  border-bottom: 1px solid var(--border-color);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03); /* Even softer shadow */
+  position: relative;
+  z-index: 98; /* Below search */
+  height: var(--navbar-height);
+}
+
+.menu-items {
+  display: flex;
+  justify-content: flex-end; /* Push content right */
+  align-items: center;
+  height: 100%;
+}
+
+/* Desktop Navigation Links Styling */
+.nav-links-desktop {
+  display: flex; /* Displayed by default on desktop */
+  align-items: center; /* Align items vertically */
+  gap: 2.2rem; /* Adjust gap */
+  list-style: none;
+}
+
+.nav-links-desktop li { /* List items themselves */
+   line-height: var(--navbar-height); /* Align text vertically */
+}
+
+.nav-links-desktop li a { /* Links */
+  font-size: 0.98rem; /* Slightly larger font */
+  font-weight: 500;
+  color: var(--text-medium);
+  padding: 0 0.3rem; /* Minimal horizontal padding, vertical aligned by li */
+  position: relative;
+  transition: color 0.25s ease;
+  letter-spacing: 0.3px;
+  display: inline-block; /* Needed for underline */
+}
+
+.nav-links-desktop li a::after {
+  content: '';
+  position: absolute;
+  bottom: 8px; /* Adjust underline position */
+  left: 50%; /* Start from center */
+  transform: translateX(-50%);
+  width: 0;
+  height: 2px;
+  background-color: var(--secondary-color);
+  transition: width 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.nav-links-desktop li a:hover {
+  color: var(--primary-color);
+}
+
+.nav-links-desktop li a:hover::after {
+  width: 90%; /* Underline doesn't touch edges */
+}
+
+/* Style for the active link */
+.nav-links-desktop li a.active-link {
+  color: var(--secondary-color); /* Use accent for active */
+  font-weight: 600;
+}
+
+.nav-links-desktop li a.active-link::after {
+   width: 90%; /* Show underline for active link */
+   background-color: var(--secondary-color);
+}
+/* --- End Desktop Navbar Part Styling --- */
+
+
+/* ==================== Sticky Header ==================== */
+.search.active {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: var(--white-color);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08); /* Softer sticky shadow */
+  z-index: 999;
+  height: var(--header-height-desktop);
+  animation: slideDown 0.4s ease-out forwards; /* Ensure it stays */
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0.8;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+/* ==================== End Sticky Header ==================== */
+
+
+/* ==================== Mobile Menu Styling ==================== */
+
+/* Mobile Toggle Button (Hamburger Icon) */
+.mobile-toggle {
+  display: none; /* Hidden on desktop by default */
+  font-size: 1.6rem; /* Size of the bars/times icon */
+  color: var(--primary-color);
+  padding: 0.5rem;
+  transition: var(--default-transition);
+  border-radius: 8px; /* Rounded corners */
+  width: 40px;
+  height: 40px;
+  align-items: center; /* Used via media query */
+  justify-content: center; /* Used via media query */
+}
+.mobile-toggle:hover {
+  color: var(--secondary-color);
+  background-color: var(--grey-bg);
+}
+.mobile-toggle:active {
+   transform: scale(0.95); /* Click effect */
+}
+
+
+/* Mobile Menu Panel */
+.nav-links-MobileMenu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 85%;
+  max-width: 320px;
+  height: 100vh;
+  background-image: linear-gradient(to bottom, var(--primary-color), #1a4a7c);
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Align items left */
+  justify-content: center;
+  gap: 1rem; /* Reduced gap for more items */
+  list-style-type: none;
+  padding: 0 0 0 2rem; /* Padding on the left */
+  margin: 0;
+  transform: translateX(-105%); /* Start further off-screen */
+  transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  box-shadow: 3px 0px 25px rgba(0, 0, 0, 0.2);
+}
+
+.nav-links-MobileMenu.active-menu {
+  transform: translateX(0);
+}
+
+/* Mobile Menu Links */
+.nav-links-MobileMenu li {
+   width: 100%; /* Full width within padding */
+}
+
+.nav-links-MobileMenu li a {
+  color: rgba(255, 255, 255, 0.9); /* Slightly transparent white */
+  font-size: 1.1rem; /* Adjusted font size */
+  font-weight: 500;
+  padding: 0.9rem 1rem; /* Adjust padding */
+  display: block;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease, letter-spacing 0.2s ease;
+  border-radius: 6px;
+  letter-spacing: 0.5px;
+}
+
+.nav-links-MobileMenu li a:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+  color: var(--white-color);
+  transform: translateX(8px);
+  letter-spacing: 1px; /* Expand spacing on hover */
+}
+
+/* Active link style for mobile if needed (using NavLink's active class) */
+.nav-links-MobileMenu li a.active {
+   background-color: rgba(255, 255, 255, 0.15);
+   font-weight: 600;
+   color: var(--white-color);
+}
+
+/* Mobile Menu Close Button */
+.mobile-menu-close {
+  position: absolute;
+  top: 1.2rem;
+  right: 1.5rem;
+  font-size: 1.8rem; /* Adjust size */
+  color: rgba(255, 255, 255, 0.8);
+  background: none;
+  border: none;
+  padding: 0.3rem;
+  transition: var(--default-transition);
+}
+.mobile-menu-close:hover {
+   color: var(--white-color);
+   transform: rotate(180deg) scale(1.1); /* Rotate and scale */
+}
+/* ==================== End Mobile Menu Styling ==================== */
+
+
+/* ==================== Media Queries ==================== */
+
+/* ~~~ Tablet and Smaller Desktop (992px) ~~~ */
+@media (max-width: 992px) {
+  .container {
+    max-width: 960px;
+  }
+  /* Search */
+  .search .container {
+    gap: 1rem;
+  }
+   .search-box span { /* Hide categories text earlier */
+     display: none;
+   }
+  /* Navbar */
+   .nav-links-desktop {
+     gap: 1.5rem; /* Reduce nav gap */
+   }
+   .nav-links-desktop li a {
+     font-size: 0.9rem;
+   }
+}
+
+/* ~~~ Tablet Portrait & Mobile (768px) - MAJOR CHANGE POINT ~~~ */
+@media (max-width: 768px) {
+  .container {
+    max-width: 100%; /* Use full width */
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  /* Hide Top Bar */
+  .head { display: none; }
+
+  /* Adjust Search Section Layout */
+  .search {
+    height: auto;
+    padding: 0.6rem 0;
+  }
+  .search.active {
+     height: auto;
+     padding: 0.6rem 0;
+  }
+
+  .search .container {
+    display: flex; /* Switch to flex for mobile */
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    row-gap: 0.75rem;
+    gap: 0; /* Reset grid gap */
+  }
+
+  .search .logo { order: 1; height: auto; margin-right: auto; flex-grow: 0; flex-shrink: 0; }
+  .search .logo img { max-height: 35px; }
+  .search .icons-wrapper { order: 2; gap: 0.6rem; }
+  .search-box { order: 3; width: 100%; height: 40px; box-shadow: none; }
+  .search-box input { font-size: 0.9rem; }
+  .search-box i.fa-search { padding: 0 0.8rem; }
+
+  /* Icon Sizes */
+  .icon-circle { width: 38px; height: 38px; font-size: 1rem; }
+  .icon-circle .fa-heart { font-size: 0.9rem; }
+  .cart span.cart-count { width: 18px; height: 18px; font-size: 10px; top: -4px; right: -5px; }
+
+
+  /* --- Navbar Adjustments for Mobile --- */
+  .navbar-wrapper {
+    height: var(--header-height-mobile); /* Consistent height */
+    border-bottom: none;
+    box-shadow: none;
+  }
+  .menu-items {
+    height: 100%;
+    padding: 0; /* Remove padding, handled by container */
+    /* justify-content remains flex-end */
+  }
+
+  /* Hide Desktop Links */
+  .nav-links-desktop {
+    display: none;
+  }
+
+  /* Show Mobile Toggle Button */
+  .mobile-toggle {
+    display: flex; /* Use flex to align icon inside */
+  }
+}
+
+
+/* ~~~ Smaller Mobile Phones (576px) ~~~ */
+@media (max-width: 576px) {
+   .container {
+     padding-left: 10px;
+     padding-right: 10px;
+   }
+   /* Search */
+   .search .logo img { max-height: 32px; }
+   .search .icons-wrapper { gap: 0.5rem; }
+   .icon-circle { width: 36px; height: 36px; font-size: 0.9rem; }
+   .icon-circle .fa-heart { font-size: 0.8rem; }
+
+   /* Navbar */
+    .mobile-toggle {
+       width: 38px; /* Adjust size */
+       height: 38px;
+       font-size: 1.5rem;
+    }
+    /* Mobile Menu Panel */
+    .nav-links-MobileMenu {
+       padding: 0 0 0 1.5rem; /* Reduce padding */
+       gap: 0.8rem; /* Reduce gap */
+    }
+    .nav-links-MobileMenu li a {
+       font-size: 1.05rem;
+       padding: 0.8rem 1rem;
+    }
+}

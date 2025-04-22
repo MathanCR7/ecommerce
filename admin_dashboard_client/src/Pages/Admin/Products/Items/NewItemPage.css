@@ -1,0 +1,62 @@
+/* ======================================================================== */
+/* FILE: client/src/Pages/Admin/Products/Items/NewItemPage.css             */
+/* ======================================================================== */
+
+/* Uses shared form styles from App.css */
+/* Uses image preview styles from NewCategoryPage.css */
+
+/* Specific adjustments for item form */
+.item-form .form-row {
+    display: flex;
+    gap: 1.5rem; /* Space between columns in a row */
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+}
+
+.item-form .form-group-half {
+    flex: 1 1 calc(50% - 0.75rem); /* Two columns */
+    min-width: 200px; /* Minimum width before wrapping */
+}
+.item-form .form-group-third {
+     flex: 1 1 calc(33.333% - 1rem); /* Three columns */
+     min-width: 180px;
+}
+
+/* Input with Icon */
+.input-with-icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-with-icon svg {
+    position: absolute;
+    left: 0.8rem; /* Adjust icon position */
+    color: var(--color-text-secondary);
+    font-size: 1rem;
+    pointer-events: none; /* Make icon non-interactive */
+}
+
+.input-with-icon input.form-control {
+    padding-left: 2.5rem; /* Add padding to input for icon space */
+}
+
+/* Adjust select padding if needed */
+/* Removed empty ruleset as no styles are applied */
+
+
+/* Responsive adjustments for rows */
+@media (max-width: 768px) {
+    .item-form .form-group-half,
+    .item-form .form-group-third {
+        flex-basis: 100%; /* Stack columns */
+        margin-bottom: 1rem; /* Ensure space when stacked */
+    }
+    .item-form .form-row {
+        gap: 0; /* Remove gap when stacking */
+    }
+     .item-form .form-group-half:last-child,
+     .item-form .form-group-third:last-child {
+        margin-bottom: 0; /* Remove bottom margin from last stacked item */
+     }
+
+}

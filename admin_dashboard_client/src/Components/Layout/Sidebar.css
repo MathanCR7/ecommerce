@@ -1,0 +1,358 @@
+/* ======================================================================== */
+/* FILE: client/src/Components/Layout/Sidebar.css                          */
+/* ======================================================================== */
+
+:root {
+    --sidebar-width-expanded: 260px;
+    --sidebar-width-collapsed: 75px;
+    --sidebar-bg-color: #1a2229; /* Dark background */
+    --sidebar-text-color: #adb5bd; /* Light grey text */
+    --sidebar-text-hover-color: #ffffff; /* White on hover */
+    --sidebar-active-bg: var(--color-primary); /* Use primary color for active link bg */
+    --sidebar-active-text: #ffffff;
+    --sidebar-submenu-bg: #202a34; /* Slightly lighter for submenu */
+    --sidebar-section-title-color: #6c757d; /* Dim color for titles */
+    --transition-speed: 0.3s; /* Consistent transition speed */
+  }
+  
+  .sidebar {
+    width: var(--sidebar-width-expanded);
+    background-color: var(--sidebar-bg-color);
+    color: var(--sidebar-text-color);
+    display: flex;
+    flex-direction: column;
+    height: 100vh; /* Full viewport height */
+    position: fixed; /* Fixed position */
+    top: 0;
+    left: 0;
+    z-index: 1000; /* Above content */
+    overflow-x: hidden; /* Hide horizontal overflow */
+    overflow-y: auto; /* Allow vertical scroll if content exceeds height */
+    transition: width var(--transition-speed) ease-in-out;
+    flex-shrink: 0; /* Prevent sidebar from shrinking */
+  }
+  
+  /* --- Collapsed State --- */
+  .sidebar.collapsed {
+    width: var(--sidebar-width-collapsed);
+  }
+  
+  .sidebar.collapsed .sidebar-logo-text,
+  .sidebar.collapsed .section-title,
+  .sidebar.collapsed .sidebar-link span,
+  .sidebar.collapsed .sidebar-sublink span,
+  .sidebar.collapsed .chevron-icon,
+  .sidebar.collapsed .user-details,
+  .sidebar.collapsed .logout-button span {
+    display: none; /* Hide text elements */
+     opacity: 0;
+     visibility: hidden;
+  }
+  
+  .sidebar.collapsed .sidebar-header,
+  .sidebar.collapsed .sidebar-link,
+  .sidebar.collapsed .sidebar-sublink,
+  .sidebar.collapsed .logout-button,
+  .sidebar.collapsed .sidebar-user-info {
+    justify-content: center; /* Center icons */
+  }
+  .sidebar.collapsed .sidebar-user-info {
+      padding: 0.5rem 0;
+  }
+  .sidebar.collapsed .user-avatar.collapsed {
+      margin-right: 0;
+  }
+  
+  .sidebar.collapsed .sidebar-submenu,
+  .sidebar.collapsed .sidebar-submenu-deep {
+      position: absolute; /* Example: Make submenu pop out on hover (requires JS) */
+      left: var(--sidebar-width-collapsed);
+      /* Add styles for visibility on hover/click when collapsed */
+      display: none; /* Hide submenus when collapsed by default */
+      /* Consider adding hover effects later */
+  }
+  
+  
+  /* --- Header --- */
+  .sidebar-header {
+    display: flex;
+    align-items: center;
+    padding: 1rem 1.25rem; /* Adjust padding */
+    height: var(--header-height); /* Match header height */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    flex-shrink: 0;
+  }
+  
+  .sidebar-logo-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: var(--sidebar-text-hover-color);
+    font-weight: 600;
+    overflow: hidden; /* Prevent text overlap during transition */
+    flex-grow: 1;
+  }
+  
+  .sidebar-logo-img {
+    height: 35px; /* Adjust logo size */
+    margin-right: 0.75rem;
+    object-fit: contain;
+    transition: margin var(--transition-speed) ease;
+  }
+  .sidebar-logo-img.icon-only {
+      margin-right: 0; /* No margin when only icon is shown */
+  }
+  
+  
+  .sidebar-logo-text {
+    white-space: nowrap; /* Prevent text wrapping */
+    font-size: 1.1rem;
+    transition: opacity var(--transition-speed) ease;
+  }
+  
+  .sidebar-internal-toggle {
+     background: none;
+     border: none;
+     color: var(--sidebar-text-color);
+     font-size: 1.2rem;
+     cursor: pointer;
+     padding: 0.5rem;
+     margin-left: auto; /* Push to the right */
+     transition: color 0.2s ease;
+  }
+  .sidebar-internal-toggle:hover {
+     color: var(--sidebar-text-hover-color);
+  }
+  
+  
+  /* --- Navigation Sections & Links --- */
+  .sidebar-nav {
+    flex-grow: 1; /* Allow nav to fill remaining space */
+    padding: 1rem 0; /* Vertical padding */
+    overflow-y: auto; /* Scroll within nav if needed */
+  }
+  
+  .sidebar-section {
+    margin-bottom: 1.5rem;
+  }
+  
+  .section-title {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--sidebar-section-title-color);
+    text-transform: uppercase;
+    padding: 0 1.5rem; /* Match link padding */
+    margin-bottom: 0.75rem;
+    white-space: nowrap;
+    transition: opacity var(--transition-speed) ease;
+  }
+  
+  .sidebar-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .sidebar-link,
+  .sidebar-sublink {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1.5rem; /* Consistent padding */
+    color: var(--sidebar-text-color);
+    text-decoration: none;
+    font-size: 0.95rem;
+    white-space: nowrap; /* Prevent wrapping */
+    transition: background-color 0.2s ease, color 0.2s ease;
+    position: relative; /* For active indicator */
+  }
+  .sidebar-sublink {
+      padding-left: 2.5rem; /* Indent sublinks */
+  }
+  .deep-sublink {
+      padding-left: 3.5rem; /* Indent deeper */
+       font-size: 0.9rem; /* Slightly smaller */
+  }
+  
+  
+  .sidebar-link:hover,
+  .sidebar-sublink:hover {
+    background-color: rgba(255, 255, 255, 0.05); /* Subtle hover */
+    color: var(--sidebar-text-hover-color);
+  }
+  
+  /* Active Link Styling */
+  .sidebar-link.active-link,
+  .sidebar-sublink.active-sublink,
+  .sidebar-sublink.active-deep-sublink {
+    background-color: var(--sidebar-active-bg);
+    color: var(--sidebar-active-text);
+    font-weight: 500;
+  }
+  
+  /* Optional: Active indicator bar */
+  /* .sidebar-link.active-link::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background-color: var(--color-accent);
+  } */
+  
+  /* Maybe active (for parent items when child is active) */
+  .sidebar-link.maybe-active,
+  .sidebar-sublink.maybe-active {
+      /* Subtle indication, e.g., slightly different background or text color */
+       color: var(--sidebar-text-hover-color); /* Example */
+  }
+  
+  
+  .sidebar-icon {
+    font-size: 1.1rem; /* Icon size */
+    margin-right: 1rem;
+    width: 20px; /* Fixed width for alignment */
+    text-align: center;
+    flex-shrink: 0; /* Prevent icon shrinking */
+     transition: margin var(--transition-speed) ease;
+  }
+  .sidebar.collapsed .sidebar-icon {
+      margin-right: 0;
+      font-size: 1.3rem; /* Slightly larger icon when collapsed */
+  }
+  
+  .sub-icon {
+      font-size: 1rem;
+       margin-right: 0.8rem;
+  }
+  .deep-icon {
+      font-size: 0.9rem;
+      margin-right: 0.6rem;
+  }
+  
+  .sidebar-link span,
+  .sidebar-sublink span {
+    flex-grow: 1;
+    transition: opacity var(--transition-speed) ease;
+  }
+  
+  .chevron-icon {
+    margin-left: auto; /* Push chevron to the right */
+    font-size: 0.8rem;
+    transition: transform 0.2s ease, opacity var(--transition-speed) ease;
+  }
+  .sub-chevron {
+     font-size: 0.7rem;
+  }
+  
+  /* --- Parent Item & Submenus --- */
+  .parent-link {
+    cursor: pointer;
+  }
+  
+  .sidebar-submenu,
+  .sidebar-submenu-deep {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    background-color: var(--sidebar-submenu-bg); /* Background for submenu */
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out; /* Smooth expand/collapse */
+  }
+  
+  .sidebar-submenu.open,
+  .sidebar-submenu-deep.open {
+    max-height: 500px; /* Allow submenu to expand (adjust as needed) */
+  }
+  
+  /* Removed empty ruleset */
+  
+  /* --- Footer --- */
+  .sidebar-footer {
+    padding: 1rem 1.25rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    margin-top: auto; /* Push footer to bottom */
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column; /* Stack user info and logout */
+    align-items: center; /* Center items when collapsed */
+  }
+  
+  .sidebar-user-info {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      margin-bottom: 1rem;
+      padding: 0.5rem 0;
+      overflow: hidden; /* Hide details during collapse */
+  }
+  
+  .user-avatar {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      background-color: var(--color-primary);
+      color: var(--color-background-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 1.1rem;
+      margin-right: 0.75rem;
+      flex-shrink: 0;
+      transition: margin var(--transition-speed) ease;
+  }
+  
+  .user-details {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.3;
+      transition: opacity var(--transition-speed) ease;
+      overflow: hidden;
+  }
+  
+  .user-greeting {
+      font-size: 0.8rem;
+      color: var(--sidebar-text-color);
+  }
+  
+  .user-name {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--sidebar-text-hover-color);
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+  }
+  
+  
+  .logout-button {
+    display: flex;
+    align-items: center;
+    background: none;
+    border: none;
+    color: var(--sidebar-text-color);
+    padding: 0.75rem 0; /* Adjust padding */
+    width: 100%; /* Full width */
+    text-align: left;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    border-radius: var(--border-radius-small);
+  }
+  .sidebar.collapsed .logout-button {
+      justify-content: center;
+      padding: 0.75rem 0;
+  }
+  
+  
+  .logout-button:hover {
+    background-color: rgba(217, 54, 62, 0.1); /* Reddish hover for logout */
+    color: #f3737a; /* Lighter red text */
+  }
+  
+  .logout-icon {
+      font-size: 1.1rem; /* Example: Match icon size */
+      margin-right: 1rem; /* Example: Add spacing */
+  }

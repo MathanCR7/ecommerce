@@ -1,0 +1,113 @@
+/* ======================================================================== */
+/* FILE: client/src/Pages/Admin/Products/Items/ItemListPage.css            */
+/* ======================================================================== */
+
+/* Uses styles from App.css */
+
+.item-list-page .header-actions {
+    display: flex;
+    gap: 0.75rem;
+  }
+  
+  /* --- Table Specific Styles --- */
+  .item-table th:nth-child(1), /* Checkbox */
+  .item-table td:nth-child(1) { width: 3%; text-align: center; }
+  .item-table th:nth-child(2), /* Image */
+  .item-table td:nth-child(2) { width: 8%; text-align: center; }
+  .item-table th:nth-child(3), /* Name */
+  .item-table td:nth-child(3) { width: 22%; font-weight: 500; }
+  .item-table th:nth-child(4), /* SKU */
+  .item-table td:nth-child(4) { width: 10%; font-size: 0.9em; color: var(--color-text-secondary); }
+  .item-table th:nth-child(5), /* Category */
+  .item-table td:nth-child(5) { width: 12%; font-size: 0.9em; }
+  .item-table th:nth-child(6), /* Price */
+  .item-table td:nth-child(6) { width: 10%; font-weight: 500; text-align: right; padding-right: 1.5rem !important;}
+  .item-table th:nth-child(7), /* Stock */
+  .item-table td:nth-child(7) { width: 8%; text-align: center; }
+  .item-table th:nth-child(8), /* Status */
+  .item-table td:nth-child(8) { width: 10%; text-align: center; }
+  .item-table th:nth-child(9), /* Actions */
+  .item-table td:nth-child(9) { text-align: right; }
+  
+  
+  /* Item Image */
+  .item-image-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 45px; /* Slightly larger */
+  }
+  .item-thumbnail {
+    max-width: 70px;
+    max-height: 45px;
+    height: auto;
+    width: auto;
+    border-radius: var(--border-radius-small);
+    object-fit: cover;
+    border: 1px solid var(--color-border-light);
+  }
+  .item-image-placeholder {
+      font-size: 1.6rem;
+      color: var(--color-text-secondary);
+      opacity: 0.6;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 45px;
+      height: 45px;
+      background-color: var(--color-background);
+      border-radius: var(--border-radius-small);
+  }
+  
+  /* Status Badge */
+  .status-badge {
+    display: inline-block;
+    padding: 0.25rem 0.6rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: var(--border-radius-large);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    line-height: 1;
+  }
+  
+  .status-badge.status-active {
+    background-color: var(--color-success-light);
+    color: var(--color-success-dark);
+  }
+  .status-badge.status-inactive {
+    background-color: var(--color-secondary-light);
+    color: var(--color-secondary-dark);
+  }
+  .status-badge.status-out-of-stock {
+    background-color: var(--color-warning-light);
+    color: var(--color-warning-dark);
+  }
+  .status-badge.status-discontinued {
+     background-color: var(--color-danger-light);
+     color: var(--color-danger-dark);
+  }
+  /* Row Status (Optional: dim inactive rows) */
+  /* tr.status-inactive td {
+     opacity: 0.7;
+  } */
+  
+  
+  /* Item Actions */
+  .item-actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .item-actions .btn-edit { color: var(--color-info); }
+  .item-actions .btn-edit:hover { color: var(--color-info-dark); }
+  .item-actions .btn-delete { color: var(--color-danger); }
+  .item-actions .btn-delete:hover { color: var(--color-danger-dark); }
+  
+  /* Center text for empty/loading */
+  .text-center {
+      text-align: center;
+      padding: 2rem;
+      color: var(--color-text-secondary);
+  }

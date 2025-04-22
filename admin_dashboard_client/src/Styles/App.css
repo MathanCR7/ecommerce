@@ -1,0 +1,546 @@
+/* ======================================================================== */
+/* FILE: client/src/Styles/App.css                                         */
+/* ======================================================================== */
+
+/* --- General Page Layout --- */
+.page-container {
+    padding: 1.5rem 2rem; /* More horizontal padding */
+    width: 100%;
+  }
+  
+  .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--color-border-light);
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  
+  .page-title {
+    margin-bottom: 0;
+    font-size: 1.8rem; /* Slightly larger title */
+    font-weight: 700; /* Bolder title */
+    color: var(--color-text-dark);
+  }
+  
+  .page-subtitle {
+      margin-top: -0.3rem;
+      margin-bottom: 0;
+      font-size: 1rem;
+      color: var(--color-text-secondary);
+  }
+  
+  .header-actions {
+    display: flex;
+    gap: 0.75rem;
+    flex-shrink: 0;
+  }
+  
+  /* --- Stylish Form Layout --- */
+  .form-page {
+      max-width: 900px;
+      margin: 1rem auto; /* Add margin for spacing */
+      background-color: var(--color-background-light);
+      padding: 2.5rem; /* More padding */
+       border-radius: var(--border-radius-large); /* More rounded */
+       box-shadow: var(--shadow-md);
+       border: 1px solid var(--color-border-light);
+  }
+  
+  .form-header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+  }
+
+  
+  .stylish-form .form-fieldset {
+      border: none;
+      padding: 0;
+  }
+  .stylish-form fieldset[disabled] {
+      opacity: 0.6; /* Slightly less opaque */
+      cursor: not-allowed;
+  }
+  .stylish-form fieldset[disabled] * {
+      pointer-events: none; /* Prevent interaction with children */
+  }
+  
+  
+  .stylish-form .form-group {
+    margin-bottom: 1.75rem; /* More space between groups */
+  }
+  
+  .stylish-form .form-label {
+    font-size: 0.9rem;
+    font-weight: 600; /* Bolder labels */
+    display: block;
+    margin-bottom: 0.5rem; /* Space below label */
+    color: var(--color-text-dark);
+  }
+  .stylish-form .form-label .required::after {
+      content: ' *';
+      color: var(--color-danger);
+  }
+  .stylish-form .form-label .optional-text {
+      font-weight: 400;
+      color: var(--color-text-secondary);
+      font-size: 0.85em;
+      margin-left: 0.3rem;
+  }
+  
+  /* Input styling uses base styles from index.css */
+  .stylish-form .form-control { /* Additional form-specific overrides if needed */
+      font-size: 1rem; /* Ensure readable font size */
+  }
+  
+  .stylish-form .file-input {
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+  }
+  
+  .stylish-form .form-text {
+      display: block;
+      margin-top: 0.5rem;
+      font-size: 0.85rem;
+      color: var(--color-text-secondary);
+  }
+  
+  /* Input with Icon (for Price/Stock etc) */
+  .input-with-icon {
+      position: relative;
+      display: flex;
+      align-items: center;
+  }
+  .input-with-icon svg {
+      position: absolute;
+      left: 1rem;
+      color: var(--color-text-secondary);
+      font-size: 1rem;
+      pointer-events: none;
+      z-index: 2; /* Above input background */
+  }
+  .input-with-icon input.form-control {
+      padding-left: 2.8rem; /* More space for icon */
+  }
+  
+  
+  .stylish-form .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-border-light);
+  }
+  .stylish-form .form-actions .btn {
+      padding: 0.7rem 1.5rem; /* Consistent button padding */
+      font-size: 1rem;
+  }
+  
+  
+  /* --- Stylish Table --- */
+  .table-container {
+    overflow-x: auto;
+    background-color: var(--color-background-light);
+    border-radius: var(--border-radius-large); /* More rounded */
+    box-shadow: var(--shadow-md); /* Slightly more shadow */
+    border: 1px solid var(--color-border-light);
+    margin-top: 1.5rem; /* Space above table */
+  }
+  
+  .stylish-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .stylish-table th,
+  .stylish-table td {
+    padding: 1rem 1.25rem; /* More padding */
+    text-align: left;
+    vertical-align: middle;
+    border-bottom: 1px solid var(--color-border-light);
+    white-space: nowrap;
+    font-size: 0.95rem; /* Standardize table font size */
+  }
+  
+  .stylish-table thead th {
+    background-color: #f8f9fa; /* Slightly off-white header */
+    font-weight: 600;
+    color: var(--color-text-dark);
+    font-size: 0.85rem; /* Smaller header text */
+    text-transform: uppercase;
+    letter-spacing: 0.75px; /* More spacing */
+    border-bottom-width: 2px;
+     border-top: none;
+  }
+  .stylish-table tbody tr:last-child td {
+      border-bottom: none;
+  }
+  
+  .stylish-table tbody tr {
+     transition: background-color 0.2s ease;
+  }
+  
+  .stylish-table.table-hover tbody tr:hover {
+    background-color: #eef8ff; /* Lighter blue hover */
+    cursor: default; /* Indicate row is not directly clickable unless actions are used */
+  }
+  
+  .stylish-table .form-checkbox {
+      cursor: pointer;
+      width: 1.1rem; /* Slightly larger */
+      height: 1.1rem;
+      accent-color: var(--color-primary); /* Use primary color */
+  }
+  
+  .stylish-table td.text-center { text-align: center; }
+  .stylish-table td.text-right { text-align: right; }
+  
+  
+  /* --- LOGIN & SIGNUP PAGE SHARED STYLES --- */
+  .auth-main { /* Renamed from login-main */
+    display: flex;
+    width: 100%;
+    max-width: 1100px; /* Slightly wider */
+    min-height: 650px; /* Slightly taller */
+    background-color: var(--color-background-light);
+    box-shadow: var(--shadow-lg); /* More pronounced shadow */
+    border-radius: 15px; /* More rounded */
+    overflow: hidden;
+    margin: 3rem auto; /* Center the box */
+    animation: fadeInAuth 0.6s ease-out;
+  }
+  
+  @keyframes fadeInAuth { /* Renamed animation */
+    from { opacity: 0; transform: scale(0.98) translateY(-10px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+  
+  
+  .auth-left { /* Renamed from login-left */
+    flex: 1 1 55%; /* Adjust ratio slightly */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Softer gradient */
+    background: linear-gradient(135deg, var(--color-primary-extralight) 0%, var(--color-primary-light) 100%);
+    padding: 2rem;
+    position: relative;
+    overflow: hidden; /* Prevent image overflow */
+  }
+  .auth-left img {
+    max-width: 85%; /* Adjusted size */
+    max-height: 75%;
+    object-fit: contain;
+    filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.15)); /* Enhanced shadow */
+    animation: floatImage 4s ease-in-out infinite alternate; /* Add subtle animation */
+  }
+  
+  @keyframes floatImage {
+      from { transform: translateY(-5px); }
+      to { transform: translateY(5px); }
+  }
+  
+  /* Overlay text on image panel */
+  .image-overlay-text {
+      position: absolute;
+      bottom: 8%;
+      left: 5%;
+      right: 5%; /* Constrain width */
+      color: var(--color-text-light);
+      background-color: rgba(0, 40, 85, 0.5); /* Darker overlay, related to primary dark */
+      padding: 2rem;
+      border-radius: var(--border-radius-medium);
+      backdrop-filter: blur(3px); /* Blur effect */
+      text-align: center;
+  }
+  .image-overlay-text h1 {
+      color: var(--color-text-light);
+      font-size: 2.2rem; /* Adjust size */
+      margin-bottom: 0.75rem;
+      font-weight: 700;
+  }
+  .image-overlay-text p {
+      font-size: 1.1rem;
+      opacity: 0.95; /* Slightly more opaque */
+      margin-bottom: 0; /* Remove default p margin */
+      line-height: 1.5;
+  }
+  
+  
+  .auth-right { /* Renamed from login-right */
+    flex: 1 1 45%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 3rem 4rem; /* Keep padding */
+    background-color: var(--color-background-light);
+  }
+  
+  .auth-right-container { /* Renamed from login-right-container */
+    width: 100%;
+    max-width: 420px; /* Slightly wider */
+    text-align: center;
+  }
+  
+  .auth-logo { margin-bottom: 2rem; } /* Renamed from login-logo */
+  .auth-logo img { max-height: 55px; } /* Adjusted size */
+  
+  .auth-center { /* Renamed from login-center */
+    width: 100%;
+  }
+  .auth-center h2 {
+    font-size: 2rem; /* Adjusted size */
+    margin-bottom: 0.75rem;
+    color: var(--color-text-dark);
+    font-weight: 700;
+  }
+  .auth-center p { /* Subtitle */
+    font-size: 1rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 2.5rem; /* More space */
+  }
+  
+  .auth-form { /* Renamed from form */
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+  }
+  
+  .auth-form .form-group { /* Already defined in stylish-form, ensure consistency */
+      margin-bottom: 1.5rem; /* Keep specific spacing if needed */
+  }
+  /* Removed empty ruleset for .auth-form label */
+  
+  /* Use base input styling + auth specific overrides */
+  .auth-form input[type="email"],
+  .auth-form input[type="password"],
+  .auth-form input[type="text"],
+  .auth-form input[type="tel"] {
+      /* Base styles applied via .form-control in index.css */
+      padding: 0.8rem 1.1rem; /* Specific padding for auth inputs */
+      font-size: 1rem; /* Standard font size */
+      border-radius: var(--border-radius-medium); /* Standard radius */
+      /* Focus state handled by base :focus styles */
+  }
+  .auth-form input::placeholder {
+      color: #aab1b9; /* Softer placeholder */
+  }
+  
+  .auth-form .password-input-wrapper { /* Style the wrapper */
+      position: relative;
+  }
+  .auth-form .password-input-wrapper input { /* Ensure input inside wrapper takes full width */
+      width: 100%;
+       padding-right: 3.5rem; /* Space for button */
+  }
+  
+  .auth-form .password-toggle-button {
+      position: absolute;
+      right: 0.5rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--color-text-secondary);
+      font-size: 1.1rem; /* Adjust icon size */
+      padding: 0.5rem;
+      line-height: 1;
+  }
+  .auth-form .password-toggle-button:hover {
+      color: var(--color-primary);
+  }
+  .auth-form .password-toggle-button:disabled {
+      color: var(--color-border);
+      cursor: not-allowed;
+  }
+  
+  
+  /* --- Message Styles (Error and Success) --- */
+  .auth-error-message, .auth-success-message { /* Renamed classes */
+      /* Use base .alert styles + specific auth page styling */
+      padding: 0.8rem 1rem;
+      border-radius: var(--border-radius-medium);
+      margin-bottom: 1.5rem;
+      font-size: 0.9rem;
+      text-align: center;
+      width: 100%;
+  }
+  .auth-error-message { /* Uses .alert-danger */
+      color: var(--color-danger-dark);
+      background-color: var(--color-danger-light);
+      border: 1px solid color-mix(in srgb, var(--color-danger-dark) 30%, transparent);
+  }
+  .auth-success-message { /* Uses .alert-success */
+      color: var(--color-success-dark);
+      background-color: var(--color-success-light);
+      border: 1px solid color-mix(in srgb, var(--color-success-dark) 30%, transparent);
+      font-weight: 500;
+      display: flex; /* Align icon and text */
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+  }
+  
+  
+  /* --- Signup Specific Styles (OTP) --- */
+  .otp-info {
+      font-size: 0.95rem;
+      margin-bottom: 1.5rem;
+      text-align: center;
+      background-color: var(--color-info-light);
+      padding: 0.8rem 1rem;
+      border-radius: var(--border-radius-medium);
+      color: var(--color-info-dark);
+      border: 1px solid color-mix(in srgb, var(--color-info-dark) 30%, transparent);
+  }
+  .otp-info strong { font-weight: 600; }
+  
+  .mobile-otp-section {
+    display: flex;
+    align-items: stretch; /* Make elements same height */
+    width: 100%;
+    margin-bottom: 1.5rem; /* Space below OTP section */
+    gap: 0.75rem; /* Space between input and button */
+  }
+  .mobile-otp-section input {
+    flex-grow: 1;
+    margin-bottom: 0; /* Remove margin */
+  }
+  
+  .otp-button {
+     padding: 0 1.5rem; /* Button padding */
+     background-color: var(--color-secondary); /* Grey button */
+     border: none;
+     border-radius: var(--border-radius-medium);
+     color: var(--color-text-light);
+     cursor: pointer;
+     flex-shrink: 0;
+     font-size: 0.95rem;
+     font-weight: 500;
+     transition: background-color 0.2s ease;
+     white-space: nowrap;
+     height: auto; /* Allow button height to match input */
+     line-height: inherit; /* Ensure text aligns */
+  }
+  .otp-button:hover:not(:disabled) {
+      background-color: var(--color-secondary-dark);
+  }
+  .otp-button:disabled {
+      background-color: var(--color-border);
+      cursor: not-allowed;
+      color: var(--color-text-secondary);
+  }
+  
+  
+  /* --- Options & Links --- */
+  .auth-options { /* Renamed from login-center-options */
+    display: flex;
+    justify-content: flex-end; /* Only need forgot password usually */
+    align-items: center;
+    margin-top: 0.5rem; /* Less top margin */
+    margin-bottom: 2rem; /* More bottom margin */
+    font-size: 0.9rem; /* Standard link size */
+    width: 100%;
+  }
+  
+  .forgot-pass-link, .auth-link { /* Renamed signup-link */
+      color: var(--color-link);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s ease;
+  }
+  .forgot-pass-link:hover, .auth-link:hover {
+      text-decoration: underline;
+      color: var(--color-link-hover);
+  }
+  
+  
+  /* --- Submit Buttons --- */
+  .auth-buttons { /* Renamed login-center-buttons */
+      width: 100%;
+      display: flex; /* Enable gap for multiple buttons */
+      gap: 1rem;
+      justify-content: flex-end; /* Align buttons right */
+  }
+  .auth-buttons .btn-full {
+      width: 100%; /* Allow specific full width button */
+      justify-content: center; /* Center text in full width */
+  }
+  
+  .auth-buttons .btn { /* General styling for buttons in this container */
+      padding: 0.8rem 1.5rem; /* Consistent padding */
+      font-size: 1rem; /* Standard font size */
+      font-weight: 600;
+      border-radius: var(--border-radius-medium);
+      transition: all 0.3s ease; /* Smooth transition */
+  }
+  /* Primary submit button specific styling */
+  .auth-buttons .btn-primary {
+      background: linear-gradient(95deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
+      color: #fff;
+      border: none;
+      box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+  }
+  .auth-buttons .btn-primary:hover:not(:disabled) {
+      background: linear-gradient(95deg, var(--color-primary-dark) 0%, var(--color-primary) 100%);
+      box-shadow: 0 6px 15px rgba(0, 100, 220, 0.4);
+      transform: translateY(-2px); /* Slight lift on hover */
+  }
+  .auth-buttons .btn-primary:disabled {
+      background: linear-gradient(95deg, #a0cfff 0%, #c7e0ff 100%);
+      box-shadow: none;
+      transform: none;
+      cursor: not-allowed;
+  }
+  /* Secondary button styling (like Back button) */
+  .auth-buttons .btn-secondary {
+       background-color: var(--color-background); /* Light background */
+       color: var(--color-text-secondary);
+       border: 1px solid var(--color-border);
+  }
+  .auth-buttons .btn-secondary:hover:not(:disabled) {
+      background-color: var(--color-border-light);
+      border-color: var(--color-border);
+      color: var(--color-text-dark);
+  }
+  
+  
+  /* --- Bottom Link --- */
+  .auth-bottom-p { /* Renamed login-bottom-p */
+    text-align: center;
+    font-size: 0.95rem; /* Standard size */
+    margin-top: 2.5rem; /* More space */
+    color: var(--color-text-secondary);
+  }
+  /* Link style covered by .auth-link */
+  
+  
+  /* --- RESPONSIVE STYLES --- */
+  @media (max-width: 992px) {
+    .auth-main { max-width: 95%; min-height: auto; margin: 2rem auto; }
+    .auth-left { display: none; } /* Hide image on medium screens and below */
+    .auth-right { flex-basis: 100%; padding: 2.5rem; }
+    .auth-right-container { max-width: 500px; }
+  }
+  
+  @media (max-width: 576px) {
+    html { font-size: 90%; } /* Adjust base font slightly */
+    .auth-main { margin: 1rem; width: calc(100% - 2rem); border-radius: var(--border-radius-large); }
+    .auth-right { padding: 2rem 1.5rem; }
+    .auth-center h2 { font-size: 1.8rem; }
+    .auth-center p { font-size: 0.95rem; margin-bottom: 1.8rem; }
+    .auth-form input, .auth-form select, .otp-button { font-size: 0.95rem; padding: 0.7rem 1rem; }
+    .auth-buttons .btn { padding: 0.7rem 1.2rem; font-size: 0.95rem;}
+    .auth-bottom-p { font-size: 0.9rem; margin-top: 2rem; }
+    .mobile-otp-section { flex-wrap: wrap; } /* Allow button to wrap below input */
+    .mobile-otp-section input { flex-basis: 100%; margin-bottom: 0.75rem; }
+    .mobile-otp-section .otp-button { flex-basis: 100%; }
+    .auth-buttons { flex-direction: column-reverse; } /* Stack buttons vertically, primary on top */
+    .auth-buttons .btn { width: 100%; }
+  }

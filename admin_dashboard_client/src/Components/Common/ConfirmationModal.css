@@ -1,0 +1,263 @@
+/* ======================================================================== */
+/* FILE: client/src/Components/Common/ConfirmationModal.css                */
+/* ======================================================================== */
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6); /* Darker overlay */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Below spinner, above content */
+    padding: 1rem;
+    backdrop-filter: blur(3px);
+    opacity: 0; /* Start hidden */
+    animation: fadeIn 0.2s ease-out forwards; /* Fade in animation */
+  }
+  
+  .modal-content {
+    background-color: var(--color-background-light);
+    padding: 1.5rem 2rem;
+    border-radius: var(--border-radius-medium);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    max-width: 500px;
+    width: 90%;
+    position: relative;
+    transform: scale(0.95); /* Start slightly smaller */
+    animation: scaleUp 0.2s ease-out forwards; /* Scale up animation */
+  }
+  
+  @keyframes fadeIn {
+    to { opacity: 1; }
+  }
+  
+  @keyframes scaleUp {
+    to { transform: scale(1); }
+  }
+  
+  
+  .modal-close-btn {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    background: none;
+    border: none;
+    font-size: 1.3rem;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    padding: 0.25rem;
+    line-height: 1;
+    transition: color 0.2s ease;
+  }
+  
+  .modal-close-btn:hover,
+  .modal-close-btn:focus {
+    color: var(--color-text-dark);
+  }
+  
+  .modal-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+  
+  .modal-warning-icon {
+    color: var(--color-warning); /* Or --color-danger */
+    font-size: 1.5rem;
+  }
+  
+  .modal-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-text-dark);
+    margin: 0;
+  }
+  
+  .modal-body {
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+    color: var(--color-text-main);
+    line-height: 1.6;
+  }
+  
+  .modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+  }
+  
+  .modal-btn {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.95rem;
+  }
+  
+  /* Specific button styling might be in App.css or index.css */
+  /* ======================================================================== */
+/* FILE: client/src/Components/Common/ConfirmationModal.css                */
+/* Styles for the Confirmation Modal using react-modal                     */
+/* ======================================================================== */
+
+/* Overlay Styling (background) */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.65); /* Semi-transparent black */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1050; /* Ensure it's above other content */
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+/* Add fade-in effect when overlay becomes active */
+.ReactModal__Overlay--after-open {
+  opacity: 1;
+}
+
+/* Add fade-out effect when overlay becomes inactive */
+.ReactModal__Overlay--before-close {
+  opacity: 0;
+}
+
+
+/* Modal Content Window Styling */
+.modal-content {
+  position: relative; /* Needed for absolute positioning of close button */
+  background: var(--color-background-light, #fff);
+  border-radius: var(--border-radius-large, 8px);
+  box-shadow: var(--shadow-xl, 0 10px 25px rgba(0, 0, 0, 0.15));
+  max-width: 550px; /* Adjust as needed */
+  width: 90%;
+  max-height: 90vh;
+  overflow: hidden; /* Prevent content overflow */
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--color-border, #e0e0e0); /* Subtle border */
+
+  /* Animation for modal appearing */
+  opacity: 0;
+  transform: scale(0.95) translateY(-10px);
+  transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.ReactModal__Content--after-open {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+.ReactModal__Content--before-close {
+  opacity: 0;
+  transform: scale(0.95) translateY(-10px);
+}
+
+
+/* Modal Header */
+.modal-header {
+  display: flex;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--color-border-light, #eee);
+  position: relative; /* For close button positioning */
+}
+
+.modal-title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-text-primary, #333);
+  flex-grow: 1; /* Allow title to take available space */
+}
+
+.modal-warning-icon {
+  color: var(--color-warning, #ffc107);
+  font-size: 1.4rem;
+  margin-right: 0.75rem;
+  flex-shrink: 0; /* Prevent icon shrinking */
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.75rem;
+  padding: 0.5rem;
+  font-size: 1.2rem;
+  line-height: 1;
+  color: var(--color-text-secondary, #888);
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+.modal-close-btn:hover {
+  color: var(--color-text-primary, #333);
+}
+.modal-close-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+
+/* Modal Body */
+.modal-body {
+  padding: 1.5rem;
+  overflow-y: auto; /* Allow scrolling if content is tall */
+  color: var(--color-text-secondary, #555);
+  flex-grow: 1; /* Allow body to take remaining space */
+}
+
+.modal-body p {
+  margin-top: 0;
+  margin-bottom: 1rem; /* Default paragraph spacing */
+  line-height: 1.6;
+}
+.modal-body p:last-child {
+  margin-bottom: 0;
+}
+
+/* Specific styles for radio/select inside modal body (from previous answer) */
+.modal-body .delete-options { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--color-border-light); }
+.modal-body .delete-options p { margin-bottom: 1rem; font-size: 0.95rem; color: var(--color-text-secondary); display: flex; align-items: center; }
+.modal-body .radio-group { display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1.25rem; }
+.modal-body .radio-group label { display: flex; align-items: center; gap: 0.5rem; cursor: pointer; font-size: 0.95rem; }
+.modal-body .radio-group label.disabled-label { color: var(--color-text-muted); cursor: not-allowed; }
+.modal-body .radio-group input[type="radio"] { margin-right: 0.3rem; cursor: pointer; }
+.modal-body .radio-group input[type="radio"]:disabled { cursor: not-allowed; }
+.modal-body .move-target-selector { margin-top: 1rem; display: flex; flex-direction: column; gap: 0.5rem; }
+.modal-body .move-target-selector label { font-weight: 500; font-size: 0.9rem; }
+.modal-body .move-target-selector select { width: 100%; /* Make dropdown full width */ }
+.modal-error { margin-top: 1rem; font-size: 0.9em; color: var(--color-danger, red); }
+
+
+/* Modal Footer */
+.modal-footer {
+  display: flex;
+  justify-content: flex-end; /* Align buttons to the right */
+  padding: 1rem 1.5rem;
+  border-top: 1px solid var(--color-border-light, #eee);
+  background-color: var(--color-background-muted, #f9f9f9); /* Slightly different background */
+  gap: 0.75rem; /* Space between buttons */
+}
+
+/* Style for buttons inside the modal footer */
+.modal-btn {
+  padding: 0.6rem 1.2rem; /* Adjust padding */
+  font-weight: 500;
+  min-width: 80px; /* Minimum button width */
+}
+
+/* Ensure spinner inside button is aligned */
+.modal-btn .loading-spinner {
+  vertical-align: middle;
+  /* Add specific alignment/size if needed */
+}

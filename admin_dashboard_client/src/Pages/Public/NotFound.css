@@ -1,0 +1,45 @@
+/* ======================================================================== */
+/* FILE: client/src/Pages/Public/NotFound.css                            */
+/* ======================================================================== */
+
+.not-found-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: var(--color-background); /* Light background */
+    text-align: center;
+    padding: 2rem;
+    font-family: var(--font-family-sans-serif);
+  }
+  
+  .not-found-content {
+    max-width: 600px;
+  }
+  
+  .not-found-content h1 {
+    font-size: 6rem; /* Large 404 */
+    font-weight: 700;
+    color: var(--color-primary);
+    margin-bottom: 0.5rem;
+    line-height: 1;
+  }
+  
+  .not-found-content h2 {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: var(--color-text-dark);
+    margin-bottom: 1rem;
+  }
+  
+  .not-found-content p {
+    font-size: 1rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 2rem;
+  }
+  
+  /* Button styling likely comes from App.css or index.css */
+  .not-found-content .btn {
+      padding: 0.8rem 1.8rem;
+      font-size: 1rem;
+  }

@@ -1,0 +1,45 @@
+/* ======================================================================== */
+/* FILE: client/src/Components/Layout/AdminLayout.css                      */
+/* ======================================================================== */
+
+.admin-layout {
+    display: flex;
+    min-height: 100vh;
+    background-color: var(--color-background); /* Light grey background */
+    transition: padding-left var(--transition-speed) ease-in-out; /* Smooth transition */
+  }
+  
+  /* --- Main Content Area --- */
+  .main-content-area {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden; /* Prevent horizontal scroll on main area */
+     transition: margin-left var(--transition-speed) ease-in-out;
+     margin-left: var(--sidebar-width-expanded); /* Default margin */
+  }
+  
+  /* --- Page Content Wrapper --- */
+  .page-content-wrapper {
+    flex-grow: 1;
+    padding: 1.5rem; /* Padding around the page content */
+    overflow-y: auto; /* Allow scrolling within the content area if needed */
+  }
+  
+  
+  /* --- Adjustments when Sidebar is Collapsed --- */
+  .admin-layout.sidebar-collapsed .main-content-area {
+    margin-left: var(--sidebar-width-collapsed);
+  }
+  
+  
+  /* Responsive adjustments (example) */
+  @media (max-width: 768px) {
+      .main-content-area {
+          margin-left: 0; /* Sidebar might overlay or be hidden */
+      }
+  
+      /* Add styles for mobile sidebar behavior (e.g., absolute positioning, toggle visibility) */
+      /* .admin-layout.sidebar-collapsed .sidebar { ... } */
+      /* .admin-layout .sidebar { ... } */
+  }

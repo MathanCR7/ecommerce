@@ -1,0 +1,223 @@
+.dashboard-page .page-title {
+      /* Override default page-title margin if needed */
+      margin-bottom: 0.25rem;
+  }
+  .dashboard-page .page-subtitle {
+      margin-top: 0;
+      margin-bottom: 2rem; /* Space below subtitle */
+  }
+  
+  /* --- Stats Grid --- */
+  .stats-grid {
+    display: grid;
+    /* Adjust minmax for desired card width and responsiveness */
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  .stat-card {
+    background-color: var(--color-background-light);
+    border-radius: var(--border-radius-medium);
+    padding: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    box-shadow: var(--shadow-sm);
+    /* Using CSS variable for accent color set inline */
+    border-left: 5px solid var(--card-accent-color, var(--color-primary));
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .stat-card:hover {
+      transform: translateY(-4px); /* Lift effect on hover */
+      box-shadow: var(--shadow-md);
+  }
+  
+  .stat-card-icon {
+    font-size: 1.8rem; /* Icon size */
+    color: var(--card-accent-color, var(--color-primary));
+    /* Background derived from accent color */
+    background-color: color-mix(in srgb, var(--card-accent-color, var(--color-primary)) 15%, transparent);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  
+  .stat-card-info {
+    flex-grow: 1;
+    overflow: hidden; /* Prevent text overflow */
+  }
+  
+  .stat-title {
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 0.25rem;
+    white-space: nowrap; /* Prevent title wrapping */
+  }
+  
+  .stat-value {
+    font-size: 1.6rem; /* Slightly larger value */
+    font-weight: 600;
+    color: var(--color-text-dark);
+    margin-bottom: 0.25rem;
+    line-height: 1.2; /* Adjust line height */
+    white-space: nowrap;
+  }
+  
+  .stat-trend {
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+  
+  .stat-trend.positive {
+    color: var(--color-success);
+  }
+  
+  .stat-trend.negative {
+    color: var(--color-danger);
+  }
+  
+  /* --- Main Content Grid --- */
+  .dashboard-main-content-grid {
+    display: grid;
+    /* Example: 2/3 for main chart, 1/3 for secondary content */
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+  
+  .main-chart-area {
+    grid-column: span 2; /* Main chart takes 2 columns */
+  }
+  
+  .secondary-content-area {
+    grid-column: span 1; /* Secondary content takes 1 column */
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem; /* Space between items in the secondary column */
+  }
+  
+  /* --- Placeholder Card Styles (Shared Structure) --- */
+  .card { /* General card class if used elsewhere */
+    background-color: var(--color-background-light);
+    border-radius: var(--border-radius-medium);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--color-border-light);
+    overflow: hidden; /* Clip content if needed */
+  }
+  
+ 
+  
+  .card-header { /* Shared style for card headers */
+      font-size: 1.1rem;
+      font-weight: 600;
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid var(--color-border-light);
+      margin: 0;
+      color: var(--color-text-dark);
+  }
+  
+  .card-body { /* Shared style for card bodies */
+      padding: 1.25rem;
+  }
+  
+  .chart-placeholder-body {
+      min-height: 350px; /* Example height for main chart */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-text-secondary);
+      text-align: center;
+      font-size: 0.95rem;
+  }
+  .chart-placeholder-body svg {
+      /* Style for placeholder icon */
+       opacity: 0.5;
+  }
+  
+  
+  .table-placeholder-body {
+      min-height: 280px; /* Example height for secondary table */
+       color: var(--color-text-secondary);
+       font-size: 0.95rem;
+       display: flex;
+       flex-direction: column;
+       justify-content: space-around; /* Distribute placeholder rows */
+  }
+  .table-placeholder-body p {
+      text-align: center;
+      margin-bottom: 1rem;
+  }
+  .table-placeholder-body .placeholder-row {
+      height: 25px;
+      background-color: color-mix(in srgb, var(--color-border-light) 70%, transparent); /* Slightly lighter */
+      border-radius: var(--border-radius-small);
+      margin-bottom: 1rem;
+      opacity: 0.7;
+      animation: pulse 1.5s infinite ease-in-out; /* Pulsing effect */
+  }
+  .table-placeholder-body .placeholder-row:last-child {
+      margin-bottom: 0;
+  }
+  .table-placeholder-body .placeholder-row:nth-child(odd) {
+      width: 90%; /* Vary width */
+  }
+  .table-placeholder-body .placeholder-row:nth-child(even) {
+      width: 75%; /* Vary width */
+  }
+  
+  
+  /* Keyframes for pulsing placeholder */
+  @keyframes pulse {
+    0% { opacity: 0.6; }
+    50% { opacity: 1; }
+    100% { opacity: 0.6; }
+  }
+  
+  
+  /* Responsive Adjustments */
+  @media (max-width: 1200px) {
+      /* Adjust grid for slightly smaller screens if needed */
+  }
+  
+  @media (max-width: 992px) {
+    .dashboard-main-content-grid {
+      grid-template-columns: 1fr; /* Stack main content columns */
+    }
+    .main-chart-area,
+    .secondary-content-area {
+      grid-column: span 1; /* Reset spans */
+    }
+    .chart-placeholder-body {
+        min-height: 300px; /* Adjust height */
+    }
+  }
+  
+  @media (max-width: 576px) {
+      .stats-grid {
+          grid-template-columns: 1fr; /* Stack stat cards fully */
+      }
+       .stat-card {
+           padding: 1rem;
+       }
+       .stat-value {
+           font-size: 1.4rem;
+       }
+       .stat-card-icon {
+           width: 45px;
+           height: 45px;
+           font-size: 1.6rem;
+       }
+       .card-header {
+          font-size: 1rem;
+          padding: 0.8rem 1rem;
+       }
+       .card-body {
+          padding: 1rem;
+       }
+  }

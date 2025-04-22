@@ -1,0 +1,176 @@
+.profile-page-container {
+    padding: 40px 0;
+    min-height: 70vh; /* Ensure it takes up decent space */
+}
+
+.profile-page-container h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #333;
+}
+
+.profile-content {
+    display: grid;
+    grid-template-columns: 1fr; /* Default to single column */
+    gap: 40px;
+    max-width: 800px; /* Adjust max width */
+    margin: 0 auto;
+    background-color: #ffffff; /* White background */
+    padding: 30px 40px; /* More padding */
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Slightly stronger shadow */
+}
+
+/* Grid layout for wider screens */
+@media (min-width: 768px) {
+    .profile-content {
+        grid-template-columns: 1fr 2fr; /* Two columns on wider screens */
+    }
+}
+
+
+/* Profile Picture Section */
+.profile-picture-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    border-right: none; /* Remove border for single column layout initially */
+    padding-bottom: 20px; /* Add padding for single column */
+}
+@media (min-width: 768px) {
+    .profile-picture-section {
+        border-right: 1px solid #eee; /* Add border back for two columns */
+        padding-right: 40px; /* Spacing between columns */
+        padding-bottom: 0;
+    }
+}
+
+
+.profile-picture-section h2 {
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 1.4em;
+}
+
+.profile-picture-img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 20px;
+    border: 4px solid #f1f1f1; /* Slightly thicker border */
+    background-color: #eee; /* Background color for placeholder */
+}
+
+.picture-upload-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+}
+
+/* Hide default file input completely */
+.picture-upload-form input[type="file"] {
+   width: 0.1px;
+   height: 0.1px;
+   opacity: 0;
+   overflow: hidden;
+   position: absolute;
+   z-index: -1;
+}
+
+.file-input-label.btn-primary { /* Style the label like a button */
+    display: inline-block; /* Needed for padding */
+    /* Inherits button styles from App.css */
+}
+
+.file-name {
+    font-size: 0.85em;
+    color: #555;
+    margin-top: 5px; /* Space above file name */
+    word-break: break-all;
+    text-align: center;
+}
+
+/* Adjust button styles if needed, inheriting from App.css */
+.picture-upload-form button.btn-primary {
+    margin-top: 5px; /* Space above upload button */
+    width: auto; /* Don't force full width */
+    padding: 8px 20px;
+}
+
+
+/* Profile Details Section */
+.profile-details-section {
+    padding-left: 0; /* Remove padding for single column */
+}
+@media (min-width: 768px) {
+    .profile-details-section {
+         padding-left: 40px; /* Add padding back for two columns */
+    }
+}
+
+.profile-details-section h2 {
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 1.4em;
+}
+
+.profile-details-section p {
+    margin-bottom: 12px;
+    color: #555;
+    line-height: 1.5;
+}
+.profile-details-section p strong {
+    color: #333;
+    min-width: 100px; /* Align labels */
+    display: inline-block;
+}
+
+.profile-update-form {
+    margin-top: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px; /* Increased gap */
+}
+
+/* Inherit input styles from App.css */
+.profile-update-form label {
+    font-weight: bold; /* Example style for labels */
+    color: #333; /* Darker text color */
+}
+.profile-update-form input[type="text"],
+.profile-update-form input[type="tel"],
+.profile-update-form input[type="date"] {
+     /* Input styling from App.css */
+     background-color: #fdfdfd; /* Slightly off-white */
+}
+.profile-update-form input:disabled {
+    background-color: #eee; /* Disabled style */
+    cursor: not-allowed;
+}
+
+/* Verification Status Styles */
+.not-verified, .verified {
+    display: block; /* Put status on new line */
+    font-size: 0.8em;
+    margin-top: 4px;
+    margin-left: 0; /* Remove left margin */
+}
+.not-verified {
+    color: #d9534f; /* Bootstrap danger color */
+}
+.verified {
+    color: #5cb85c; /* Bootstrap success color */
+}
+
+
+/* Save Changes Button */
+.profile-update-form button.btn-primary {
+     /* Button styling from App.css */
+    margin-top: 15px; /* Space above save button */
+    width: auto; /* Don't force full width */
+    align-self: flex-start; /* Align button left */
+}
