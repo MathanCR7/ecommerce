@@ -199,13 +199,11 @@ export const updateAdminCategory = asyncHandler(async (req, res) => {
       "createdBy",
       "username email"
     );
-    res
-      .status(200)
-      .json({
-        success: true,
-        message: "No changes detected.",
-        category: currentPopulated,
-      });
+    res.status(200).json({
+      success: true,
+      message: "No changes detected.",
+      category: currentPopulated,
+    });
   }
 });
 
@@ -225,12 +223,10 @@ export const deleteAdminCategory = asyncHandler(async (req, res) => {
   // This triggers the pre('deleteOne') hook in Category model
   await category.deleteOne();
 
-  res
-    .status(200)
-    .json({
-      success: true,
-      message: `Category "${category.name}" and associated items scheduled for deletion.`,
-    });
+  res.status(200).json({
+    success: true,
+    message: `Category "${category.name}" and associated items scheduled for deletion.`,
+  });
 });
 
 // POST /api/admin/categories/delete-multiple - Delete multiple categories (triggers item cascade for each)
@@ -279,15 +275,13 @@ export const deleteMultipleAdminCategories = asyncHandler(async (req, res) => {
 
   const status = errors.length > 0 ? (deletedCount > 0 ? 207 : 500) : 200;
 
-  res
-    .status(status)
-    .json({
-      success: errors.length === 0,
-      message,
-      deletedCount,
-      notFoundCount,
-      errors,
-    });
+  res.status(status).json({
+    success: errors.length === 0,
+    message,
+    deletedCount,
+    notFoundCount,
+    errors,
+  });
 });
 
 // POST /api/admin/categories/:id/move-delete - Move Items then Delete Category
@@ -391,4 +385,21 @@ export const moveItemsAndDeleteCategory = asyncHandler(async (req, res) => {
     message: `Successfully moved ${updateResult.modifiedCount} items to "${targetCategory.name}" and deleted category "${deletedCategory.name}".`,
     movedCount: updateResult.modifiedCount || 0, // Ensure count is a number
   });
+});
+// *** NEW CONTROLLER FUNCTION ***
+// GET /api/admin/categories/list-for-select - Get active categories for dropdowns
+export const getActiveCategoriesForSelect = asyncHandler(async (req, res) => {
+  console.log(
+    "[Ctrl Admin Cat] Fetching active categories for select dropdown"
+  );
+  // Assuming categories don't have an 'isActive' field for this example.
+  // If they do, you would add a filter: e.g., Category.find({ isActive: true })
+  const categories = await Category.find({})
+    .select("_id name slug") // Select only necessary fields
+    .sort({ name: 1 }); // Sort by name for user-friendly dropdown
+
+  // `find` returns an empty array if no documents match, not null.
+  // So, checking `!categories` is not standard for `find`.
+  // The array itself being empty is a valid result.
+  res.status(200).json({ success: true, categories: categories || [] });
 });

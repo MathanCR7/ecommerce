@@ -1,0 +1,212 @@
+/* ecomm_website_client/src/pages/wishlistpage/WishlistPage.css */
+
+/* --- Existing Styles (kept as is) --- */
+.wishlist-page-container {
+    padding-top: 2rem;
+    padding-bottom: 3rem;
+    min-height: 60vh;
+}
+
+.wishlist-page-title {
+    text-align: center;
+    font-size: 2.5rem; /* Slightly larger title */
+    color: var(--primary-color);
+    margin-bottom: 2.5rem; /* Increased margin */
+    font-weight: 700; /* Bolder title */
+    text-transform: uppercase; /* Add flair */
+    letter-spacing: 1px;
+}
+
+.wishlist-page-loading {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 50vh;
+    font-size: 1.5rem;
+    color: var(--text-color-light);
+}
+
+.wishlist-page-loading .fa-spin {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+}
+
+.wishlist-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 3rem 1.5rem; /* Increased padding */
+    border: 2px dashed var(--border-color-light);
+    border-radius: var(--border-radius-lg); /* Larger border-radius */
+    background-color: var(--background-color-soft);
+    margin-top: 2rem;
+    color: var(--text-color-light);
+    transition: transform 0.3s ease-in-out; /* Add transition */
+}
+
+.wishlist-empty:hover {
+    transform: translateY(-5px); /* Subtle hover effect */
+}
+
+.wishlist-empty-icon {
+    font-size: 5rem; /* Larger icon */
+    color: var(--secondary-color);
+    margin-bottom: 1.5rem; /* Increased margin */
+    opacity: 0.8;
+}
+
+.wishlist-empty h2 {
+    font-size: 2rem; /* Larger heading */
+    color: var(--text-color-dark);
+    margin-bottom: 0.75rem; /* Increased margin */
+    font-weight: 600;
+}
+
+.wishlist-empty p {
+    font-size: 1.1rem; /* Larger paragraph */
+    color: var(--text-color-light);
+    margin-bottom: 2rem; /* Increased margin */
+    max-width: 600px; /* Limit width for readability */
+    line-height: 1.5;
+}
+
+.wishlist-empty .btn-primary {
+    padding: 0.9rem 2rem; /* Larger button */
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: var(--border-radius-md); /* Match button radius */
+    transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+.wishlist-empty .btn-primary:hover {
+    transform: translateY(-2px);
+}
+
+/* --- Grid and Card Styling Improvements (Modified for fixed grid frame) --- */
+
+.wishlist-items-grid {
+    display: grid; /* Ensure display is grid */
+    /*
+     * Use repeat(auto-fit, minmax(min-width, max-width))
+     * Change max-width from 1fr to a fixed pixel value (e.g., 320px).
+     * This prevents items from stretching to fill the row if there are few items.
+     * The grid creates columns up to the max width, and items sit within them.
+     * Empty grid cells will remain empty.
+     */
+    grid-template-columns: repeat(auto-fit, minmax(180px, 240px)); /* Adjust min/max as needed */
+    gap: 1.5rem; /* Keep a decent gap */
+    padding: 0.5rem; /* Add slight padding around the grid */
+    justify-content: center; /* Center the grid items within the container */
+}
+
+/* Style for the individual item card containers within the grid */
+/* Assuming ItemCardWithQuantity renders a root element that becomes a direct child of .wishlist-items-grid */
+.wishlist-items-grid > div {
+    background-color: var(--background-color-card); /* Use a card background color */
+    border-radius: var(--border-radius-lg); /* Rounded corners for cards */
+    overflow: hidden; /* Hide anything spilling out */
+    box-shadow: var(--box-shadow-light); /* Subtle shadow */
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Smooth transition */
+    display: flex; /* Use flex to manage internal card layout if needed */
+    flex-direction: column; /* Stack content vertically */
+    width: 100%; /* Ensure the card fills the grid cell */
+    /* max-width is controlled by the grid-template-columns setting on the parent */
+}
+
+.wishlist-items-grid > div:hover {
+    transform: translateY(-5px); /* Lift effect on hover */
+    box-shadow: var(--box-shadow-hover); /* Darker shadow on hover */
+}
+
+
+/* --- Responsive Adjustments (Modified grid-template-columns) --- */
+
+@media (max-width: 1200px) {
+    .wishlist-items-grid {
+         /* Adjust min/max width for this range */
+        grid-template-columns: repeat(auto-fit, minmax(220px, 300px));
+        gap: 1.2rem;
+    }
+}
+
+@media (max-width: 992px) {
+    .wishlist-items-grid {
+        /* Tablet view: Adjust min/max width */
+        grid-template-columns: repeat(auto-fit, minmax(200px, 280px));
+        gap: 1rem;
+    }
+     .wishlist-page-title {
+        font-size: 2.2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .wishlist-items-grid {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 260px)); /* Adjust min/max width */
+        gap: 1rem;
+    }
+    .wishlist-empty h2 {
+        font-size: 1.8rem;
+    }
+    .wishlist-empty p {
+        font-size: 1rem;
+    }
+    .wishlist-empty-icon {
+        font-size: 4rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .wishlist-items-grid {
+        /* Mobile view: Allow slightly larger min/max width, maybe 1-2 per row */
+        grid-template-columns: repeat(auto-fit, minmax(260px, 320px)); /* Wider columns on mobile */
+        gap: 0.75rem; /* Smaller gap on mobile */
+    }
+    .wishlist-page-title {
+        font-size: 1.8rem;
+        margin-bottom: 2rem;
+    }
+    .wishlist-page-container {
+        padding-top: 1.5rem;
+        padding-bottom: 2rem;
+    }
+    .wishlist-empty {
+        padding: 2rem 1rem;
+    }
+    .wishlist-empty-icon {
+        font-size: 3.5rem;
+        margin-bottom: 1rem;
+    }
+    .wishlist-empty h2 {
+        font-size: 1.6rem;
+    }
+    .wishlist-empty p {
+        font-size: 0.95rem;
+    }
+    .wishlist-empty .btn-primary {
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+    }
+}
+
+/* Add potential global CSS variables if not already defined elsewhere */
+/* These are examples based on common patterns. Include these or ensure they are defined elsewhere. */
+/*
+:root {
+  --primary-color: #007bff; // Example Blue
+  --secondary-color: #6c757d; // Example Grey
+  --text-color-dark: #333; // Example Dark Grey
+  --text-color-light: #555; // Example Medium Grey
+  --background-color-soft: #f8f9fa; // Example Light Grey Background
+  --background-color-card: #ffffff; // Example White Card Background
+  --border-color-light: #dee2e6; // Example Light Border
+  --border-radius-md: 0.25rem; // Example Small Radius
+  --border-radius-lg: 0.5rem; // Example Larger Radius
+  --box-shadow-light: 0 2px 4px rgba(0, 0, 0, 0.08); // Example Light Shadow
+  --box-shadow-hover: 0 4px 8px rgba(0, 0, 0, 0.15); // Example Darker Shadow
+}
+*/

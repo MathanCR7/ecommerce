@@ -1,0 +1,144 @@
+/* src/pages/categorypage/CategoryPage.css */
+
+/* Assuming .container class is defined globally for max-width and centering */
+/* If not, add a basic one like this:
+   .container {
+     max-width: 1320px;
+     margin-left: auto;
+     margin-right: auto;
+     padding-left: 15px; /* Standard spacing */
+ 
+
+/* Define CSS Variables for consistent spacing */
+:root {
+    --cp-layout-gap: 30px; /* Gap between sidebar and items */
+    --cp-container-margin-top: 20px;
+    --cp-container-margin-bottom: 40px;
+    --cp-sidebar-width-lg: 20%; /* Reduced width on large screens */
+    --cp-sidebar-min-width-lg: 220px; /* Minimum practical width */
+}
+
+
+.category-page-container {
+    margin-top: var(--cp-container-margin-top);
+    margin-bottom: var(--cp-container-margin-bottom);
+    /* .container class should handle max-width and auto margins */
+    /* If container padding needs reducing overall, modify the .container definition */
+}
+
+.category-page-layout {
+    display: flex;
+    gap: var(--cp-layout-gap); /* Use variable gap */
+    min-height: calc(100vh - 250px); /* Adjust based on header/footer height */
+    /* Using calc(100vh - header_height - footer_height - top_margin - bottom_margin) for better min-height */
+    /* Example: calc(100vh - var(--header-height, 60px) - var(--footer-height, 80px) - var(--cp-container-margin-top) - var(--cp-container-margin-bottom)) */
+}
+
+.category-sidebar-column {
+    /* Reduced width for large screens */
+    flex: 0 0 var(--cp-sidebar-width-lg);
+    max-width: var(--cp-sidebar-width-lg);
+    min-width: var(--cp-sidebar-min-width-lg); /* Maintain a minimum width */
+    /* background-color: #f9f9f9; */
+    border-radius: 8px;
+    /* box-shadow: 0 2px 10px rgba(0,0,0,0.04); */
+    /* Removed border-right as it's often better handled by the sidebar component's internal padding/background/border */
+}
+
+.category-items-column {
+    flex: 1 1 auto; /* Allow item column to take remaining space */
+    /* background-color: #fff; */
+    /* padding: 0 15px 20px 15px; Padding managed by AllItemsDisplay now */
+    border-radius: 8px;
+    /* box-shadow: 0 2px 10px rgba(0,0,0,0.04); */
+    min-width: 0; /* Important for flexbox to prevent overflow issues */
+}
+
+
+/* Placeholder for Price Filter example (optional - keep if you want to show this structure) */
+.price-filter-placeholder {
+    margin-top: var(--cp-layout-gap); /* Align top with sidebar */
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 3px 0 10px rgba(0,0,0,0.03);
+}
+.filter-title {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #2c3e50;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #ecf0f1;
+}
+.price-filter-placeholder p {
+    margin-bottom: 10px;
+    color: #555f6b;
+}
+.slider-mock {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #333;
+    font-weight: 500;
+}
+.slider-track-mock {
+    flex-grow: 1;
+    height: 6px;
+    background-color: #e0e0e0;
+    margin: 0 15px;
+    border-radius: 3px;
+    position: relative;
+}
+.slider-handle-mock {
+    width: 16px;
+    height: 16px;
+    background-color: var(--iq-primary-color, #007bff); /* Use variable */
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    box-shadow: 0 0 5px rgba(0,123,255,0.5);
+}
+.slider-handle-mock.left { left: 10%; } /* Example position */
+.slider-handle-mock.right { right: 20%; } /* Example position */
+
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+  .category-page-layout {
+    flex-direction: column; /* Stack sidebar and items */
+    gap: calc(var(--cp-layout-gap) * 1.5); /* Increase gap when stacked */
+  }
+  .category-sidebar-column,
+  .category-items-column {
+    flex: 1 1 auto; /* Allow them to take available space */
+    max-width: 100%; /* Take full width when stacked */
+    min-width: 100%; /* Ensure full width */
+  }
+  /* No need for margin-bottom on sidebar-column if gap is used in layout */
+}
+
+@media (max-width: 768px) {
+    .category-sidebar-column {
+        min-width: unset; /* Remove min-width constraint on smaller screens */
+    }
+    .category-page-layout {
+        gap: var(--cp-layout-gap); /* Slightly reduce gap on smaller screens */
+    }
+}
+
+/* Ensure container padding is reasonable on small screens */
+@media (max-width: 576px) {
+    /* Assuming .container handles this, but if not: */
+    /* .category-page-container.container {
+        padding-left: 10px;
+        padding-right: 10px;
+    } */
+    :root {
+        --cp-layout-gap: 20px; /* Further reduce gap */
+        --cp-container-margin-top: 15px;
+        --cp-container-margin-bottom: 30px;
+    }
+}

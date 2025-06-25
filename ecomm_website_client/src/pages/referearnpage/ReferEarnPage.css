@@ -1,0 +1,370 @@
+/* src/pages/referearnpage/ReferEarnPage.css */
+
+/* Base container styling */
+.refer-earn-page-container {
+    max-width: 800px; /* Slightly narrower container focusing content */
+    margin: 40px auto;
+    padding: 0 20px;
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    line-height: 1.6;
+    background-color: #f8f8f8; /* Light background */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    overflow: hidden; /* For potential background graphics */
+    min-height: calc(100vh - var(--header-height, 80px) - var(--footer-height, 60px)); /* Ensure min height */
+    box-sizing: border-box;
+}
+
+/* Page title */
+.refer-earn-page-container h1 {
+    text-align: center;
+    color: #1a4d2e; /* Dark green */
+    margin-bottom: 30px;
+    font-size: 2.8em;
+    font-weight: 700;
+    padding-bottom: 10px;
+    border-bottom: 3px solid #4c9a2a;
+    line-height: 1.2;
+}
+
+/* Section Headings */
+.refer-earn-page-container h2 {
+    color: #4c9a2a; /* Bright green */
+    margin-top: 35px;
+    margin-bottom: 20px;
+    font-size: 1.9em;
+    font-weight: 600;
+    text-align: center; /* Center section headings */
+    border-bottom: 1px dashed #c8e6c9;
+    padding-bottom: 5px;
+}
+
+/* Messages (Loading, Error, No Code) */
+.refer-earn-page-container .loading-message,
+.refer-earn-page-container .error-message,
+.refer-earn-page-container .no-code-message {
+    text-align: center;
+    font-size: 1.1em;
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: #fff3e0; /* Light orange */
+    color: #e65100; /* Dark orange */
+    border: 1px solid #ffcc80;
+}
+
+.refer-earn-page-container .error-message {
+    background-color: #ffebee; /* Light red */
+    color: #b71c1c; /* Dark red */
+    border-color: #ef9a9a;
+}
+
+/* Referral Steps Section */
+.referral-steps .steps-list {
+    display: flex;
+    justify-content: space-around; /* Distribute steps evenly */
+    gap: 20px; /* Space between step cards */
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    margin-top: 20px;
+}
+
+.step-card {
+    flex-basis: 200px; /* Base width for cards */
+    flex-grow: 1; /* Allow cards to grow */
+    background-color: #e8f5e9; /* Light green */
+    border: 1px solid #c8e6c9;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.step-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.step-icon {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+
+.step-text {
+    font-size: 1em;
+    color: #333;
+}
+
+
+/* Your Code Section */
+.your-code-section {
+    text-align: center; /* Center code display */
+    margin-top: 40px;
+}
+
+.code-display-area {
+    background-color: #ffffff;
+    border: 2px dashed #4c9a2a; /* Dashed border */
+    border-radius: 10px;
+    padding: 20px;
+    display: inline-block; /* Shrink box to content size */
+    margin: 20px auto;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    position: relative; /* For feedback message */
+}
+
+.referral-code-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px; /* Space between code and button */
+    flex-wrap: wrap; /* Allow wrapping on small screens */
+}
+
+.referral-code {
+    font-size: 1.8em; /* Large, prominent code */
+    font-weight: bold;
+    color: #1a4d2e; /* Dark green */
+    letter-spacing: 2px; /* Space out letters */
+    background-color: #c8e6c9; /* Light green background for code */
+    padding: 5px 15px;
+    border-radius: 5px;
+    user-select: text; /* Allow manual selection */
+    overflow-wrap: break-word; /* Break long codes */
+    word-break: break-all;
+}
+
+.copy-button {
+    background-color: #4c9a2a; /* Bright green button */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    display: flex; /* Align icon and text */
+    align-items: center;
+    gap: 5px;
+}
+
+.copy-button:hover:not(:disabled) {
+    background-color: #3a7e20; /* Darker green on hover */
+}
+
+.copy-button:active:not(:disabled) {
+     transform: scale(0.98);
+}
+
+.copy-button:disabled {
+    background-color: #a5d6a7; /* Lighter green when disabled */
+    cursor: not-allowed;
+}
+
+.copy-button svg {
+    fill: white;
+    width: 20px;
+    height: 20px;
+}
+
+.copy-feedback-message {
+     position: absolute;
+     bottom: -25px; /* Position below the box */
+     left: 50%;
+     transform: translateX(-50%);
+     background-color: #dcedc8; /* Light green */
+     color: #333;
+     padding: 4px 10px;
+     border-radius: 4px;
+     font-size: 0.9em;
+     white-space: nowrap;
+     z-index: 10;
+     animation: fadeInOut 2s forwards; /* Animation */
+}
+
+@keyframes fadeInOut {
+  0%, 100% { opacity: 0; }
+  10%, 90% { opacity: 1; }
+}
+
+.refer-earn-note {
+    margin-top: 25px;
+    font-size: 1em;
+    color: #555;
+}
+
+.refer-earn-note .wallet-link {
+    color: #4c9a2a; /* Green link */
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.refer-earn-note .wallet-link:hover {
+    text-decoration: underline;
+}
+
+.refer-terms {
+    margin-top: 10px;
+    font-size: 0.85em;
+    color: #777;
+}
+
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .refer-earn-page-container {
+        margin: 20px auto;
+        padding: 0 15px;
+    }
+
+    .refer-earn-page-container h1 {
+        font-size: 2.2em;
+        margin-bottom: 25px;
+    }
+
+     .refer-earn-page-container h2 {
+         font-size: 1.6em;
+         margin-top: 30px;
+         margin-bottom: 15px;
+     }
+
+     .referral-steps .steps-list {
+         gap: 15px;
+         justify-content: center; /* Center cards when wrapped */
+     }
+
+     .step-card {
+         flex-basis: 45%; /* Two cards per row on medium screens */
+         padding: 15px;
+     }
+
+     .step-icon {
+         font-size: 2em;
+     }
+
+     .step-text {
+         font-size: 0.95em;
+     }
+
+
+     .code-display-area {
+         padding: 15px;
+         margin: 15px auto;
+     }
+
+     .referral-code-box {
+         flex-direction: column; /* Stack code and button on smaller screens */
+         gap: 10px;
+     }
+
+     .referral-code {
+         font-size: 1.5em;
+         padding: 4px 10px;
+         letter-spacing: 1px;
+     }
+
+     .copy-button {
+        padding: 8px 12px;
+        font-size: 0.95em;
+     }
+
+     .copy-button svg {
+         width: 18px;
+         height: 18px;
+     }
+
+    .copy-feedback-message {
+        bottom: -20px; /* Adjust position */
+        font-size: 0.8em;
+        padding: 3px 8px;
+    }
+
+    .refer-earn-note {
+        font-size: 0.95em;
+         margin-top: 20px;
+    }
+     .refer-terms {
+         font-size: 0.8em;
+     }
+
+}
+
+@media (max-width: 480px) {
+     .refer-earn-page-container {
+          margin: 15px auto;
+          padding: 0 10px;
+     }
+
+     .refer-earn-page-container h1 {
+        font-size: 1.8em;
+        margin-bottom: 20px;
+        padding-bottom: 5px;
+     }
+
+      .refer-earn-page-container h2 {
+        font-size: 1.4em;
+        margin-top: 25px;
+        margin-bottom: 10px;
+     }
+
+      .referral-steps .steps-list {
+          gap: 10px;
+      }
+
+     .step-card {
+         flex-basis: 80%; /* Stack cards on smallest screens */
+         padding: 12px;
+     }
+
+     .step-icon {
+         font-size: 1.8em;
+          margin-bottom: 8px;
+     }
+
+     .step-text {
+         font-size: 0.9em;
+     }
+
+
+      .code-display-area {
+          padding: 12px;
+          margin: 10px auto;
+      }
+
+      .referral-code-box {
+          gap: 8px;
+      }
+
+     .referral-code {
+         font-size: 1.2em;
+         padding: 3px 8px;
+         letter-spacing: 1px;
+     }
+
+     .copy-button {
+        padding: 6px 10px;
+        font-size: 0.85em;
+     }
+
+     .copy-button svg {
+         width: 16px;
+         height: 16px;
+     }
+
+     .copy-feedback-message {
+         bottom: -18px;
+         font-size: 0.7em;
+         padding: 2px 6px;
+     }
+
+
+     .refer-earn-note {
+         font-size: 0.9em;
+          margin-top: 15px;
+     }
+     .refer-terms {
+         font-size: 0.75em;
+     }
+}

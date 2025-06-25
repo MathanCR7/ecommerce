@@ -1,0 +1,311 @@
+/* src/pages/categorypage/AllItemsDisplay.css */
+
+/* Define CSS Variables for Grid Layout and Spacing */
+:root {
+    --aid-grid-gap: 20px; /* Gap between grid items */
+    /* Default min-width for item cards - adjusted in media queries */
+    --item-card-min-width: 200px; /* Aim for more columns on larger screens */
+}
+
+
+.all-items-display-container {
+    width: 100%;
+    /* Add padding to the container itself */
+    padding: 0 15px;
+}
+
+.items-display-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #e9ecef;
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    gap: 15px; /* Gap between title and sort if wrapped */
+}
+
+.items-display-title {
+    font-size: 2em;
+    color: var(--iq-text-color, #343a40);
+    font-weight: 600;
+    margin: 0; /* Reset default margin */
+}
+
+/* Sort Dropdown Styles - enhanced */
+.sort-dropdown-container {
+    position: relative;
+    display: inline-block;
+    min-width: 180px; /* Ensure button has space */
+}
+
+.sort-button {
+    background-color: #fff;
+    color: var(--iq-text-color, #495057);
+    padding: 10px 15px; /* Reduced padding slightly */
+    font-size: 0.9em;
+    font-weight: 500;
+    border: 1px solid var(--iq-card-border-color, #ced4da);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s, box-shadow 0.2s;
+    width: 100%; /* Take full width of container */
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sort-button:hover {
+    background-color: var(--iq-light-gray, #f8f9fa);
+    border-color: var(--iq-medium-gray, #adb5bd);
+}
+.sort-button:focus {
+    outline: none;
+    border-color: var(--iq-primary-color, #007bff);
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+}
+
+.sort-button .arrow {
+    margin-left: 12px;
+    font-size: 0.8em;
+    transition: transform 0.2s;
+    color: var(--iq-dark-gray, #6c757d);
+}
+.sort-button .arrow.up {
+    transform: rotate(180deg);
+}
+
+.sort-menu {
+    position: absolute;
+    top: calc(100% + 5px);
+    right: 0; /* Align to the right */
+    background-color: white;
+    border: 1px solid var(--iq-card-border-color, #ced4da);
+    border-radius: 6px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    list-style: none;
+    margin: 0;
+    padding: 8px 0;
+    z-index: 1000;
+    min-width: 100%; /* Match button width */
+    overflow: hidden;
+}
+
+.sort-menu-item {
+    padding: 10px 15px; /* Reduced padding */
+    cursor: pointer;
+    font-size: 0.9em;
+    color: var(--iq-text-color, #495057);
+    transition: background-color 0.15s, color 0.15s;
+    white-space: nowrap;
+}
+
+.sort-menu-item:hover {
+    background-color: var(--iq-medium-gray, #e9ecef);
+    color: var(--iq-primary-hover-color, #212529); /* Darker text on hover */
+}
+
+.sort-menu-item.active {
+    background-color: var(--iq-primary-color, #007bff);
+    color: white;
+    font-weight: 500;
+}
+.sort-menu-item.active:hover { /* Ensure active item remains primary color on hover */
+    background-color: var(--iq-primary-hover-color, #0056b3);
+    color: white;
+}
+
+
+/* Item Grid Styles - enhanced for 5+ columns on wide screens */
+.items-display-grid {
+    /* Use auto-fit with minmax for responsive columns */
+    /* Adjust --item-card-min-width to control how many fit */
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(var(--item-card-min-width), 1fr));
+    gap: var(--aid-grid-gap); /* Use variable gap */
+    /* No explicit height reduction needed here, card content/padding controls height */
+}
+
+/* Responsive adjustments for grid and padding */
+@media (max-width: 1400px) { /* Adjust breakpoint based on your container max-width */
+    :root {
+        --item-card-min-width: 180px; /* Allow more items to fit on slightly smaller large screens (aiming for 5) */
+    }
+}
+
+@media (max-width: 1200px) {
+     :root {
+        --item-card-min-width: 160px; /* Still aiming for good density, possibly 4-5 depending on layout */
+    }
+}
+
+@media (max-width: 992px) {
+    /* Layout switches to column, item grid takes full width of container */
+    .all-items-display-container {
+         padding: 0; /* Remove padding here as the category-items-column will take full width */
+    }
+    .items-display-grid {
+         /* On smaller screens (column layout), switch to more standard 2-3 columns */
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* More space per item when stacked */
+        gap: var(--aid-grid-gap);
+    }
+     .items-display-header {
+        flex-direction: row; /* Header remains row layout usually */
+        align-items: center;
+        justify-content: space-between;
+        gap: 15px;
+        /* Add padding/margins to the header itself if no container padding */
+        padding: 0 15px 20px 15px;
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+     :root {
+        --aid-grid-gap: 15px;
+    }
+    .items-display-grid {
+         grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* Likely 2-3 columns */
+    }
+    .items-display-title {
+        font-size: 1.7em;
+    }
+    .sort-button {
+        min-width: 150px;
+    }
+     .items-display-header {
+         padding: 0 10px 15px 10px; /* Adjust header padding */
+         margin-bottom: 15px;
+     }
+}
+
+@media (max-width: 576px) {
+     :root {
+         --aid-grid-gap: 10px;
+    }
+    .items-display-grid {
+         grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); /* Likely 2 columns */
+    }
+     .items-display-header {
+        flex-direction: column; /* Stack header elements on very small screens */
+        align-items: stretch;
+        gap: 10px;
+        padding: 0 10px 15px 10px; /* Adjust header padding */
+        margin-bottom: 15px;
+    }
+    .items-display-title {
+        font-size: 1.5em;
+        text-align: center;
+    }
+    .sort-dropdown-container {
+        width: 100%; /* Sort button takes full width when stacked */
+        min-width: unset;
+    }
+}
+
+
+/* Loading, Error, Empty States */
+.items-display-loading,
+.items-display-error,
+.items-display-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 50px 20px;
+    text-align: center;
+    min-height: 350px; /* Maintain minimum height */
+    color: var(--iq-dark-gray, #6c757d);
+    font-size: 1.15em;
+    background-color: var(--iq-light-gray, #f8f9fa);
+    border-radius: 8px;
+    border: 1px dashed var(--iq-medium-gray, #dee2e6);
+    margin: 0 15px; /* Add horizontal margin to match layout padding */
+}
+
+@media (max-width: 992px) {
+     .items-display-loading,
+    .items-display-error,
+    .items-display-empty {
+        margin: 0; /* Remove margin when item column takes full width */
+    }
+}
+
+
+.items-display-loading .fa-spin {
+    font-size: 2.8em;
+    color: var(--iq-primary-color, #007bff);
+    margin-bottom: 20px;
+    animation: aid-fa-spin 1s infinite linear;
+}
+
+.items-display-error {
+    color: var(--iq-danger-color, #dc3545);
+}
+.items-display-error p {
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+.items-display-error i {
+    font-size: 0.9em;
+    color: var(--iq-dark-gray, #868e96); /* Lighter gray for error details */
+    margin-top: 8px;
+    max-width: 80%;
+    line-height: 1.5;
+}
+
+@keyframes aid-fa-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+/* In a global CSS file or the page's specific CSS */
+.item-grid-container {
+  display: grid;
+  gap: var(--iq-space-md); /* Or your preferred gap */
+  padding: var(--iq-space-md); /* Padding around the grid */
+}
+
+/* Desktop - 5 columns */
+.item-grid-container {
+  grid-template-columns: repeat(5, 1fr);
+}
+
+/* Smaller Desktop / Large Tablet - 4 columns */
+@media (max-width: 1200px) {
+  .item-grid-container {
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--iq-space-sm);
+  }
+}
+
+/* Tablet - 3 columns */
+@media (max-width: 992px) {
+  .item-grid-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Mobile - 3 columns (as requested) */
+@media (max-width: 767px) {
+  .item-grid-container {
+    grid-template-columns: repeat(3, 1fr); /* User request for 3 on mobile */
+    gap: var(--iq-space-sm);
+  }
+}
+
+/* Small Mobile - 2 columns */
+@media (max-width: 575px) {
+  .item-grid-container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--iq-space-xs);
+    padding: var(--iq-space-sm);
+  }
+}
+
+/* Very Small Mobile - 1 column (optional, if 2 columns become too cramped) */
+@media (max-width: 380px) {
+  .item-grid-container {
+    grid-template-columns: 1fr; /* Single column */
+  }
+}

@@ -1,129 +1,145 @@
+// src/components/Loginform/Loginform.jsx
 import React, { useState, useContext } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import toast from "react-hot-toast";
-import { FaGoogle } from "react-icons/fa"; // Google Icon
-import "./loginform.css"; // Link the CSS file
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGoogle } from "@fortawesome/free-brands-svg-icons";
+import "./Loginform.css";
 
-const LoginForm = () => {
+const Loginform = () => {
   const [loginIdentifier, setLoginIdentifier] = useState("");
   const [password, setPassword] = useState("");
-  const { login, loading } = useContext(AuthContext);
+  const { login, loginWithGoogle, loading } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Get redirect path from location state or default to home '/'
   const from = location.state?.from?.pathname || "/";
 
-  // Handle local form submission
-  const handleLogin = async (event) => {
-    event.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     if (!loginIdentifier || !password) {
-      toast.error("Please enter your credentials.");
+      toast.error("Please provide both identifier and password.");
       return;
     }
-    const success = await login(loginIdentifier, password); // Call login from context
-    if (success) {
-      // Redirect to the page the user was trying to access, or home
-      navigate(from, { replace: true });
+    const loggedInUser = await login({ loginIdentifier, password });
+    if (loggedInUser) {
+      toast.success(
+        `Welcome back, ${loggedInUser.displayName || loggedInUser.username}!`,
+        {
+          icon: "👋",
+          style: {
+            borderRadius: "10px",
+            background: "#333",
+            color: "#fff",
+          },
+        }
+      );
+      // Check if password change is prompted
+      const promptChange = sessionStorage.getItem(
+        "promptChangePasswordOnLogin"
+      );
+      if (promptChange === "true") {
+        sessionStorage.removeItem("promptChangePasswordOnLogin");
+        toast.info("Please change your temporary password.", {
+          duration: 5000,
+        });
+        navigate("/change-password", { replace: true });
+      } else {
+        navigate(from, { replace: true });
+      }
     }
-    // Error toasts are handled within the login context function
   };
 
-  // Function to initiate Google Login flow
-  const handleGoogleLogin = () => {
-    // Construct the backend Google auth URL
-    const backendUrl =
-      import.meta.env.VITE_API_BASE_URL || "http://localhost:5000/api";
-    // Redirect the browser to the backend endpoint to start OAuth
-    window.location.href = `${backendUrl}/auth/google`;
+  const handleGoogleLogin = async () => {
+    const googleUser = await loginWithGoogle();
+    if (googleUser) {
+      toast.success(
+        `Signed in with Google as ${
+          googleUser.displayName || googleUser.email
+        }!`,
+        {
+          icon: "🚀",
+        }
+      );
+      navigate(from, { replace: true });
+    }
   };
 
   return (
-    <section className="loginform-section">
-      {" "}
-      {/* Updated class */}
-      <div className="login-container">
-        {" "}
-        {/* Updated class */}
-        <div className="login-wrapper">
-          {" "}
-          {/* Updated class */}
-          <div className="login-heading">
-            {" "}
-            {/* Updated class */}
-            <h1>Sign In</h1>
-            <p>
-              New User?{" "}
-              <Link to="/registration" className="link-style">
-                Create an account
-              </Link>
-            </p>
-          </div>
-          {/* Login Form */}
-          <form onSubmit={handleLogin} className="login-form-element">
-            {" "}
-            {/* Updated class */}
-            <div className="input-group">
-              <label htmlFor="loginIdentifierInput">
-                Username, Email, or Phone
-              </label>
-              <input
-                id="loginIdentifierInput"
-                type="text"
-                name="loginIdentifier"
-                value={loginIdentifier}
-                onChange={(e) => setLoginIdentifier(e.target.value)}
-                required
-                disabled={loading} // Disable while processing
-                placeholder="Enter username, email, or phone"
-              />
+    <section className="login-page-section">
+      <div className="login-card-container">
+        <h1 className="login-title">Login</h1>
+
+        <form onSubmit={handleSubmit} className="login-main-form">
+          <div className="login-form-columns">
+            {/* Left Column: Form Fields */}
+            <div className="login-fields-column">
+              <div className="login-input-group">
+                <label htmlFor="loginIdentifier">Email or Username</label>
+                <input
+                  type="text"
+                  id="loginIdentifier"
+                  value={loginIdentifier}
+                  onChange={(e) => setLoginIdentifier(e.target.value)}
+                  required
+                  placeholder="Enter Your Email or Username"
+                  disabled={loading}
+                  autoComplete="username"
+                />
+              </div>
+
+              <div className="login-input-group">
+                <label htmlFor="password">Password</label>
+                <input
+                  type="password"
+                  id="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  placeholder="Please Enter Your Password"
+                  disabled={loading}
+                  autoComplete="current-password"
+                />
+              </div>
             </div>
-            <div className="input-group">
-              <label htmlFor="passwordInput">Password</label>
-              <input
-                id="passwordInput"
-                type="password" // Important: Use password type
-                name="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
+
+            {/* Right Column: Social Login */}
+            <div className="login-social-column">
+              <button
+                type="button"
+                className="login-btn login-btn-social login-btn-google"
+                onClick={handleGoogleLogin}
                 disabled={loading}
-                placeholder="Enter your password"
-              />
+              >
+                <FontAwesomeIcon icon={faGoogle} className="social-icon" />
+                Login with Google
+              </button>
             </div>
-            <p className="forgot-pass">
-              Forgot Password?{" "}
-              {/* Update this link if/when forgot password page exists */}
-              <Link to="/forgot-password" className="link-style">
-                Click here to reset
-              </Link>
-            </p>
-            {/* Submit Button */}
-            <button
-              type="submit"
-              className="btn-submit btn-primary" // Added btn-primary for potential shared styling
-              disabled={loading}
-            >
-              {loading ? "Signing In..." : "Sign In"}
-            </button>
-          </form>
-          {/* Divider */}
-          <div className="divider">
-            <span>OR</span>
           </div>
-          {/* Google Login Button */}
-          <button
-            onClick={handleGoogleLogin}
-            className="btn-google"
-            disabled={loading}
-          >
-            <FaGoogle className="google-icon" /> Sign in with Google
-          </button>
-        </div>
+
+          <div className="login-bottom-actions">
+            <div className="login-action-group-left">
+              <button
+                type="submit"
+                className="login-btn login-btn-submit"
+                disabled={loading}
+              >
+                {loading ? "Logging In..." : "Login"}
+              </button>
+              <Link to="/registration" className="login-text-link">
+                Create An Account
+              </Link>
+            </div>
+            {/* MODIFIED: Added Forgot Password link */}
+            <Link to="/forgot-password" className="login-text-link">
+              Forgot Password?
+            </Link>
+          </div>
+        </form>
       </div>
     </section>
   );
 };
 
-export default LoginForm;
+export default Loginform;

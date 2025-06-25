@@ -1,285 +1,278 @@
-/* --- Login/Registration Shared Styles --- */
-.loginform-section, /* From LoginForm */
-.registrationform-section /* From RegistrationForm */ {
+/* --- Global Variables (if not already defined elsewhere) --- */
+:root {
+  --login-primary-color: #007bff; /* Blue for primary actions */
+  --login-primary-hover-color: #0056b3;
+  --login-text-dark: #333;
+  --login-text-medium: #555;
+  --login-text-light: #777;
+  --login-border-color: #ced4da;
+  --login-input-bg: #fff;
+  --login-input-focus-border: #80bdff;
+  --login-input-focus-shadow: rgba(0, 123, 255, 0.25);
+  --login-card-bg: #ffffff;
+  --login-page-bg: #f4f7f6; /* Light, neutral page background */
+  --login-google-color: #db4437;
+  --login-google-hover-bg: #f5f5f5;
+  --login-link-color: #007bff;
+  --login-link-hover-color: #0056b3;
+}
+
+/* --- Login Page Section --- */
+.login-page-section {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 80vh; /* Adjust as needed */
-  padding: 40px 20px;
-  background-color: #f4f7fc; /* Light background */
+  min-height: 100vh;
+  padding: 20px;
+  background-color: var(--login-page-bg);
+  box-sizing: border-box;
 }
 
-.login-container, /* From LoginForm */
-.registration-container /* From RegistrationForm */ {
-  background-color: #ffffff;
-  padding: 30px 40px;
-  border-radius: 10px;
-  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+/* --- Login Card Container --- */
+.login-card-container {
+  background-color: var(--login-card-bg);
+  padding: 30px 35px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   width: 100%;
-  max-width: 450px; /* Control max width */
-  text-align: center;
+  max-width: 750px; /* Max width for the two-column layout */
+  box-sizing: border-box;
 }
 
-.login-wrapper, /* From LoginForm */
-.registration-wrapper /* From RegistrationForm */ {
-  width: 100%;
-}
-
-.login-heading, /* From LoginForm */
-.registration-heading /* From RegistrationForm */ {
-  margin-bottom: 30px;
-}
-
-.login-heading h1,
-.registration-heading h1 {
-  font-size: 2rem;
-  color: #333;
-  margin-bottom: 10px;
-}
-
-.login-heading p,
-.registration-heading p {
-  color: #555;
-  font-size: 0.95rem;
-}
-
-.login-heading .link-style, /* Shared link style */
-.registration-heading .link-style {
-  color: #e94560; /* Theme color */
+.login-title {
+  font-size: 1.75rem; /* Adjusted size */
   font-weight: 600;
-  text-decoration: none;
-  transition: color 0.3s ease;
-}
-.login-heading .link-style:hover,
-.registration-heading .link-style:hover {
-  color: #d13b52; /* Darker shade on hover */
-  text-decoration: underline;
+  color: var(--login-text-dark);
+  margin-bottom: 25px;
+  text-align: left;
 }
 
-/* --- Form Element Styles --- */
-.login-form-element, /* From LoginForm */
-.registration-form-element /* From RegistrationForm */ {
+/* --- Main Form Structure --- */
+.login-main-form {
   display: flex;
   flex-direction: column;
-  gap: 20px; /* Spacing between form elements */
+  gap: 25px; /* Space between input/social columns and bottom actions */
 }
 
-.input-group {
-  text-align: left;
+.login-form-columns {
+  display: flex;
+  gap: 30px; /* Gap between the two columns */
+}
+
+.login-fields-column {
+  flex: 1.5; /* Takes more space */
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Space between email and password fields */
+}
+
+.login-social-column {
+  flex: 1; /* Takes less space */
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* Space between social login buttons if multiple */
+  padding-top: 28px; /* Align roughly with the start of the second input field label */
+}
+
+/* --- Input Group Styling --- */
+.login-input-group {
+  display: flex;
+  flex-direction: column;
   width: 100%;
 }
 
-.input-group label {
-  display: block;
+.login-input-group label {
   margin-bottom: 8px;
-  font-weight: 600;
-  color: #444;
+  font-weight: 500;
+  color: var(--login-text-medium);
   font-size: 0.9rem;
 }
 
-.input-group input[type="text"],
-.input-group input[type="email"],
-.input-group input[type="password"],
-.input-group input[type="tel"],
-.input-group input[type="date"],
-.input-group input[type="number"] /* Added for OTP */ {
+.login-input-group input[type="text"],
+.login-input-group input[type="email"],
+.login-input-group input[type="password"] {
   width: 100%;
   padding: 12px 15px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  border: 1px solid var(--login-border-color);
+  border-radius: 6px;
   font-size: 1rem;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
-  box-sizing: border-box; /* Ensure padding doesn't increase size */
+  color: var(--login-text-dark);
+  background-color: var(--login-input-bg);
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  box-sizing: border-box;
 }
 
-.input-group input:focus {
-  border-color: #e94560;
-  box-shadow: 0 0 0 3px rgba(233, 69, 96, 0.2);
-  outline: none;
+.login-input-group input:focus {
+  border-color: var(--login-input-focus-border);
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem var(--login-input-focus-shadow);
 }
 
-.input-group input::placeholder {
-  color: #aaa;
+.login-input-group input::placeholder {
+  color: var(--login-text-light);
+  opacity: 0.8;
 }
 
-.input-group input:disabled {
+.login-input-group input:disabled {
   background-color: #e9ecef;
+  opacity: 0.7;
   cursor: not-allowed;
 }
 
-/* --- Specific Login Styles --- */
-.forgot-pass {
-  text-align: right;
-  font-size: 0.85rem;
-  margin-top: -10px; /* Adjust spacing */
-  margin-bottom: 15px;
-}
-.forgot-pass .link-style {
-  color: #e94560;
-  font-weight: 600;
-  text-decoration: none;
-}
-.forgot-pass .link-style:hover {
-  text-decoration: underline;
-}
-
-
-/* --- Buttons --- */
-.btn-submit,
-.btn-google,
-.btn-send-otp, /* From Registration */
-.btn-register, /* From Registration */
-.btn-back /* From Registration */
-{
+/* --- Buttons General Styling --- */
+.login-btn {
   padding: 12px 20px;
-  border: none;
-  border-radius: 5px;
-  font-size: 1rem;
-  font-weight: 600;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.1s ease;
-  width: 100%; /* Make buttons full width */
-  margin-top: 5px; /* Spacing */
-}
-
-.btn-submit {
-  background-color: #e94560; /* Primary theme color */
-  color: #fff;
-}
-.btn-submit:hover:not(:disabled) {
-  background-color: #d13b52; /* Darker shade */
-}
-
-.btn-google {
-  background-color: #fff;
-  color: #555;
-  border: 1px solid #ccc;
-  display: flex;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+  border: 1px solid transparent;
+  width: 100%;
+  text-align: center;
+  display: inline-flex; /* For icon alignment */
   align-items: center;
   justify-content: center;
-  gap: 10px;
-}
-.btn-google:hover:not(:disabled) {
-  background-color: #f8f8f8;
 }
 
-.google-icon {
-  font-size: 1.2rem;
-  color: #db4437; /* Google Red */
-}
-
-/* Buttons when disabled */
-.btn-submit:disabled,
-.btn-google:disabled,
-.btn-send-otp:disabled,
-.btn-register:disabled,
-.btn-back:disabled {
-  background-color: #cccccc;
-  color: #666666;
+.login-btn:disabled {
+  opacity: 0.65;
   cursor: not-allowed;
-  opacity: 0.7;
 }
 
-/* Divider */
-.divider {
-  margin: 30px 0;
-  text-align: center;
-  position: relative;
-  color: #aaa;
+/* Submit Button */
+.login-btn-submit {
+  background-color: var(--login-primary-color);
+  color: #fff;
+  border-color: var(--login-primary-color);
+  min-width: 120px; /* Give it some base width */
+  width: auto; /* Allow it to size to content or min-width */
+  flex-shrink: 0; /* Prevent shrinking in flex container */
+}
+.login-btn-submit:hover:not(:disabled) {
+  background-color: var(--login-primary-hover-color);
+  border-color: var(--login-primary-hover-color);
 }
 
-.divider span {
+/* Social Buttons */
+.login-btn-social {
   background-color: #fff;
-  padding: 0 15px;
-  position: relative;
-  z-index: 1;
+  color: var(--login-text-dark);
+  border: 1px solid var(--login-border-color);
 }
-
-.divider::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 0;
-  width: 100%;
-  height: 1px;
-  background-color: #ccc;
-  z-index: 0;
+.login-btn-social:hover:not(:disabled) {
+  background-color: var(--login-google-hover-bg); /* Generic light hover for social */
+  border-color: #adb5bd;
 }
-
-/* --- Specific Registration Styles --- */
-.otp-info {
-  background-color: #e7f3fe;
-  color: #0c5460;
-  padding: 10px;
-  border-radius: 5px;
-  margin-bottom: 20px;
-  font-size: 0.9rem;
-  border: 1px solid #b8daff;
+.login-btn-google .social-icon {
+  color: var(--login-google-color);
+  margin-right: 10px;
+  font-size: 1.1rem;
 }
-
-.btn-send-otp { /* Specific style if needed */
-  background-color: #007bff;
-   color: white;
-}
-.btn-send-otp:hover:not(:disabled) {
-  background-color: #0056b3;
-}
+/* Example for Facebook if added
+.login-btn-facebook .social-icon {
+  color: #3b5998;
+  margin-right: 10px;
+  font-size: 1.1rem;
+} */
 
 
-.btn-register { /* Specific style if needed */
-   background-color: #28a745; /* Green for final register */
-   color: white;
-}
-.btn-register:hover:not(:disabled) {
-  background-color: #218838;
-}
-
-.btn-back {
-  background-color: #6c757d; /* Gray for back */
-  color: white;
-  margin-top: 10px; /* Add space above back button */
-}
-.btn-back:hover:not(:disabled) {
-  background-color: #5a6268;
+/* --- Bottom Actions --- */
+.login-bottom-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px; /* Reduced from form gap */
+  padding-top: 15px;
+  border-top: 1px solid #e9ecef; /* Subtle separator */
 }
 
-
-.terms-info {
-  margin-top: 25px;
-  font-size: 0.8rem;
-  color: #777;
+.login-action-group-left {
+  display: flex;
+  align-items: center;
+  gap: 15px;
 }
-.terms-info .link-style {
-  color: #e94560;
+
+.login-text-link {
+  color: var(--login-link-color);
   text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: color 0.2s ease;
 }
-.terms-info .link-style:hover {
+.login-text-link:hover {
+  color: var(--login-link-hover-color);
   text-decoration: underline;
 }
 
 /* --- Responsive Adjustments --- */
-@media (max-width: 768px) {
-  .login-container,
-  .registration-container {
-     padding: 25px 20px;
-  }
-  .login-heading h1,
-  .registration-heading h1 {
-    font-size: 1.8rem;
+
+/* Medium devices (tablets, less than 992px) */
+@media (max-width: 991.98px) {
+  .login-card-container {
+    max-width: 600px;
   }
 }
 
-@media (max-width: 480px) {
-  .login-container,
-  .registration-container {
-     padding: 20px 15px;
+
+/* Small devices (landscape phones, less than 768px) */
+@media (max-width: 767.98px) {
+  .login-card-container {
+    max-width: 480px; /* More suitable for single column */
+    padding: 25px 20px;
   }
-   .login-heading h1,
-  .registration-heading h1 {
+  .login-form-columns {
+    flex-direction: column; /* Stack columns */
+    gap: 20px; /* Gap between stacked "columns" */
+  }
+  .login-social-column {
+    padding-top: 0; /* Reset padding when stacked */
+  }
+  .login-title {
     font-size: 1.6rem;
+    margin-bottom: 20px;
   }
-  .btn-submit, .btn-google, .btn-send-otp, .btn-register, .btn-back {
-    padding: 10px 15px;
+}
+
+/* Extra small devices (portrait phones, less than 576px) */
+@media (max-width: 575.98px) {
+  .login-page-section {
+    padding: 15px;
+    align-items: flex-start; /* Align card to top on very small screens */
+    padding-top: 5vh;
+  }
+  .login-card-container {
+    padding: 20px 15px;
+  }
+  .login-title {
+    font-size: 1.5rem;
+  }
+  .login-input-group input[type="text"],
+  .login-input-group input[type="email"],
+  .login-input-group input[type="password"] {
+    padding: 10px 12px;
     font-size: 0.95rem;
+  }
+  .login-btn {
+    font-size: 0.9rem;
+    padding: 10px 15px;
+  }
+  .login-bottom-actions {
+    flex-direction: column; /* Stack bottom actions */
+    align-items: flex-start;
+    gap: 12px;
+    padding-top: 12px;
+  }
+  .login-action-group-left {
+    flex-direction: column; /* Stack login button and create account link */
+    align-items: flex-start;
+    width: 100%; /* Make group take full width */
+    gap: 12px;
+  }
+  .login-btn-submit {
+    width: 100%; /* Full width submit button */
+  }
+  .login-text-link {
+    font-size: 0.85rem;
   }
 }

@@ -1,22 +1,21 @@
 // backend/routes/userProfileRoutes.js
 import express from "express";
 import * as userProfileController from "../controllers/userProfileController.js";
-import { verifyToken as protectUser } from "../middleware/userAuthMiddleware.js"; // User JWT auth
-import { uploadUserProfile } from "../config/multerConfig.js"; // Multer for user profile pics
+import { verifyToken as protectUser } from "../middleware/userAuthMiddleware.js"; // Ensure this path is correct
+import { uploadUserProfile } from "../config/multerConfig.js"; // Ensure this path and function name are correct
 import {
   validateUserProfileUpdate,
+  validateVerifyOtpAndUpdatePhone, // <-- IMPORT NEW VALIDATOR
   handleValidationErrors,
-} from "../middleware/validators.js";
+} from "../middleware/validators.js"; // Ensure this path is correct
 
 const router = express.Router();
 
-// Apply user authentication middleware to all routes in this file
-router.use(protectUser);
+router.use(protectUser); // Apply auth to all profile routes
 
-// GET /api/profile - Get current user's profile
+// Existing Routes (Do Not Change/Remove)
 router.get("/", userProfileController.getUserProfile);
 
-// PUT /api/profile - Update current user's profile
 router.put(
   "/",
   validateUserProfileUpdate,
@@ -24,12 +23,26 @@ router.put(
   userProfileController.updateUserProfile
 );
 
-// POST /api/profile/picture - Upload profile picture
 router.post(
   "/picture",
-  uploadUserProfile,
+  uploadUserProfile, // Multer middleware for single file upload
   userProfileController.uploadProfilePicture
 );
-// Note: Multer error handling is implicitly done by the global errorHandler now
+
+// New route for verifying OTP and updating phone (e.g., after Google signup)
+router.put(
+  "/phone-verification", // Changed from /phone to be more specific
+  validateVerifyOtpAndUpdatePhone, // <-- USE NEW VALIDATOR
+  handleValidationErrors,
+  userProfileController.verifyOtpAndUpdatePhoneNumber
+);
+
+// --- EXISTING NEW ROUTES FOR REFERRAL AND WALLET ---
+router.get("/referral-code", userProfileController.getReferralCode); // protectUser middleware is already applied by router.use()
+router.get("/wallet", userProfileController.getWalletDetails); // protectUser middleware is already applied by router.use()
+
+// --- NEW ROUTE FOR LOYALTY POINTS ---
+router.get("/loyalty", userProfileController.getLoyaltyDetails); // protectUser middleware is already applied by router.use()
+// --- END NEW ROUTES ---
 
 export default router;

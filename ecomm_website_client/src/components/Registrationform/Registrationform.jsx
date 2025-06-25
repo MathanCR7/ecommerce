@@ -1,361 +1,648 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import api from "../../services/api"; // Use the configured Axios instance
+import { AuthContext } from "../../context/AuthContext";
 import toast from "react-hot-toast";
-import "./registrationform.css"; // Link the specific CSS
+import PhoneInput, { isValidPhoneNumber } from "react-phone-number-input";
+import "react-phone-number-input/style.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGoogle } from "@fortawesome/free-brands-svg-icons"; // Still imported, but button removed
+import { faSpinner } from "@fortawesome/free-solid-svg-icons"; // For loading spinners
+import { checkExistingUserApi, sendOtpApi } from "../../services/api";
+import "./Registrationform.css";
 
-const RegistrationForm = () => {
-  const [step, setStep] = useState(1); // 1: Details, 2: OTP
+// PhoneVerificationModal (Remains the same as it's for a different flow - Google users)
+const PhoneVerificationModal = ({
+  isOpen,
+  onClose,
+  onVerified,
+  initialPhone = "",
+}) => {
+  const [phone, setPhone] = useState(initialPhone);
+  const [otp, setOtp] = useState("");
+  const [otpSent, setOtpSent] = useState(false);
+  const [isVerifying, setIsVerifying] = useState(false);
+  const [modalLoadingText, setModalLoadingText] = useState("");
+
+  const { sendOtpForPhoneVerification, verifyAndUpdateUserPhone } =
+    useContext(AuthContext);
+
+  useEffect(() => {
+    if (isOpen) {
+      setPhone(initialPhone);
+      setOtpSent(false);
+      setOtp("");
+      setModalLoadingText("");
+    }
+  }, [initialPhone, isOpen]);
+
+  const handleSendOtpInternal = async () => {
+    if (!phone || !isValidPhoneNumber(phone)) {
+      toast.error("Please enter a valid phone number.");
+      return;
+    }
+    setIsVerifying(true);
+    setModalLoadingText("Sending OTP...");
+    try {
+      const success = await sendOtpForPhoneVerification(phone);
+      if (success) {
+        setOtpSent(true);
+        toast.success("OTP successfully sent to your phone!");
+      }
+    } catch (error) {
+      toast.error(error.message || "An error occurred while sending OTP.");
+    } finally {
+      setIsVerifying(false);
+      setModalLoadingText("");
+    }
+  };
+
+  const handleVerifyOtpInternal = async () => {
+    if (!otp || !/^\d{4,6}$/.test(otp)) {
+      toast.error("Please enter a valid OTP (4-6 digits).");
+      return;
+    }
+    setIsVerifying(true);
+    setModalLoadingText("Verifying...");
+    try {
+      const updatedUser = await verifyAndUpdateUserPhone(phone, otp);
+      if (updatedUser) {
+        onVerified(updatedUser);
+      }
+    } catch (error) {
+      toast.error(
+        error.message || "An error occurred during OTP verification."
+      );
+    } finally {
+      setIsVerifying(false);
+      setModalLoadingText("");
+    }
+  };
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="registration-modal-overlay">
+      <div className="registration-modal-content">
+        <button
+          aria-label="Close modal"
+          className="registration-modal-close-btn"
+          onClick={() => {
+            if (isVerifying) return;
+            setOtpSent(false);
+            setOtp("");
+            onClose();
+          }}
+          disabled={isVerifying}
+        >
+          ×
+        </button>
+        <div className="registration-modal-header">
+          <h3>Verify Your Phone</h3>
+          <p>
+            We need to verify your phone number to complete your account setup.
+          </p>
+        </div>
+        <div className="registration-modal-body">
+          <div className="modal-input-group">
+            <label htmlFor="modal-phone">Phone Number</label>
+            <PhoneInput
+              id="modal-phone"
+              placeholder="Enter your phone number"
+              value={phone}
+              onChange={setPhone}
+              defaultCountry="IN"
+              international
+              countryCallingCodeEditable={false}
+              disabled={otpSent || isVerifying}
+              className="PhoneInputInModal"
+            />
+          </div>
+          {!otpSent ? (
+            <button
+              onClick={handleSendOtpInternal}
+              disabled={isVerifying || !phone || !isValidPhoneNumber(phone)}
+              className="registration-btn registration-btn-submit modal-btn"
+            >
+              {isVerifying ? (
+                <>
+                  <FontAwesomeIcon
+                    icon={faSpinner}
+                    spin
+                    style={{ marginRight: "8px" }}
+                  />
+                  {modalLoadingText}
+                </>
+              ) : (
+                "Send OTP"
+              )}
+            </button>
+          ) : (
+            <>
+              <div className="modal-input-group">
+                <label htmlFor="modal-otp">Enter OTP</label>
+                <input
+                  type="text"
+                  inputMode="numeric"
+                  pattern="\d{4,6}"
+                  id="modal-otp"
+                  value={otp}
+                  onChange={(e) => {
+                    if (/^\d{0,6}$/.test(e.target.value)) {
+                      setOtp(e.target.value);
+                    }
+                  }}
+                  placeholder="Enter OTP"
+                  maxLength="6"
+                  disabled={isVerifying}
+                  className="modal-otp-input"
+                />
+              </div>
+              <button
+                onClick={handleVerifyOtpInternal}
+                disabled={isVerifying || !otp || otp.length < 4}
+                className="registration-btn registration-btn-submit modal-btn"
+              >
+                {isVerifying ? (
+                  <>
+                    <FontAwesomeIcon
+                      icon={faSpinner}
+                      spin
+                      style={{ marginRight: "8px" }}
+                    />
+                    {modalLoadingText}
+                  </>
+                ) : (
+                  "Verify & Save Phone"
+                )}
+              </button>
+            </>
+          )}
+          <button
+            onClick={() => {
+              if (isVerifying) return;
+              setOtpSent(false);
+              setOtp("");
+              onClose();
+            }}
+            disabled={isVerifying}
+            className="registration-btn registration-btn-secondary modal-btn"
+            style={{ marginTop: "10px" }}
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const Registrationform = () => {
   const [formData, setFormData] = useState({
     username: "",
     email: "",
     password: "",
-    confirmPassword: "", // Added for confirmation
-    phone: "", // E.164 format (+91...)
-    dob: "", // YYYY-MM-DD
+    confirmPassword: "",
+    dob: "",
+    phone: "",
+    otp: "",
   });
-  const [otp, setOtp] = useState("");
+
+  const [otpSentForRegistration, setOtpSentForRegistration] = useState(false);
+  const [otpVerificationMessage, setOtpVerificationMessage] = useState("");
   const [isSendingOtp, setIsSendingOtp] = useState(false);
   const [isSigningUp, setIsSigningUp] = useState(false);
-  // We don't need AuthContext.signup here as we call API directly and redirect
-  const navigate = useNavigate();
 
-  const handleInputChange = (e) => {
+  const {
+    signup,
+    loginWithGoogle, // Still imported, but handler removed
+    loading: authContextLoading,
+    user,
+    setUser,
+  } = useContext(AuthContext);
+
+  const navigate = useNavigate();
+  const otpInputRef = useRef(null);
+
+  const [isPhoneModalOpen, setIsPhoneModalOpen] = useState(false);
+  useEffect(() => {
+    if (user && user.googleId && !user.phone && !authContextLoading) {
+      const hasShownModal = sessionStorage.getItem("googlePhoneModalShown");
+      if (!hasShownModal) {
+        setIsPhoneModalOpen(true);
+        sessionStorage.setItem("googlePhoneModalShown", "true");
+      }
+    } else if (user && user.phone) {
+      sessionStorage.removeItem("googlePhoneModalShown");
+    }
+  }, [user, authContextLoading]);
+
+  useEffect(() => {
+    if (
+      otpSentForRegistration &&
+      formData.phone &&
+      isValidPhoneNumber(formData.phone) &&
+      otpInputRef.current
+    ) {
+      otpInputRef.current.focus();
+      setOtpVerificationMessage(
+        `An OTP has been sent to ${formData.phone}. It might take a moment to arrive.`
+      );
+    }
+  }, [otpSentForRegistration, formData.phone]);
+
+  const handleUsernameChange = (e) => {
+    const { value } = e.target;
+    const validUsernameRegex = /^[a-z0-9]*$/;
+    if (validUsernameRegex.test(value)) {
+      setFormData({ ...formData, username: value });
+    }
+  };
+
+  const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // --- Input Validation ---
-  const validateStep1 = () => {
-    if (formData.username.length < 3) {
-      toast.error("Username must be at least 3 characters.");
-      return false;
-    }
-    if (!/^[a-zA-Z0-9_]+$/.test(formData.username)) {
-      toast.error(
-        "Username can only contain letters, numbers, and underscores."
-      );
-      return false;
-    }
-    if (!formData.email || !/\S+@\S+\.\S+/.test(formData.email)) {
-      toast.error("Please enter a valid email address.");
-      return false;
-    }
-    if (formData.password.length < 8) {
-      toast.error("Password must be at least 8 characters.");
-      return false;
-    }
-    if (formData.password !== formData.confirmPassword) {
-      toast.error("Passwords do not match.");
-      return false;
-    }
-    if (!formData.phone) {
-      toast.error("Please enter a phone number.");
-      return false;
-    }
-    // Basic E.164 check - backend has stricter validation
-    if (!/^\+\d{10,15}$/.test(formData.phone)) {
-      toast.error(
-        "Invalid phone format. Use +CountryCodeNumber (e.g., +911234567890)."
-      );
-      return false;
-    }
-    if (formData.dob && new Date(formData.dob) > new Date()) {
-      toast.error("Date of Birth cannot be in the future.");
-      return false;
-    }
-    return true; // All checks passed
+  const handlePhoneChange = (value) => {
+    setFormData({ ...formData, phone: value || "", otp: "" });
+    setOtpSentForRegistration(false);
+    setOtpVerificationMessage("");
   };
 
-  // --- Step 1: Validate details and Send OTP ---
-  const handleSendOtp = async (event) => {
-    event.preventDefault();
-    if (!validateStep1()) return; // Stop if validation fails
+  const handleSendOtpForRegistrationForm = async () => {
+    if (!formData.phone || !isValidPhoneNumber(formData.phone)) {
+      toast.error("Please enter a valid phone number.");
+      return false;
+    }
 
     setIsSendingOtp(true);
-    const toastId = toast.loading("Validating details & sending OTP...");
+    setOtpVerificationMessage("");
 
     try {
-      // 1. Check if username/email/phone exists
-      const checkRes = await api.post("/auth/check-existing", {
-        username: formData.username,
-        email: formData.email,
-        phone: formData.phone,
-      });
-
-      if (checkRes.data.exists) {
+      const existingRes = await checkExistingUserApi({ phone: formData.phone });
+      if (existingRes.data.exists) {
         toast.error(
-          `This ${checkRes.data.field} is already registered. Please login or use different details.`,
-          {
-            id: toastId,
-            duration: 4000,
-          }
+          "This phone number is already registered. Please log in or use a different number."
         );
-        setIsSendingOtp(false);
-        return;
+        setOtpSentForRegistration(false);
+        return false;
       }
 
-      // 2. If checks pass, send OTP
-      toast.loading("Sending OTP...", { id: toastId }); // Update toast message
-      await api.post("/auth/send-otp", { phone: formData.phone });
-
-      toast.success("OTP sent successfully to your phone!", { id: toastId });
-      setStep(2); // Move to OTP verification step
+      await sendOtpApi({ phone: formData.phone });
+      setOtpSentForRegistration(true);
+      // Message set in useEffect for focus
+      toast.success("OTP sent successfully!");
+      return true;
     } catch (error) {
-      console.error("Send OTP/Check Existing Error:", error);
-      const errorMsg =
+      console.error("Failed to send OTP:", error);
+      const errorMessage =
         error.response?.data?.message ||
-        "Failed to send OTP. Please check details or try again later.";
-      // Handle specific Twilio errors shown to user if desired
-      if (
-        errorMsg.includes("Invalid parameter") ||
-        errorMsg.includes("Invalid phone number")
-      ) {
-        toast.error(
-          "Invalid phone number format. Please check and try again.",
-          { id: toastId }
-        );
-      } else if (errorMsg.includes("Max send attempts reached")) {
-        toast.error(
-          "Max OTP attempts reached for this number. Please try again later.",
-          { id: toastId }
-        );
+        error.message ||
+        "Could not send OTP. Please try again.";
+      const errorsArray = error.response?.data?.errors;
+      if (errorsArray && errorsArray.length > 0) {
+        errorsArray.forEach((err) => toast.error(err.msg));
       } else {
-        toast.error(errorMsg, { id: toastId });
+        toast.error(errorMessage);
       }
+      setOtpSentForRegistration(false);
+      return false;
     } finally {
       setIsSendingOtp(false);
     }
   };
 
-  // --- Step 2: Verify OTP and complete registration ---
-  const handleRegister = async (event) => {
-    event.preventDefault();
-    if (step !== 2) return; // Safeguard
+  // handleGoogleSignup function removed as the button is removed
+  // const handleGoogleSignup = () => {
+  //   sessionStorage.removeItem("googlePhoneModalShown");
+  //   loginWithGoogle();
+  // };
 
-    if (!otp || otp.length < 4 || otp.length > 6 || !/^\d+$/.test(otp)) {
-      toast.error("Please enter a valid OTP (4-6 digits).");
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (formData.password !== formData.confirmPassword) {
+      toast.error("Passwords do not match.");
+      return;
+    }
+    const usernameRegex = /^[a-z0-9]+$/;
+    if (!usernameRegex.test(formData.username)) {
+      toast.error("Username must contain only lowercase letters and numbers.");
+      return;
+    }
+    if (formData.password.length < 8) {
+      toast.error("Password must be at least 8 characters long.");
       return;
     }
 
-    setIsSigningUp(true);
-    // Prepare data for the final signup request (exclude confirmPassword)
-    const { confirmPassword, ...signupData } = formData;
-    const finalData = { ...signupData, otp };
-    const toastId = toast.loading("Verifying OTP & registering...");
+    if (
+      formData.phone &&
+      isValidPhoneNumber(formData.phone) &&
+      !otpSentForRegistration
+    ) {
+      await handleSendOtpForRegistrationForm();
+      return;
+    }
 
-    try {
-      // Call the backend signup endpoint
-      const response = await api.post("/auth/signup", finalData);
+    const dataToSubmit = {
+      username: formData.username,
+      email: formData.email,
+      password: formData.password,
+      dob: formData.dob,
+    };
 
-      toast.success("Registration successful! Redirecting to login...", {
-        id: toastId,
-        duration: 3000,
-      });
-      // Don't set user context here, let login handle it
-      // Redirect to login page after a short delay
-      setTimeout(() => {
-        navigate("/login");
-      }, 2000);
-    } catch (error) {
-      console.error("Registration Error:", error);
-      const errorMsg = error.response?.data?.message || "Registration failed.";
-      if (errorMsg.includes("Invalid or expired OTP")) {
+    if (
+      formData.phone &&
+      isValidPhoneNumber(formData.phone) &&
+      otpSentForRegistration
+    ) {
+      if (!formData.otp || !/^\d{4,6}$/.test(formData.otp)) {
         toast.error(
-          "Invalid or expired OTP. Please check the code or go back to resend.",
-          { id: toastId }
+          "Please enter the valid OTP (4-6 digits) sent to your phone."
         );
-      } else if (errorMsg.includes("already exists")) {
-        toast.error(errorMsg + " Please login instead.", { id: toastId });
-      } else {
-        toast.error(errorMsg, { id: toastId });
+        otpInputRef.current?.focus();
+        return;
       }
+      dataToSubmit.phone = formData.phone;
+      dataToSubmit.otp = formData.otp;
+    }
+
+    setIsSigningUp(true);
+    try {
+      const signedUpUser = await signup(dataToSubmit);
+      if (signedUpUser) {
+        toast.success(
+          `Welcome, ${
+            signedUpUser.displayName || signedUpUser.username
+          }! Your account is created.`,
+          { duration: 4000 }
+        );
+        navigate("/");
+      }
+    } catch (error) {
+      console.error("Signup process failed:", error);
+      // If OTP was invalid, AuthContext's signup should ideally throw an error that indicates this.
+      // For now, if signup fails and OTP was part of it, user might need to re-verify or correct OTP.
+      // Consider resetting otpSentForRegistration if backend indicates OTP was the issue.
+      // The AuthContext handleError should provide user-friendly messages.
     } finally {
       setIsSigningUp(false);
     }
   };
 
+  const handlePhoneVerifiedInModal = (updatedUserFromModal) => {
+    setUser(updatedUserFromModal); // Update user in context
+    setIsPhoneModalOpen(false);
+    toast.success("Phone number verified and added to your Google account!");
+  };
+
+  const overallLoading = authContextLoading || isSendingOtp || isSigningUp;
+
+  let submitButtonText = "Sign Up";
+  let showSpinnerInSubmit = false;
+
+  if (isSendingOtp) {
+    submitButtonText = "Sending OTP...";
+    showSpinnerInSubmit = true;
+  } else if (isSigningUp) {
+    submitButtonText = "Processing...";
+    showSpinnerInSubmit = true;
+  } else if (formData.phone && isValidPhoneNumber(formData.phone)) {
+    if (otpSentForRegistration) {
+      submitButtonText = "Verify OTP & Sign Up";
+    } else {
+      submitButtonText = "Send OTP & Continue";
+    }
+  }
+
+  const isSubmitDisabled =
+    overallLoading ||
+    (otpSentForRegistration &&
+      formData.phone &&
+      isValidPhoneNumber(formData.phone) &&
+      (!formData.otp || formData.otp.length < 4));
+
   return (
-    <section className="registrationform-section">
-      <div className="registration-container">
-        <div className="registration-wrapper">
-          <div className="registration-heading">
-            <h1>Create Account</h1>
+    <>
+      <section className="registration-page-section">
+        <div className="registration-card-container">
+          <div className="registration-form-heading">
+            <h1>Create Your Account</h1>
             <p>
               Already have an account?{" "}
-              <Link to="/login" className="link-style">
-                Login here
+              <Link to="/login" className="form-link">
+                Sign In
               </Link>
             </p>
           </div>
+          <form
+            onSubmit={handleSubmit}
+            className="registration-main-form"
+            noValidate
+          >
+            <div className="registration-input-group">
+              <label htmlFor="username">Username</label>
+              <input
+                type="text"
+                id="username"
+                name="username"
+                value={formData.username}
+                onChange={handleUsernameChange}
+                required
+                disabled={overallLoading}
+                placeholder="Lowercase letters & numbers (e.g., user123)"
+                title="Username can only contain lowercase letters (a-z) and numbers (0-9)."
+                pattern="^[a-z0-9]+$"
+                autoComplete="username"
+              />
+            </div>
+            <div className="registration-input-group">
+              <label htmlFor="email">Email Address</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+                disabled={overallLoading}
+                placeholder="you@example.com"
+                autoComplete="email"
+              />
+            </div>
+            <div className="registration-input-group">
+              <label htmlFor="password">Create Password</label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+                minLength="8"
+                disabled={overallLoading}
+                placeholder="Minimum 8 characters"
+                autoComplete="new-password"
+              />
+            </div>
+            <div className="registration-input-group">
+              <label htmlFor="confirmPassword">Confirm Password</label>
+              <input
+                type="password"
+                id="confirmPassword"
+                name="confirmPassword"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                required
+                disabled={overallLoading}
+                placeholder="Re-type password"
+                autoComplete="new-password"
+              />
+            </div>
+            <div className="registration-input-group">
+              <label htmlFor="dob">Date of Birth (Optional)</label>
+              <input
+                type="date"
+                id="dob"
+                name="dob"
+                value={formData.dob}
+                onChange={handleChange}
+                disabled={overallLoading}
+                max={new Date().toISOString().split("T")[0]} // Prevent future dates
+              />
+            </div>
+            <div className="registration-input-group">
+              <label htmlFor="phone">
+                Phone Number (Optional, for verification)
+              </label>
+              <PhoneInput
+                id="phone"
+                placeholder="+91 Enter phone number"
+                value={formData.phone}
+                onChange={handlePhoneChange}
+                defaultCountry="IN"
+                international
+                countryCallingCodeEditable={false} // Usually good practice
+                disabled={overallLoading}
+                className="PhoneInput"
+              />
+            </div>
 
-          {/* --- Step 1 Form: Details --- */}
-          {step === 1 && (
-            <form
-              onSubmit={handleSendOtp}
-              className="registration-form-element"
+            {/* OTP Section - appears when OTP is sent */}
+            <div
+              className={`registration-otp-section ${
+                otpSentForRegistration &&
+                formData.phone &&
+                isValidPhoneNumber(formData.phone)
+                  ? "visible"
+                  : ""
+              }`}
             >
-              {/* Username */}
-              <div className="input-group">
-                <label htmlFor="regUsername">Username*</label>
+              {otpVerificationMessage && (
+                <div className="registration-otp-info-box">
+                  {otpVerificationMessage}
+                </div>
+              )}
+              <div className="registration-input-group">
+                <label htmlFor="otp">One-Time Password (OTP)</label>
                 <input
-                  id="regUsername"
+                  ref={otpInputRef}
                   type="text"
-                  name="username"
-                  value={formData.username}
-                  onChange={handleInputChange}
-                  required
-                  minLength="3"
-                  disabled={isSendingOtp}
-                  placeholder="Choose a unique username"
-                />
-              </div>
-              {/* Email */}
-              <div className="input-group">
-                <label htmlFor="regEmail">Email*</label>
-                <input
-                  id="regEmail"
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  required
-                  disabled={isSendingOtp}
-                  placeholder="your.email@example.com"
-                />
-              </div>
-              {/* Password */}
-              <div className="input-group">
-                <label htmlFor="regPassword">
-                  Password* (min 8 characters)
-                </label>
-                <input
-                  id="regPassword"
-                  type="password"
-                  name="password"
-                  value={formData.password}
-                  onChange={handleInputChange}
-                  required
-                  minLength="8"
-                  disabled={isSendingOtp}
-                  placeholder="Create a strong password"
-                />
-              </div>
-              {/* Confirm Password */}
-              <div className="input-group">
-                <label htmlFor="regConfirmPassword">Confirm Password*</label>
-                <input
-                  id="regConfirmPassword"
-                  type="password"
-                  name="confirmPassword"
-                  value={formData.confirmPassword}
-                  onChange={handleInputChange}
-                  required
-                  minLength="8"
-                  disabled={isSendingOtp}
-                  placeholder="Retype your password"
-                />
-              </div>
-              {/* Phone Number */}
-              <div className="input-group">
-                <label htmlFor="regPhone">Phone Number* (for OTP)</label>
-                <input
-                  id="regPhone"
-                  type="tel"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleInputChange}
-                  placeholder="+911234567890"
-                  required
-                  disabled={isSendingOtp}
-                />
-              </div>
-              {/* Date of Birth */}
-              <div className="input-group">
-                <label htmlFor="regDob">Date of Birth (Optional)</label>
-                <input
-                  id="regDob"
-                  type="date"
-                  name="dob"
-                  value={formData.dob}
-                  onChange={handleInputChange}
-                  disabled={isSendingOtp}
-                  max={new Date().toISOString().split("T")[0]} // Prevent future dates
-                />
-              </div>
-
-              <button
-                type="submit"
-                className="btn-send-otp"
-                disabled={isSendingOtp}
-              >
-                {isSendingOtp ? "Processing..." : "Send OTP & Continue"}
-              </button>
-            </form>
-          )}
-
-          {/* --- Step 2 Form: OTP Verification --- */}
-          {step === 2 && (
-            <form
-              onSubmit={handleRegister}
-              className="registration-form-element"
-            >
-              <p className="otp-info">
-                An OTP has been sent to <strong>{formData.phone}</strong>.
-                Please enter it below. It might take a moment to arrive.
-              </p>
-              {/* OTP Input */}
-              <div className="input-group">
-                <label htmlFor="regOtp">Enter OTP*</label>
-                <input
-                  id="regOtp"
-                  type="number"
-                  name="otp" // Use number for better mobile input
-                  value={otp}
-                  onChange={(e) => setOtp(e.target.value)}
-                  required
+                  inputMode="numeric"
+                  pattern="\d{4,6}"
+                  id="otp"
+                  name="otp"
+                  value={formData.otp}
+                  onChange={(e) => {
+                    if (/^\d{0,6}$/.test(e.target.value)) {
+                      setFormData({ ...formData, otp: e.target.value });
+                    }
+                  }}
+                  required={otpSentForRegistration} // Required only if OTP was sent
+                  title="Enter 4-6 digit OTP"
                   maxLength="6"
-                  minLength="4"
-                  disabled={isSigningUp}
-                  placeholder="Enter 4-6 digit OTP"
-                  inputMode="numeric" // Hint for mobile keyboards
-                  pattern="\d*" // Allow only digits visually
+                  disabled={overallLoading}
+                  placeholder="Enter OTP"
+                  autoComplete="one-time-code"
+                  className="registration-otp-input-field"
                 />
               </div>
-              <button
-                type="submit"
-                className="btn-register"
-                disabled={isSigningUp}
-              >
-                {isSigningUp ? "Registering..." : "Verify OTP & Register"}
-              </button>
-              {/* Back button allows user to correct details if needed */}
               <button
                 type="button"
-                onClick={() => setStep(1)}
-                className="btn-back"
-                disabled={isSigningUp}
+                onClick={handleSendOtpForRegistrationForm}
+                className="registration-btn registration-btn-link registration-resend-otp-btn"
+                disabled={overallLoading}
               >
-                Go Back & Edit Details
+                {isSendingOtp ? (
+                  <>
+                    <FontAwesomeIcon
+                      icon={faSpinner}
+                      spin
+                      style={{ marginRight: "8px" }}
+                    />
+                    Sending...
+                  </>
+                ) : (
+                  "Resend OTP"
+                )}
               </button>
-            </form>
-          )}
+            </div>
 
-          {/* Terms and Conditions Link */}
-          <p className="terms-info">
-            By signing up you agree to our{" "}
-            <Link
-              to="/terms-and-conditions"
-              className="link-style"
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              type="submit"
+              className="registration-btn registration-btn-submit"
+              disabled={isSubmitDisabled}
             >
-              Terms & Conditions
-            </Link>
-          </p>
+              {showSpinnerInSubmit && (
+                <FontAwesomeIcon
+                  icon={faSpinner}
+                  spin
+                  style={{ marginRight: "8px" }}
+                />
+              )}
+              {submitButtonText}
+            </button>
+
+            {/* The divider and the Google signup button are removed */}
+            {/* <div className="registration-divider">
+              <span>Or sign up with</span>
+            </div>
+
+            <button
+              type="button"
+              className="registration-btn registration-btn-social registration-btn-google"
+              onClick={handleGoogleSignup}
+              disabled={overallLoading}
+            >
+              <FontAwesomeIcon icon={faGoogle} className="social-icon" />
+              Sign up with Google
+            </button> */}
+
+            <div className="registration-terms-info">
+              By clicking Sign Up, you agree to our{" "}
+              <Link
+                to="/terms-and-conditions"
+                className="registration-text-link"
+              >
+                Terms of Service
+              </Link>{" "}
+              and{" "}
+              <Link to="/privacy-policy" className="registration-text-link">
+                Privacy Policy
+              </Link>
+              .
+            </div>
+          </form>
         </div>
-      </div>
-    </section>
+      </section>
+
+      <PhoneVerificationModal
+        isOpen={isPhoneModalOpen}
+        onClose={() => setIsPhoneModalOpen(false)}
+        onVerified={handlePhoneVerifiedInModal}
+        initialPhone={user?.phone || ""}
+      />
+    </>
   );
 };
 
-export default RegistrationForm;
+export default Registrationform;

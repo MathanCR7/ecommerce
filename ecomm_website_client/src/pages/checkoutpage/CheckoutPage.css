@@ -1,0 +1,602 @@
+/* frontend/src/pages/checkoutpage/CheckoutPage.css */
+
+.checkout-page-main-wrapper {
+    padding: 20px 0;
+    background-color: #f8f9fa;
+    min-height: calc(100vh - 160px);
+    /* Adjust based on header/footer height */
+}
+
+.checkout-page-main-wrapper.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.checkout-page-main-wrapper h1 {
+    font-size: 28px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 25px;
+    text-align: center;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 15px;
+}
+
+.checkout-layout {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+.checkout-left-column {
+    flex: 2;
+    /* Takes more space */
+    min-width: 300px;
+}
+
+.checkout-right-column {
+    flex: 1;
+    min-width: 300px;
+    position: sticky;
+    top: 20px;
+    /* For sticky behavior if page scrolls */
+    align-self: flex-start;
+    /* Important for sticky */
+}
+
+.checkout-section {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 25px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.checkout-section h2 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #343a40;
+    margin-top: 0;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.section-header h2 {
+    margin-bottom: 0;
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.btn-add-address-checkout {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #007bff;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+}
+
+.btn-add-address-checkout:hover {
+    background-color: #0056b3;
+}
+
+.btn-add-address-checkout svg {
+    font-size: 16px;
+}
+
+/* Delivery Address Section */
+.address-list-checkout {
+    max-height: 400px;
+    /* Scroll if many addresses */
+    overflow-y: auto;
+    padding-right: 10px;
+    /* For scrollbar */
+}
+
+.address-item-selectable {
+    margin-bottom: 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.address-item-selectable:hover {
+    border-color: #007bff;
+}
+
+.address-item-selectable.selected {
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.address-item-selectable .address-card {
+    /* Target AddressCard inside */
+    box-shadow: none;
+    /* Remove AddressCard's default shadow */
+    border: none;
+    margin-bottom: 0;
+    background-color: transparent;
+    /* Ensure it doesn't hide parent border */
+}
+
+.address-radio-input {
+    /* Hide actual radio, use label */
+    display: none;
+}
+
+.address-radio-label {
+    display: block;
+    width: 100%;
+    cursor: pointer;
+    padding: 10px;
+    /* Add padding for easier clicking */
+}
+
+.no-address-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    text-align: center;
+    color: #6c757d;
+    border: 2px dashed #e0e0e0;
+    border-radius: 6px;
+}
+
+.no-address-info svg {
+    font-size: 32px;
+    margin-bottom: 10px;
+    color: #adb5bd;
+}
+
+/* --- Radio Button Group Styling --- */
+.radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.radio-group.horizontal {
+    flex-direction: row;
+    flex-wrap: wrap;
+    /* Allow wrapping on small screens */
+    gap: 10px;
+    /* Gap between items */
+}
+
+
+.radio-option {
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+    font-size: 15px;
+    background-color: #fcfcfc;
+    /* Slightly different background */
+}
+
+.radio-option input[type="radio"] {
+    margin-right: 10px;
+    opacity: 0;
+    /* Hide default radio */
+    width: 0;
+    height: 0;
+}
+
+/* Custom Radio Indicator */
+.radio-custom-indicator {
+    flex-shrink: 0;
+    /* Prevent shrinking */
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 2px solid #adb5bd;
+    margin-right: 12px;
+    position: relative;
+    transition: border-color 0.2s ease;
+    box-sizing: border-box;
+    /* Include border in size */
+}
+
+.radio-option input[type="radio"]:checked+.radio-custom-indicator {
+    border-color: #007bff;
+    /* Primary color */
+}
+
+.radio-option input[type="radio"]:checked+.radio-custom-indicator::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #007bff;
+    /* Primary color dot */
+    transition: background-color 0.2s ease;
+}
+
+.radio-option:hover:not(.selected) {
+    border-color: #ced4da;
+}
+
+.radio-option.selected {
+    border-color: #007bff;
+    /* Primary color border for selected */
+    background-color: #e9f5ff;
+    /* Light background for selected */
+    box-shadow: 0 0 0 1px rgba(0, 123, 255, 0.15);
+}
+
+.radio-option input[type="radio"]:disabled+.radio-custom-indicator+span,
+.radio-option input[type="radio"]:disabled~* {
+    color: #adb5bd;
+    cursor: not-allowed;
+}
+
+.radio-option input[type="radio"]:disabled+.radio-custom-indicator {
+    border-color: #ced4da;
+}
+
+/* Specific styles for horizontal options like dates/time slots */
+.radio-group.horizontal .radio-option {
+    padding: 8px 12px;
+    /* Smaller padding */
+    font-size: 14px;
+}
+
+.radio-group.horizontal .radio-custom-indicator {
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+}
+
+.radio-group.horizontal .radio-option input[type="radio"]:checked+.radio-custom-indicator::after {
+    width: 8px;
+    height: 8px;
+}
+
+.date-option {
+    min-width: 100px;
+    justify-content: center;
+}
+
+/* Center date labels */
+.time-slot-option {
+    white-space: nowrap;
+}
+
+/* Prevent time slots from wrapping */
+
+/* Delivery Preference Section */
+.delivery-preference-section h3 {
+    font-size: 16px;
+    font-weight: 500;
+    color: #555;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    padding-top: 10px;
+    border-top: 1px dashed #eee;
+}
+
+.scheduled-options {
+    margin-top: 15px;
+}
+
+.quick-delivery-info {
+    margin-top: 15px;
+    padding: 10px;
+    background-color: #e9f5ff;
+    border: 1px solid #b8daff;
+    border-radius: 5px;
+    color: #004085;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.quick-delivery-info svg {
+    color: #007bff;
+}
+
+/* Store Location Section */
+.store-location-section .store-address-display {
+    display: flex;
+    align-items: flex-start;
+    /* Align items to the top */
+    gap: 15px;
+    padding: 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    background-color: #fcfcfc;
+    margin-bottom: 15px; /* Space before the map */
+}
+
+.store-location-section .store-icon {
+    flex-shrink: 0;
+    font-size: 36px;
+    color: #28a745;
+    /* Green icon color */
+    margin-top: 5px;
+}
+
+.store-location-section .address-details {
+    flex-grow: 1;
+    font-size: 15px;
+    color: #495057;
+}
+
+.store-location-section .address-details h3 {
+    margin-top: 0;
+    margin-bottom: 5px;
+    font-size: 17px;
+    font-weight: 600;
+    color: #343a40;
+    border-bottom: none;
+    /* Remove h2 style border */
+    padding-bottom: 0;
+}
+
+.store-location-section .address-details p {
+    margin-bottom: 4px;
+    line-height: 1.4;
+}
+
+.store-location-section .address-details p:last-child {
+    margin-bottom: 0;
+}
+
+.store-location-section .address-details .contact-info {
+    margin-top: 10px;
+    padding-top: 8px;
+    border-top: 1px dashed #eee;
+    color: #007bff;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Gap between text and icon */
+}
+
+.store-location-section .address-details .contact-info svg {
+    color: #007bff;
+}
+
+/* Style for the map embed container */
+.store-map-embed {
+    width: 100%;
+    overflow: hidden; /* Ensures iframe doesn't overflow container */
+    border-radius: 6px; /* Match section border radius */
+}
+.store-map-embed iframe {
+    display: block; /* Remove extra space below iframe */
+}
+
+
+/* Delivery Note */
+.delivery-note-section textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    font-size: 14px;
+    resize: vertical;
+    min-height: 60px;
+    box-sizing: border-box;
+    /* Include padding/border in element's total width */
+}
+
+/* Cost Summary */
+.cost-summary-checkout .cost-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 15px;
+    color: #495057;
+}
+
+.cost-summary-checkout .cost-row.discount span:last-child {
+    color: #28a745;
+    /* Green for discount */
+}
+
+.cost-summary-checkout .cost-row strong {
+    /* Apply bold to all strong tags */
+    font-weight: 600;
+}
+
+.cost-summary-checkout .cost-row.total strong {
+    font-size: 18px;
+    color: #212529;
+}
+
+.cost-summary-checkout .cost-divider {
+    margin: 15px 0;
+    border: 0;
+    border-top: 1px solid #e0e0e0;
+}
+
+
+/* Place Order Button */
+.btn-place-order {
+    width: 100%;
+    padding: 12px;
+    background-color: #28a745;
+    /* Green color from image */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    position: relative;
+    /* For loading spinner */
+}
+
+.btn-place-order:hover:not(:disabled) {
+    background-color: #218838;
+}
+
+.btn-place-order:disabled {
+    background-color: #a3d7b0;
+    cursor: not-allowed;
+}
+
+
+.warning-text {
+    color: #dc3545;
+    /* Red */
+    font-size: 14px;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.warning-text svg {
+    flex-shrink: 0;
+}
+
+
+/* Loading Spinner Full Page */
+.loading-full-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 70vh;
+    font-size: 1.5rem;
+    color: #007bff;
+    /* Or theme color */
+}
+
+.loading-full-page .fa-spin {
+    margin-right: 10px;
+    font-size: 2rem;
+}
+
+
+/* Responsive adjustments */
+@media (max-width: 991px) {
+    .checkout-layout {
+        flex-direction: column;
+    }
+
+    .checkout-right-column {
+        position: static;
+        /* Remove sticky on smaller screens */
+    }
+
+    .radio-group.horizontal {
+        flex-direction: column;
+        /* Stack horizontal options on smaller screens */
+    }
+}
+
+@media (max-width: 768px) {
+    .checkout-page-main-wrapper h1 {
+        font-size: 24px;
+    }
+
+    .checkout-section {
+        padding: 15px;
+    }
+
+    .btn-add-address-checkout {
+        padding: 6px 10px;
+        font-size: 13px;
+    }
+
+    .btn-add-address-checkout svg {
+        font-size: 14px;
+    }
+
+    .radio-option {
+        padding: 10px 12px;
+        font-size: 14px;
+    }
+
+    .radio-custom-indicator {
+        width: 16px;
+        height: 16px;
+        margin-right: 10px;
+    }
+
+    .radio-option input[type="radio"]:checked+.radio-custom-indicator::after {
+        width: 8px;
+        height: 8px;
+    }
+
+    .radio-group.horizontal .radio-option {
+        padding: 8px 10px;
+        /* Smaller padding */
+        font-size: 13px;
+    }
+
+    .radio-group.horizontal .radio-custom-indicator {
+        width: 14px;
+        height: 14px;
+        margin-right: 6px;
+    }
+
+    .radio-group.horizontal .radio-option input[type="radio"]:checked+.radio-custom-indicator::after {
+        width: 7px;
+        height: 7px;
+    }
+
+    .cost-summary-checkout .cost-row {
+        font-size: 14px;
+    }
+
+    .cost-summary-checkout .cost-row.total strong {
+        font-size: 16px;
+    }
+
+    .btn-place-order {
+        font-size: 15px;
+        padding: 10px;
+    }
+
+    .store-location-section .store-icon {
+        font-size: 28px; /* Adjust icon size */
+    }
+    .store-location-section .address-details h3 {
+        font-size: 16px; /* Adjust heading size */
+    }
+    .store-location-section .address-details p,
+    .store-location-section .address-details .contact-info {
+         font-size: 13px; /* Adjust text size */
+    }
+    .store-location-section .address-details .contact-info svg {
+        font-size: 13px;
+    }
+     .store-map-embed iframe {
+        height: 200px; /* Adjust map height on smaller screens */
+     }
+}

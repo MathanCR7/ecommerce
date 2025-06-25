@@ -1,33 +1,33 @@
+// ecomm_website_client/src/components/Header/Navbar.jsx
 import React, { useState, useEffect } from "react";
-import { Link, NavLink } from "react-router-dom"; // Use NavLink for active styling
+import { Link, NavLink, useLocation } from "react-router-dom";
 
 const Navbar = () => {
   const [mobileMenu, setMobileMenu] = useState(false);
+  const location = useLocation();
 
-  // Effect to handle body scroll lock
   useEffect(() => {
     if (mobileMenu) {
       document.body.classList.add("no-scroll");
     } else {
       document.body.classList.remove("no-scroll");
     }
-    // Cleanup
     return () => {
       document.body.classList.remove("no-scroll");
     };
   }, [mobileMenu]);
 
-  // Function to close menu, can be passed to links
   const closeMobileMenu = () => setMobileMenu(false);
+
+  const isCategoriesLinkActive = (isActiveDefault) => {
+    return isActiveDefault || location.pathname.startsWith("/category");
+  };
 
   return (
     <>
-      {/* Wrapper for Navbar styling */}
       <nav className="navbar-wrapper">
         <div className="container">
-          {/* menu-items pushes content to the right */}
           <div className="menu-items">
-            {/* Desktop Navigation Links - Hidden on mobile via CSS */}
             <ul className="nav-links-desktop">
               <li>
                 <NavLink
@@ -40,67 +40,61 @@ const Navbar = () => {
                 </NavLink>
               </li>
               <li>
-                {/* Assuming '/categories' is the route for the category page */}
                 <NavLink
                   aria-label="Categories"
                   to="/categories"
-                  className={({ isActive }) => (isActive ? "active-link" : "")}
+                  className={({ isActive }) =>
+                    isCategoriesLinkActive(isActive) ? "active-link" : ""
+                  }
                 >
                   Categories
                 </NavLink>
               </li>
               <li>
                 <NavLink
-                  aria-label="All Products"
-                  to="/all-products"
+                  aria-label="All Items"
+                  to="/all-items"
                   className={({ isActive }) => (isActive ? "active-link" : "")}
                 >
-                  All Products
+                  All Items
                 </NavLink>
               </li>
               <li>
                 <NavLink
                   aria-label="Wishlist"
-                  to="/wishlist"
+                  to="/wishlist" // ⭐ NEW LINK
                   className={({ isActive }) => (isActive ? "active-link" : "")}
                 >
                   Wishlist
                 </NavLink>
               </li>
               <li>
-                
                 <NavLink
-                  aria-label="Top Liked Products"
-                  to="/top-liked"
+                  aria-label="Top Liked Items"
+                  to="/top-liked-items" // ⭐ NEW LINK
                   className={({ isActive }) => (isActive ? "active-link" : "")}
                 >
-                  Top Liked
+                  Top Liked Items
                 </NavLink>
               </li>
             </ul>
 
-            {/* Mobile Menu Toggle Button - Hidden on desktop via CSS */}
             <button
               aria-label="Toggle Menu"
               aria-expanded={mobileMenu}
               className="mobile-toggle"
               onClick={() => setMobileMenu(!mobileMenu)}
             >
-              {/* Icon changes based on state */}
               <i className={mobileMenu ? "fas fa-times" : "fa fa-bars"}></i>
             </button>
-          </div>{" "}
-          {/* End menu-items */}
-        </div>{" "}
-        {/* End container */}
+          </div>
+        </div>
       </nav>
 
-      {/* Mobile Menu Links Panel (Controlled by state and CSS transform) */}
       <ul
         className={`nav-links-MobileMenu ${mobileMenu ? "active-menu" : ""}`}
-        aria-hidden={!mobileMenu} // Accessibility: hide when not visible
+        aria-hidden={!mobileMenu}
       >
-        {/* Close Button INSIDE Mobile Menu */}
         <button
           aria-label="Close Menu"
           className="mobile-menu-close"
@@ -109,7 +103,6 @@ const Navbar = () => {
           <i className="fas fa-times"></i>
         </button>
 
-        {/* Links inside mobile menu - Order matches desktop */}
         <li>
           <NavLink
             aria-label="Home"
@@ -126,25 +119,27 @@ const Navbar = () => {
             aria-label="Categories"
             to="/categories"
             onClick={closeMobileMenu}
-            className={({ isActive }) => (isActive ? "active" : "")}
+            className={({ isActive }) =>
+              isCategoriesLinkActive(isActive) ? "active" : ""
+            }
           >
             Categories
           </NavLink>
         </li>
         <li>
           <NavLink
-            aria-label="All Products"
-            to="/all-products"
+            aria-label="All Items"
+            to="/all-items"
             onClick={closeMobileMenu}
             className={({ isActive }) => (isActive ? "active" : "")}
           >
-            All Products
+            All Items
           </NavLink>
         </li>
         <li>
           <NavLink
             aria-label="Wishlist"
-            to="/wishlist"
+            to="/wishlist" // ⭐ NEW LINK
             onClick={closeMobileMenu}
             className={({ isActive }) => (isActive ? "active" : "")}
           >
@@ -153,12 +148,12 @@ const Navbar = () => {
         </li>
         <li>
           <NavLink
-            aria-label="Top Liked Products"
-            to="/top-liked"
+            aria-label="Top Liked Items"
+            to="/top-liked-items" // ⭐ NEW LINK
             onClick={closeMobileMenu}
             className={({ isActive }) => (isActive ? "active" : "")}
           >
-            Top Liked
+            Top Liked Items
           </NavLink>
         </li>
       </ul>

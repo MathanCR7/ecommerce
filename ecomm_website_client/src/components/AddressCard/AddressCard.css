@@ -1,0 +1,208 @@
+/* frontend/src/components/AddressCard/AddressCard.css */
+.address-card {
+    background-color: #ffffff;
+    border: 1px solid #e3e9f0; /* Lighter border */
+    border-radius: 10px; /* Softer radius */
+    padding: 0; /* Padding will be on content */
+    margin-bottom: 25px;
+    box-shadow: 0 4px 15px rgba(0, 70, 150, 0.06); /* Subtle, bluish shadow */
+    transition: all 0.3s ease-in-out;
+    position: relative;
+    overflow: hidden; /* For default banner */
+  }
+
+  .address-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 7px 25px rgba(0, 70, 150, 0.09);
+  }
+
+  .default-address-card {
+    border-left: 5px solid #007bff; /* Prominent default indicator */
+    /* background-color: #f0f8ff; Light blue tint for default */
+  }
+
+  .default-banner {
+    background-color: #007bff;
+    color: white;
+    padding: 6px 15px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    position: absolute;
+    top: 15px;
+    right: -45px; /* Start off-screen */
+    transform: rotate(45deg);
+    transform-origin: top left;
+    width: 160px; /* Adjust width as needed */
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    line-height: 1.3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    /* Adjust positioning to look like a corner banner */
+    /* This specific banner style might need more tweaking to look perfect */
+  }
+  /* Removed empty ruleset for .default-address-card .default-banner */
+
+
+  .address-card-content {
+    padding: 20px 25px;
+  }
+
+  .address-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+    padding-bottom: 15px;
+    border-bottom: 1px dashed #dde3ea; /* Lighter dashed border */
+  }
+
+  .address-label {
+    margin: 0;
+    font-size: 1.25rem; /* Larger label */
+    color: #343a40; /* Dark grey for label */
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .label-icon {
+    font-size: 1.3em; /* Relative to h4 font-size */
+    opacity: 0.8;
+  }
+  .label-icon.home { color: #28a745; /* Green for home */ }
+  .label-icon.work { color: #17a2b8; /* Teal for work */ }
+  .label-icon.other { color: #fd7e14; /* Orange for other */ }
+
+
+  .address-card-actions {
+    display: flex;
+    gap: 12px;
+  }
+
+  .action-button {
+    background: none;
+    border: 1px solid transparent; /* Transparent border for consistent sizing */
+    cursor: pointer;
+    padding: 6px 10px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #545b62; /* Medium grey */
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border-radius: 5px;
+    transition: all 0.2s ease;
+  }
+  .action-button svg {
+    font-size: 0.95rem;
+  }
+
+  .action-button.edit-button:hover {
+    color: #007bff;
+    background-color: rgba(0, 123, 255, 0.07);
+    border-color: rgba(0, 123, 255, 0.2);
+  }
+
+  .action-button.delete-button:hover {
+    color: #dc3545;
+    background-color: rgba(220, 53, 69, 0.07);
+    border-color: rgba(220, 53, 69, 0.2);
+  }
+
+  .address-card-body p {
+    margin: 6px 0;
+    font-size: 0.95rem;
+    color: #495057; /* Softer text color */
+    line-height: 1.6;
+  }
+
+  .address-card-body .contact-name {
+    font-weight: 600; /* Bolder name */
+    color: #212529; /* Darker name */
+    font-size: 1.05rem;
+    margin-bottom: 8px;
+  }
+
+  .address-card-body .contact-number {
+    font-style: normal;
+    color: #5f6773;
+    margin-bottom: 12px;
+  }
+
+  .address-details {
+    display: flex;
+    align-items: flex-start; /* Align icon to top of text */
+    gap: 8px;
+    margin-top: 10px;
+  }
+  .address-pin-icon {
+    color: #007bff;
+    font-size: 1.1rem;
+    margin-top: 3px; /* Align with first line of text */
+    flex-shrink: 0;
+  }
+  .address-details p {
+    margin: 0;
+  }
+
+  .city-postal, .country-name {
+    color: #6c757d; /* Lighter grey for less prominent details */
+    font-size: 0.9rem;
+  }
+
+  .set-default-button.stylish-button.secondary {
+    background-color: #f0f2f5; /* Very light grey for less emphasis */
+    color: #007bff; /* Blue text */
+    border: 1px solid #c2d9f3; /* Light blue border */
+    padding: 8px 18px; /* Adjust padding */
+    font-size: 0.9rem;
+    margin-top: 20px;
+    width: 100%; /* Make it full width within its container */
+    justify-content: center;
+    box-shadow: none;
+  }
+
+  .set-default-button.stylish-button.secondary:hover {
+    background-color: #e2e8f0;
+    border-color: #007bff;
+    color: #0056b3;
+    transform: translateY(0); /* No lift for this one, or very subtle */
+    box-shadow: 0 1px 3px rgba(0,123,255,0.1);
+  }
+
+  /* Responsive adjustments for Address Card */
+  @media (max-width: 576px) {
+    .address-card-content {
+      padding: 15px 20px;
+    }
+    .address-label {
+      font-size: 1.1rem;
+    }
+    .address-card-actions {
+      flex-direction: column; /* Stack actions on very small screens */
+      align-items: flex-end; /* Align to right */
+      gap: 8px;
+    }
+    .action-button {
+      padding: 5px 8px;
+      font-size: 0.8rem;
+    }
+    .action-button span { /* Hide text on very small screens, show only icon */
+      display: none;
+    }
+    .set-default-button.stylish-button.secondary {
+      padding: 10px 15px;
+      font-size: 0.85rem;
+    }
+    .default-banner {
+      font-size: 0.7rem;
+      padding: 4px 10px;
+      top: 10px;
+      right: -50px;
+      width: 140px;
+    }
+  }

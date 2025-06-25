@@ -1,0 +1,483 @@
+/* ========================================================================
+// FILE: client/src/Pages/Admin/Orders/OrderStatusListPage.css
+// Description: Common styling for admin order list pages (Pending, Confirmed, etc.).
+// Based on PendingOrdersPage.css / AllOrdersPage.css structure.
+// ======================================================================== */
+
+/* --- Root Variables (Copied from AllOrdersPage.css for consistency) --- */
+:root {
+    --primary-blue: #007bff;
+    --secondary-grey: #f1f5f9; /* Lighter grey for clear buttons */
+    --text-dark: #2d3a4b;
+    --text-medium: #555;
+    --text-light: #6b7280;
+    --background-light: #f8fafd;
+    --card-background: #ffffff;
+    --border-color: #d1d5db; /* Consistent border color */
+    --shadow-subtle: 0 2px 4px rgba(0, 0, 0, 0.08);
+    --radius-small: 4px;
+    --radius-medium: 8px;
+    --radius-pill: 16px;
+    --transition-speed: 0.2s;
+    --spacing-unit: 1rem;
+}
+
+/* --- Base Styles --- */
+.order-list-page-container { /* Generic container class */
+    padding: calc(var(--spacing-unit) * 1.5) calc(var(--spacing-unit) * 2);
+    background-color: var(--background-light);
+    min-height: 100vh;
+    font-family: 'Inter', sans-serif; /* Modern font */
+    color: var(--text-medium);
+    line-height: 1.6;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-unit); /* Consistent gap between sections */
+}
+
+/* --- Page Header --- */
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: var(--spacing-unit);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.page-header h2 {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.page-header .order-count {
+    background-color: var(--primary-blue);
+    color: white;
+    padding: 4px 10px;
+    border-radius: var(--radius-pill);
+    font-size: 0.8em;
+    font-weight: 500;
+}
+
+/* --- Filter Section Card --- */
+.filter-section-card {
+    background-color: var(--card-background);
+    padding: var(--spacing-unit);
+    border-radius: var(--radius-medium);
+    box-shadow: var(--shadow-subtle);
+    border: 1px solid #eee; /* Subtle border */
+}
+
+.filter-card-header {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-medium);
+    margin-bottom: calc(var(--spacing-unit) * 0.75);
+    padding-bottom: calc(var(--spacing-unit) * 0.5);
+    border-bottom: 1px solid #eee; /* Separator line */
+}
+
+.filters-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-unit);
+    align-items: flex-end; /* Align items to bottom, useful for button */
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column; /* For potential labels above inputs */
+    position: relative; /* For icon positioning */
+    flex-grow: 1; /* Allow groups to take space */
+    min-width: 180px; /* Minimum width for date/select inputs */
+}
+
+.filter-group input[type="date"],
+.filter-group select {
+    padding: 10px 12px;
+    padding-right: 30px; /* Space for icon */
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-small);
+    font-size: 14px;
+    color: var(--text-dark);
+    background-color: var(--card-background);
+    height: 40px; /* Consistent height */
+    box-sizing: border-box;
+    width: 100%;
+    transition: border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+}
+.filter-group input[type="date"]:focus,
+.filter-group select:focus {
+    outline: none;
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.15); /* Softer focus ring */
+}
+.filter-group input[type="date"]::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    opacity: 0.7;
+}
+.filter-group input[type="date"]::-webkit-calendar-picker-indicator:hover {
+    opacity: 1;
+}
+
+.input-icon { /* For icons inside date inputs */
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-light);
+    pointer-events: none;
+}
+
+/* --- Search and Actions Row Card --- */
+.search-actions-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--spacing-unit);
+    flex-wrap: wrap;
+    background-color: var(--card-background);
+    padding: var(--spacing-unit);
+    border-radius: var(--radius-medium);
+    box-shadow: var(--shadow-subtle);
+    border: 1px solid #eee; /* Subtle border */
+}
+
+.search-form {
+    flex-grow: 1;
+    display: flex;
+}
+
+.search-input-group {
+    display: flex;
+    width: 100%; /* Take full width of form */
+    max-width: 450px; /* Max width for search bar */
+}
+
+.search-input-group input[type="text"] {
+    padding: 10px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-small) 0 0 var(--radius-small); /* Rounded left corners */
+    font-size: 14px;
+    color: var(--text-dark);
+    flex-grow: 1;
+    height: 40px;
+    box-sizing: border-box;
+    border-right: none; /* Merge with button */
+    transition: border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+}
+.search-input-group input[type="text"]:focus {
+    outline: none;
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.15);
+    z-index: 1;
+}
+
+/* General Button Styles */
+.btn {
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: var(--radius-small);
+    cursor: pointer;
+    transition: background-color var(--transition-speed) ease, opacity var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+    border: none;
+    height: 40px;
+    box-sizing: border-box;
+    display: inline-flex; /* Use inline-flex for better icon alignment */
+    align-items: center;
+    justify-content: center;
+    gap: 8px; /* Space between icon and text */
+    min-width: 100px; /* Minimum width for buttons */
+    text-decoration: none; /* For Link components styled as buttons */
+}
+
+.btn-primary {
+    background-color: var(--primary-blue);
+    color: white;
+    box-shadow: var(--shadow-subtle);
+}
+.btn-primary:hover:not(:disabled) {
+    background-color: #0056b3; /* Darker blue on hover */
+    box-shadow: 0 3px 6px rgba(0, 123, 255, 0.3);
+}
+.btn-primary:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    background-color: #a0c6f1; /* Lighter blue when disabled */
+    box-shadow: none;
+}
+
+.btn-search { /* Specific style for search button part of input group */
+    background-color: var(--primary-blue);
+    color: white;
+    border: 1px solid var(--primary-blue); /* Ensure border matches input */
+    border-radius: 0 var(--radius-small) var(--radius-small) 0; /* Rounded right corners */
+    padding: 0 15px; /* Adjust padding */
+}
+.btn-search:hover:not(:disabled) {
+    background-color: #0056b3;
+}
+
+
+.btn-secondary {
+    background-color: var(--secondary-grey);
+    color: #4b5563; /* Darker text for better contrast */
+    border: 1px solid #d1d5db; /* Add border for definition */
+}
+.btn-secondary:hover:not(:disabled) {
+    background-color: #e2e8f0; /* Slightly darker grey on hover */
+    box-shadow: var(--shadow-subtle);
+}
+
+.export-button-container { /* For export button alignment if needed */
+    position: relative;
+}
+.btn-export {
+    background-color: #17a2b8; /* Teal/Info color for export */
+    color: white;
+    padding: 10px 15px; /* Adjust padding if needed */
+    box-shadow: var(--shadow-subtle);
+}
+.btn-export:hover:not(:disabled) {
+    background-color: #138496; /* Darker teal on hover */
+    box-shadow: 0 3px 6px rgba(23, 162, 184, 0.3);
+}
+.btn-export .dropdown-arrow {
+    margin-left: 5px;
+    font-size: 0.8em;
+}
+.btn-export .spinner-icon, .btn-primary .spinner-icon { /* For loading spinner in buttons */
+    margin-right: 8px;
+}
+
+/* --- Orders Table Wrapper --- */
+.orders-table-wrapper {
+    background-color: var(--card-background);
+    border-radius: var(--radius-medium);
+    box-shadow: var(--shadow-subtle);
+    overflow-x: auto; /* Enable horizontal scroll for table */
+    border: 1px solid #eee; /* Subtle border */
+}
+
+.orders-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 800px; /* Minimum width to encourage scroll if needed */
+}
+
+.orders-table th,
+.orders-table td {
+    padding: 12px 15px;
+    text-align: left;
+    font-size: 13px;
+    border-bottom: 1px solid #e0e0e0; /* Lighter border */
+    white-space: nowrap;
+    vertical-align: middle;
+}
+
+.orders-table th {
+    background-color: #f8f9fa; /* Very light grey for header */
+    color: var(--text-medium);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+}
+
+.orders-table tbody tr:last-child td {
+    border-bottom: none;
+}
+.orders-table tbody tr:hover {
+    background-color: #fcfcfc; /* Subtle hover */
+}
+
+.orders-table td.no-orders {
+    text-align: center;
+    padding: 20px;
+    font-style: italic;
+    color: var(--text-light);
+}
+
+/* Status Badge in Table */
+.status-badge {
+    padding: 4px 10px;
+    border-radius: var(--radius-pill);
+    font-size: 11px;
+    font-weight: 600;
+    text-align: center;
+    display: inline-block;
+    text-transform: capitalize;
+    white-space: nowrap;
+    color: white; /* Default text color, specific statuses override */
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05); /* Subtle shadow on badge */
+}
+/* Specific status colors - match AllOrdersPage.css where possible for consistency */
+.status-badge.status-pending { background-color: #fff3e0; color: #ff9800; } /* Orange */
+.status-badge.status-confirmed { background-color: #e8eaf6; color: #3f51b5; } /* Indigo */
+.status-badge.status-processing { background-color: #fff0f6; color: #e91e63; } /* Pink */
+.status-badge.status-out-for-delivery { background-color: #e8f5e9; color: #4caf50; } /* Green */
+.status-badge.status-delivered { background-color: #e3f2fd; color: #2196f3; } /* Blue */
+.status-badge.status-cancelled { background-color: #ffebee; color: #f44336; } /* Red */
+.status-badge.status-refunded { background-color: #f3e5f5; color: #9c27b0; } /* Purple */
+.status-badge.status-failed-to-deliver { background-color: #ffcdd2; color: #d32f2f; } /* Dark Red */
+.status-badge.status-unknown { background-color: #e0e0e0; color: #616161; } /* Grey */
+.status-badge.status-offline-payment-pending-verification { background-color: #ffeb3b; color: #333; } /* Yellow for pending verification */
+
+
+.action-buttons {
+    display: flex;
+    gap: 8px;
+}
+.action-btn { /* Icon buttons in table */
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    font-size: 16px;
+    color: var(--text-light);
+    transition: color var(--transition-speed) ease, transform var(--transition-speed) ease;
+}
+.action-btn:hover:not(:disabled) {
+    transform: scale(1.1);
+}
+.action-btn.view-btn:hover:not(:disabled) { color: var(--primary-blue); }
+.action-btn.print-btn:hover:not(:disabled) { color: #28a745; } /* Green for print */
+.action-btn:disabled {
+    color: #e0e0e0; /* Light grey when disabled */
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* --- Pagination Controls --- */
+.pagination-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding: calc(var(--spacing-unit) * 0.75) 0;
+    flex-wrap: wrap; /* Allow pagination to wrap on small screens */
+}
+
+.pagination-controls button {
+    padding: 8px 15px;
+    border: 1px solid #ced4da;
+    border-radius: var(--radius-small);
+    background-color: var(--card-background);
+    cursor: pointer;
+    font-size: 14px;
+    color: #495057;
+    transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease, border-color var(--transition-speed) ease;
+}
+.pagination-controls button:hover:not(:disabled) {
+    background-color: #e9ecef;
+    border-color: #adb5bd;
+}
+.pagination-controls button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background-color: #f8f9fa;
+    border-color: #e9ecef;
+}
+.pagination-controls button.active { /* If individual page number buttons are active */
+    background-color: var(--primary-blue);
+    color: white;
+    border-color: var(--primary-blue);
+    font-weight: 600;
+}
+.pagination-controls span { /* For "Page X of Y" text */
+    font-size: 14px;
+    color: var(--text-medium);
+}
+
+/* --- Loading, Error Messages --- */
+.order-list-page-container.loading, /* Specificity for loading/error states */
+.order-list-page-container.error-message {
+    padding: calc(var(--spacing-unit) * 2);
+    background-color: var(--card-background);
+    border-radius: var(--radius-medium);
+    box-shadow: var(--shadow-subtle);
+    text-align: center;
+    font-size: 16px;
+    color: var(--text-light);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-unit) * 0.8;
+    border: 1px solid #eee; /* Subtle border */
+    min-height: 200px; /* Give some height */
+}
+.order-list-page-container.loading .spinner-icon {
+    font-size: 30px;
+    color: var(--primary-blue);
+}
+.order-list-page-container.error-message {
+    color: #721c24; /* Dark red for error text */
+    background-color: #f8d7da; /* Light red background for error */
+    border: 1px solid #f5c6cb; /* Red border for error */
+    font-weight: 500;
+}
+
+/* Spinner Animation */
+.spinner-icon.spin {
+    animation: spin 1s linear infinite;
+}
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Responsive adjustments (simplified example) */
+@media (max-width: 768px) {
+    .order-list-page-container {
+        padding: var(--spacing-unit);
+    }
+    .filters-row, .search-actions-card {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .filter-group, .search-input-group, .search-form {
+        min-width: 100%;
+        width: 100%;
+    }
+    .search-input-group input[type="text"] {
+        border-radius: var(--radius-small); /* Full radius if button stacks */
+        border-right: 1px solid var(--border-color); /* Restore border if button stacks */
+    }
+    .btn-search {
+        border-radius: var(--radius-small); /* Full radius if stacked */
+        margin-top: 5px; /* Space if stacked */
+        width: 100%; /* Full width if stacked */
+    }
+    .btn, .btn-primary, .btn-secondary, .btn-export {
+        width: 100%;
+        justify-content: center;
+    }
+    .page-header h2 {
+        font-size: 20px;
+    }
+    .orders-table th, .orders-table td {
+        padding: 10px 8px;
+        font-size: 12px;
+    }
+    .status-badge {
+        font-size: 10px;
+        padding: 3px 8px;
+    }
+    .action-btn {
+        font-size: 14px;
+    }
+    .pagination-controls button {
+        padding: 6px 10px;
+        font-size: 13px;
+    }
+    .pagination-controls {
+        gap: 5px; /* Reduce gap in pagination */
+    }
+}

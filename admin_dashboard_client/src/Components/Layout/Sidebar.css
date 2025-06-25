@@ -3,356 +3,512 @@
 /* ======================================================================== */
 
 :root {
-    --sidebar-width-expanded: 260px;
-    --sidebar-width-collapsed: 75px;
-    --sidebar-bg-color: #1a2229; /* Dark background */
-    --sidebar-text-color: #adb5bd; /* Light grey text */
-    --sidebar-text-hover-color: #ffffff; /* White on hover */
-    --sidebar-active-bg: var(--color-primary); /* Use primary color for active link bg */
-    --sidebar-active-text: #ffffff;
-    --sidebar-submenu-bg: #202a34; /* Slightly lighter for submenu */
-    --sidebar-section-title-color: #6c757d; /* Dim color for titles */
-    --transition-speed: 0.3s; /* Consistent transition speed */
-  }
-  
-  .sidebar {
-    width: var(--sidebar-width-expanded);
-    background-color: var(--sidebar-bg-color);
-    color: var(--sidebar-text-color);
-    display: flex;
-    flex-direction: column;
-    height: 100vh; /* Full viewport height */
-    position: fixed; /* Fixed position */
-    top: 0;
-    left: 0;
-    z-index: 1000; /* Above content */
-    overflow-x: hidden; /* Hide horizontal overflow */
-    overflow-y: auto; /* Allow vertical scroll if content exceeds height */
-    transition: width var(--transition-speed) ease-in-out;
-    flex-shrink: 0; /* Prevent sidebar from shrinking */
-  }
-  
-  /* --- Collapsed State --- */
-  .sidebar.collapsed {
-    width: var(--sidebar-width-collapsed);
-  }
-  
-  .sidebar.collapsed .sidebar-logo-text,
-  .sidebar.collapsed .section-title,
-  .sidebar.collapsed .sidebar-link span,
-  .sidebar.collapsed .sidebar-sublink span,
-  .sidebar.collapsed .chevron-icon,
-  .sidebar.collapsed .user-details,
-  .sidebar.collapsed .logout-button span {
-    display: none; /* Hide text elements */
-     opacity: 0;
-     visibility: hidden;
-  }
-  
-  .sidebar.collapsed .sidebar-header,
-  .sidebar.collapsed .sidebar-link,
-  .sidebar.collapsed .sidebar-sublink,
-  .sidebar.collapsed .logout-button,
-  .sidebar.collapsed .sidebar-user-info {
-    justify-content: center; /* Center icons */
-  }
-  .sidebar.collapsed .sidebar-user-info {
-      padding: 0.5rem 0;
-  }
-  .sidebar.collapsed .user-avatar.collapsed {
-      margin-right: 0;
-  }
-  
-  .sidebar.collapsed .sidebar-submenu,
-  .sidebar.collapsed .sidebar-submenu-deep {
-      position: absolute; /* Example: Make submenu pop out on hover (requires JS) */
-      left: var(--sidebar-width-collapsed);
-      /* Add styles for visibility on hover/click when collapsed */
-      display: none; /* Hide submenus when collapsed by default */
-      /* Consider adding hover effects later */
-  }
-  
-  
-  /* --- Header --- */
-  .sidebar-header {
-    display: flex;
-    align-items: center;
-    padding: 1rem 1.25rem; /* Adjust padding */
-    height: var(--header-height); /* Match header height */
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    flex-shrink: 0;
-  }
-  
-  .sidebar-logo-link {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    color: var(--sidebar-text-hover-color);
-    font-weight: 600;
-    overflow: hidden; /* Prevent text overlap during transition */
-    flex-grow: 1;
-  }
-  
-  .sidebar-logo-img {
-    height: 35px; /* Adjust logo size */
-    margin-right: 0.75rem;
-    object-fit: contain;
-    transition: margin var(--transition-speed) ease;
-  }
-  .sidebar-logo-img.icon-only {
-      margin-right: 0; /* No margin when only icon is shown */
-  }
-  
-  
-  .sidebar-logo-text {
-    white-space: nowrap; /* Prevent text wrapping */
-    font-size: 1.1rem;
-    transition: opacity var(--transition-speed) ease;
-  }
-  
-  .sidebar-internal-toggle {
-     background: none;
-     border: none;
-     color: var(--sidebar-text-color);
-     font-size: 1.2rem;
-     cursor: pointer;
-     padding: 0.5rem;
-     margin-left: auto; /* Push to the right */
-     transition: color 0.2s ease;
-  }
-  .sidebar-internal-toggle:hover {
-     color: var(--sidebar-text-hover-color);
-  }
-  
-  
-  /* --- Navigation Sections & Links --- */
-  .sidebar-nav {
-    flex-grow: 1; /* Allow nav to fill remaining space */
-    padding: 1rem 0; /* Vertical padding */
-    overflow-y: auto; /* Scroll within nav if needed */
-  }
-  
-  .sidebar-section {
-    margin-bottom: 1.5rem;
-  }
-  
-  .section-title {
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: var(--sidebar-section-title-color);
-    text-transform: uppercase;
-    padding: 0 1.5rem; /* Match link padding */
-    margin-bottom: 0.75rem;
-    white-space: nowrap;
-    transition: opacity var(--transition-speed) ease;
-  }
-  
-  .sidebar-section ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  
-  .sidebar-link,
-  .sidebar-sublink {
-    display: flex;
-    align-items: center;
-    padding: 0.75rem 1.5rem; /* Consistent padding */
-    color: var(--sidebar-text-color);
-    text-decoration: none;
-    font-size: 0.95rem;
-    white-space: nowrap; /* Prevent wrapping */
-    transition: background-color 0.2s ease, color 0.2s ease;
-    position: relative; /* For active indicator */
-  }
-  .sidebar-sublink {
-      padding-left: 2.5rem; /* Indent sublinks */
-  }
-  .deep-sublink {
-      padding-left: 3.5rem; /* Indent deeper */
-       font-size: 0.9rem; /* Slightly smaller */
-  }
-  
-  
-  .sidebar-link:hover,
-  .sidebar-sublink:hover {
-    background-color: rgba(255, 255, 255, 0.05); /* Subtle hover */
-    color: var(--sidebar-text-hover-color);
-  }
-  
-  /* Active Link Styling */
-  .sidebar-link.active-link,
-  .sidebar-sublink.active-sublink,
-  .sidebar-sublink.active-deep-sublink {
-    background-color: var(--sidebar-active-bg);
-    color: var(--sidebar-active-text);
-    font-weight: 500;
-  }
-  
-  /* Optional: Active indicator bar */
-  /* .sidebar-link.active-link::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 4px;
-    background-color: var(--color-accent);
-  } */
-  
-  /* Maybe active (for parent items when child is active) */
-  .sidebar-link.maybe-active,
-  .sidebar-sublink.maybe-active {
-      /* Subtle indication, e.g., slightly different background or text color */
-       color: var(--sidebar-text-hover-color); /* Example */
-  }
-  
-  
-  .sidebar-icon {
-    font-size: 1.1rem; /* Icon size */
-    margin-right: 1rem;
-    width: 20px; /* Fixed width for alignment */
-    text-align: center;
-    flex-shrink: 0; /* Prevent icon shrinking */
-     transition: margin var(--transition-speed) ease;
-  }
-  .sidebar.collapsed .sidebar-icon {
-      margin-right: 0;
-      font-size: 1.3rem; /* Slightly larger icon when collapsed */
-  }
-  
-  .sub-icon {
-      font-size: 1rem;
-       margin-right: 0.8rem;
-  }
-  .deep-icon {
-      font-size: 0.9rem;
-      margin-right: 0.6rem;
-  }
-  
-  .sidebar-link span,
-  .sidebar-sublink span {
-    flex-grow: 1;
-    transition: opacity var(--transition-speed) ease;
-  }
-  
-  .chevron-icon {
-    margin-left: auto; /* Push chevron to the right */
-    font-size: 0.8rem;
-    transition: transform 0.2s ease, opacity var(--transition-speed) ease;
-  }
-  .sub-chevron {
-     font-size: 0.7rem;
-  }
-  
-  /* --- Parent Item & Submenus --- */
-  .parent-link {
-    cursor: pointer;
-  }
-  
-  .sidebar-submenu,
-  .sidebar-submenu-deep {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    background-color: var(--sidebar-submenu-bg); /* Background for submenu */
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.3s ease-in-out; /* Smooth expand/collapse */
-  }
-  
-  .sidebar-submenu.open,
-  .sidebar-submenu-deep.open {
-    max-height: 500px; /* Allow submenu to expand (adjust as needed) */
-  }
-  
-  /* Removed empty ruleset */
-  
-  /* --- Footer --- */
-  .sidebar-footer {
-    padding: 1rem 1.25rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    margin-top: auto; /* Push footer to bottom */
-    flex-shrink: 0;
-    display: flex;
-    flex-direction: column; /* Stack user info and logout */
-    align-items: center; /* Center items when collapsed */
-  }
-  
-  .sidebar-user-info {
-      display: flex;
-      align-items: center;
-      width: 100%;
-      margin-bottom: 1rem;
-      padding: 0.5rem 0;
-      overflow: hidden; /* Hide details during collapse */
-  }
-  
-  .user-avatar {
-      width: 35px;
-      height: 35px;
-      border-radius: 50%;
-      background-color: var(--color-primary);
-      color: var(--color-background-light);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 600;
-      font-size: 1.1rem;
-      margin-right: 0.75rem;
-      flex-shrink: 0;
-      transition: margin var(--transition-speed) ease;
-  }
-  
-  .user-details {
-      display: flex;
-      flex-direction: column;
-      line-height: 1.3;
-      transition: opacity var(--transition-speed) ease;
-      overflow: hidden;
-  }
-  
-  .user-greeting {
-      font-size: 0.8rem;
-      color: var(--sidebar-text-color);
-  }
-  
-  .user-name {
-      font-size: 0.95rem;
-      font-weight: 500;
-      color: var(--sidebar-text-hover-color);
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      overflow: hidden;
-  }
-  
-  
-  .logout-button {
-    display: flex;
-    align-items: center;
-    background: none;
-    border: none;
-    color: var(--sidebar-text-color);
-    padding: 0.75rem 0; /* Adjust padding */
-    width: 100%; /* Full width */
-    text-align: left;
-    font-size: 0.95rem;
-    cursor: pointer;
-    transition: background-color 0.2s ease, color 0.2s ease;
-    border-radius: var(--border-radius-small);
-  }
-  .sidebar.collapsed .logout-button {
-      justify-content: center;
-      padding: 0.75rem 0;
-  }
-  
-  
-  .logout-button:hover {
-    background-color: rgba(217, 54, 62, 0.1); /* Reddish hover for logout */
-    color: #f3737a; /* Lighter red text */
-  }
-  
-  .logout-icon {
-      font-size: 1.1rem; /* Example: Match icon size */
-      margin-right: 1rem; /* Example: Add spacing */
-  }
+  /* Using the dark theme colors provided */
+  --sidebar-width-expanded: 260px;
+  --sidebar-width-collapsed: 75px;
+  --sidebar-bg-color: #1a2229; /* Dark background */
+  --sidebar-text-color: #adb5bd; /* Light grey text */
+  --sidebar-text-hover-color: #ffffff; /* White on hover */
+  /* Assuming --color-primary is defined elsewhere for active bg, otherwise set a default */
+  --sidebar-active-bg: var(--color-primary, #007bff); /* Default to blue if not set */
+  --sidebar-active-text: #ffffff;
+  --sidebar-submenu-bg: #202a34; /* Slightly lighter for submenu */
+  --sidebar-section-title-color: #6c757d; /* Dim color for titles */
+  --transition-speed: 0.3s; /* Consistent transition speed */
+  /* Added from dark theme example */
+  --sidebar-border-color: rgba(255, 255, 255, 0.1); /* Subtle border */
+  --sidebar-search-bg: #202a34; /* Slightly lighter bg for search */
+  --sidebar-search-placeholder: #6c757d; /* Dim placeholder color */
+  --header-height: 60px; /* Example height for header */
+  --border-radius-small: 4px;
+  /* Added from dark theme example if needed */
+  --color-background-light: #f8f9fa; /* Example light bg for avatar text */
+}
+
+.sidebar {
+width: var(--sidebar-width-expanded);
+background-color: var(--sidebar-bg-color);
+color: var(--sidebar-text-color);
+display: flex;
+flex-direction: column;
+height: 100vh; /* Full viewport height */
+position: fixed; /* Fixed position */
+top: 0;
+left: 0;
+z-index: 1000; /* Above content */
+overflow-x: hidden; /* Hide horizontal overflow */
+/* overflow-y: auto; Keep scroll on main container */
+transition: width var(--transition-speed) ease-in-out;
+flex-shrink: 0; /* Prevent sidebar from shrinking */
+}
+
+/* --- Collapsed State --- */
+.sidebar.collapsed {
+width: var(--sidebar-width-collapsed);
+ overflow-y: hidden; /* Hide scrollbar when collapsed */
+}
+
+.sidebar.collapsed .sidebar-logo-text,
+.sidebar.collapsed .section-title,
+.sidebar.collapsed .sidebar-link span:not(.chevron-icon), /* Target text spans only */
+.sidebar.collapsed .sidebar-sublink span:not(.chevron-icon),
+.sidebar.collapsed .chevron-icon,
+.sidebar.collapsed .user-details,
+.sidebar.collapsed .logout-button span,
+.sidebar.collapsed .search-input { /* Also hide search input text */
+opacity: 0;
+visibility: hidden;
+width: 0;
+overflow: hidden;
+white-space: nowrap;
+display: none; /* Hide text elements reliably */
+}
+
+.sidebar.collapsed .sidebar-header,
+.sidebar.collapsed .sidebar-link,
+.sidebar.collapsed .sidebar-sublink,
+.sidebar.collapsed .logout-button,
+.sidebar.collapsed .sidebar-user-info,
+.sidebar.collapsed .sidebar-search { /* Center search icon */
+justify-content: center; /* Center icons/content */
+padding-left: 0;
+padding-right: 0;
+}
+/* Specific padding adjustments for collapsed state */
+.sidebar.collapsed .sidebar-search {
+  padding: 0.75rem 0; /* Only vertical padding */
+}
+.sidebar.collapsed .search-icon-wrapper {
+  padding: 0.6rem;
+  margin: 0;
+}
+.sidebar.collapsed .sidebar-user-info {
+  padding: 0.5rem 0;
+}
+.sidebar.collapsed .logout-button {
+  padding: 0.75rem 0;
+  width: auto; /* Allow button to shrink */
+}
+.sidebar.collapsed .user-avatar.collapsed {
+  margin-right: 0;
+}
+.sidebar.collapsed .sidebar-icon {
+  margin-right: 0;
+  font-size: 1.3rem; /* Slightly larger icon when collapsed */
+}
+
+/* Pop-out Submenu (Example - Requires JS for hover/click logic beyond CSS) */
+.sidebar.collapsed .sidebar-submenu,
+.sidebar.collapsed .sidebar-submenu-deep {
+  /* Basic: Hide */
+  display: none;
+  max-height: 0;
+  overflow: hidden;
+
+  /* Advanced Pop-out (Needs JS/more CSS for trigger) */
+  /* position: absolute;
+  left: var(--sidebar-width-collapsed);
+  top: auto; // Calculate based on trigger position
+  background-color: var(--sidebar-submenu-bg);
+  min-width: 200px; // Example width
+  z-index: 1001;
+  border-radius: var(--border-radius-small);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  padding: 0.5rem 0; */
+}
+.sidebar.collapsed .sidebar-link.parent-link {
+  cursor: default; /* No pointer if submenu is hidden */
+}
+
+
+/* --- Header --- */
+.sidebar-header {
+display: flex;
+align-items: center;
+padding: 0 1.25rem; /* Horizontal padding only */
+height: var(--header-height);
+border-bottom: 1px solid var(--sidebar-border-color);
+flex-shrink: 0;
+}
+
+.sidebar-logo-link {
+display: flex;
+align-items: center;
+text-decoration: none;
+color: var(--sidebar-text-hover-color);
+font-weight: 600;
+overflow: hidden;
+flex-grow: 1;
+}
+
+.sidebar-logo-img {
+height: 30px; /* Adjusted size */
+margin-right: 0.75rem;
+object-fit: contain;
+transition: margin var(--transition-speed) ease;
+flex-shrink: 0;
+}
+.sidebar-logo-img.icon-only {
+  margin-right: 0;
+}
+
+.sidebar-logo-text {
+white-space: nowrap;
+font-size: 1.1rem;
+transition: opacity var(--transition-speed) ease;
+}
+
+.sidebar-internal-toggle {
+ background: none;
+ border: none;
+ color: var(--sidebar-text-color);
+ font-size: 1.2rem;
+ cursor: pointer;
+ padding: 0.5rem;
+ margin-left: auto;
+ transition: color 0.2s ease;
+ flex-shrink: 0;
+}
+.sidebar-internal-toggle:hover {
+ color: var(--sidebar-text-hover-color);
+}
+
+/* --- Search Bar (Added) --- */
+.sidebar-search {
+  padding: 0.75rem 1.25rem;
+  /* border-bottom: 1px solid var(--sidebar-border-color); Optional separator */
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  background-color: var(--sidebar-search-bg); /* Use variable */
+  transition: padding var(--transition-speed) ease;
+}
+
+.search-icon-wrapper {
+  color: var(--sidebar-text-color);
+  margin-right: 0.75rem;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: margin var(--transition-speed) ease;
+}
+
+.search-input {
+  flex-grow: 1;
+  background-color: transparent;
+  border: none;
+  color: var(--sidebar-text-hover-color); /* White text */
+  font-size: 0.9rem;
+  padding: 0.4rem 0;
+  outline: none;
+  transition: opacity var(--transition-speed) ease, visibility var(--transition-speed) ease;
+  min-width: 0;
+}
+
+.search-input::placeholder {
+  color: var(--sidebar-search-placeholder); /* Use variable */
+  font-style: normal;
+  opacity: 1;
+}
+
+/* --- Navigation Sections & Links --- */
+.sidebar-nav {
+flex-grow: 1;
+padding: 1rem 0;
+overflow-y: auto; /* Allow scrolling ONLY in the nav section */
+overflow-x: hidden;
+}
+
+/* Custom Scrollbar for Nav */
+.sidebar-nav::-webkit-scrollbar {
+width: 6px;
+}
+.sidebar-nav::-webkit-scrollbar-track {
+background: var(--sidebar-bg-color);
+border-radius: 3px;
+}
+.sidebar-nav::-webkit-scrollbar-thumb {
+background-color: var(--sidebar-submenu-bg);
+border-radius: 3px;
+}
+.sidebar-nav::-webkit-scrollbar-thumb:hover {
+background-color: var(--sidebar-section-title-color);
+}
+
+.sidebar-section {
+margin-bottom: 1.5rem;
+}
+.sidebar-section:last-child {
+margin-bottom: 0.5rem;
+}
+
+.section-title {
+font-size: 0.7rem; /* Slightly smaller */
+font-weight: 600;
+color: var(--sidebar-section-title-color);
+text-transform: uppercase;
+padding: 0.5rem 1.5rem; /* Adjusted padding */
+margin-bottom: 0.5rem; /* Reduced margin */
+white-space: nowrap;
+transition: opacity var(--transition-speed) ease;
+letter-spacing: 0.5px;
+}
+
+.sidebar-section ul {
+list-style: none;
+padding: 0;
+margin: 0;
+}
+
+.sidebar-link,
+.sidebar-sublink {
+display: flex;
+align-items: center;
+padding: 0.7rem 1.5rem; /* Adjusted padding */
+color: var(--sidebar-text-color);
+text-decoration: none;
+font-size: 0.9rem; /* Adjusted font size */
+white-space: nowrap;
+transition: background-color 0.2s ease, color 0.2s ease, padding var(--transition-speed) ease;
+position: relative;
+overflow: hidden;
+}
+.sidebar-sublink {
+  padding-left: 2.5rem; /* Indent first level sublinks */
+  font-size: 0.85rem;
+}
+
+.deep-sublink, /* Class for third level links */
+.sidebar-submenu-deep .sidebar-sublink { /* Target links inside deep submenu */
+  padding-left: 3.5rem; /* Indent deeper */
+  font-size: 0.8rem; /* Slightly smaller */
+}
+
+
+.sidebar-link:hover,
+.sidebar-sublink:hover {
+background-color: rgba(255, 255, 255, 0.05); /* Subtle hover */
+color: var(--sidebar-text-hover-color);
+}
+
+/* Active Link Styling */
+.sidebar-link.active-link,
+.sidebar-sublink.active-sublink,
+.sidebar-sublink.active-deep-sublink {
+background-color: var(--sidebar-active-bg);
+color: var(--sidebar-active-text);
+font-weight: 500;
+}
+
+/* Maybe active (for parent items when child is active) */
+.sidebar-link.maybe-active,
+.sidebar-sublink.maybe-active {
+   color: var(--sidebar-text-hover-color); /* Make text white */
+}
+.sidebar-link.maybe-active > .sidebar-icon,
+.sidebar-sublink.maybe-active > .sidebar-icon {
+  color: var(--sidebar-text-hover-color); /* Ensure icon matches */
+}
+
+.sidebar-icon {
+font-size: 1rem; /* Adjusted icon size */
+margin-right: 1rem;
+width: 20px;
+text-align: center;
+flex-shrink: 0;
+transition: margin var(--transition-speed) ease, font-size var(--transition-speed) ease;
+color: var(--sidebar-text-color); /* Match text color */
+line-height: 1;
+}
+/* Icon color inheritance */
+.sidebar-link:hover .sidebar-icon,
+.sidebar-sublink:hover .sidebar-icon,
+.sidebar-link.active-link .sidebar-icon,
+.sidebar-sublink.active-sublink .sidebar-icon,
+.sidebar-sublink.active-deep-sublink .sidebar-icon {
+  color: inherit;
+}
+
+.sub-icon { /* First level submenu icon */
+  font-size: 0.9rem;
+  margin-right: 0.8rem;
+}
+.deep-icon { /* Second level submenu icon */
+  font-size: 0.8rem;
+  margin-right: 0.6rem;
+}
+
+/* Text span styling */
+.sidebar-link span:not(.chevron-icon),
+.sidebar-sublink span:not(.chevron-icon) {
+flex-grow: 1;
+transition: opacity var(--transition-speed) ease, visibility var(--transition-speed) ease;
+line-height: 1.2;
+}
+
+.chevron-icon {
+margin-left: auto;
+font-size: 0.7rem; /* Smaller chevron */
+transition: transform 0.3s ease, opacity var(--transition-speed) ease, visibility var(--transition-speed) ease;
+display: flex;
+align-items: center;
+flex-shrink: 0;
+color: var(--sidebar-section-title-color); /* Muted color */
+}
+.sub-chevron { /* Chevron inside sublinks */
+ font-size: 0.65rem;
+}
+/* Hover/active states for chevron */
+.parent-link:hover .chevron-icon {
+  color: var(--sidebar-text-color);
+}
+.parent-link.maybe-active .chevron-icon {
+  color: var(--sidebar-text-hover-color);
+}
+.chevron-icon.rotated {
+  transform: rotate(180deg);
+}
+
+/* --- Parent Item & Submenus --- */
+.parent-link {
+cursor: pointer;
+}
+
+
+.sidebar-submenu,
+.sidebar-submenu-deep {
+list-style: none;
+padding: 0;
+margin: 0;
+background-color: var(--sidebar-submenu-bg);
+max-height: 0;
+overflow: hidden;
+transition: max-height 0.3s ease-in-out, padding 0.3s ease-in-out;
+}
+
+.sidebar-submenu.open,
+.sidebar-submenu-deep.open {
+max-height: 500px; /* Adjust as needed */
+padding-top: 0.3rem;
+padding-bottom: 0.3rem;
+}
+
+
+/* --- Footer --- */
+.sidebar-footer {
+padding: 1rem 1.25rem;
+border-top: 1px solid var(--sidebar-border-color); /* Use variable */
+margin-top: auto;
+flex-shrink: 0;
+display: flex;
+flex-direction: column;
+/* align-items: center; Removed, align left by default */
+ transition: padding var(--transition-speed) ease;
+}
+.sidebar.collapsed .sidebar-footer {
+  padding-left: 0;
+  padding-right: 0;
+  align-items: center; /* Center items when collapsed */
+}
+
+
+.sidebar-user-info {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 0.75rem; /* Reduced margin */
+  padding: 0.5rem 0;
+  overflow: hidden;
+}
+.sidebar.collapsed .sidebar-user-info {
+  justify-content: center;
+  margin-bottom: 0.5rem;
+}
+
+
+.user-avatar {
+  width: 32px; /* Slightly smaller */
+  height: 32px;
+  border-radius: 50%;
+  background-color: var(--sidebar-active-bg); /* Use active color or primary */
+  color: var(--color-background-light, #fff); /* Use variable or default */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 1rem; /* Adjusted size */
+  margin-right: 0.75rem;
+  flex-shrink: 0;
+  transition: margin var(--transition-speed) ease;
+}
+.user-avatar.collapsed {
+  margin-right: 0;
+}
+
+.user-details {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.3;
+  transition: opacity var(--transition-speed) ease, visibility var(--transition-speed) ease;
+  overflow: hidden;
+  flex-grow: 1;
+}
+
+.user-greeting {
+  font-size: 0.75rem; /* Adjusted size */
+  color: var(--sidebar-text-color);
+  white-space: nowrap;
+}
+
+.user-name {
+  font-size: 0.9rem; /* Adjusted size */
+  font-weight: 500;
+  color: var(--sidebar-text-hover-color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: 150px;
+}
+
+
+.logout-button {
+display: flex;
+align-items: center;
+background: none;
+border: none;
+color: var(--sidebar-text-color);
+padding: 0.6rem 0; /* Adjusted padding */
+width: 100%;
+text-align: left;
+font-size: 0.9rem; /* Match link size */
+cursor: pointer;
+transition: background-color 0.2s ease, color 0.2s ease, padding var(--transition-speed) ease;
+border-radius: var(--border-radius-small);
+overflow: hidden;
+}
+
+
+.logout-button:hover {
+background-color: rgba(217, 54, 62, 0.1); /* Reddish hover */
+color: #f3737a; /* Lighter red text */
+}
+.logout-button:hover .logout-icon {
+  color: inherit;
+}
+
+.logout-icon {
+  font-size: 1rem; /* Match other icons */
+  margin-right: 1rem;
+  width: 20px;
+  text-align: center;
+  flex-shrink: 0;
+  transition: margin var(--transition-speed) ease, font-size var(--transition-speed) ease;
+  color: var(--sidebar-text-color); /* Match text color */
+  line-height: 1;
+}
+.sidebar.collapsed .logout-icon {
+  margin-right: 0;
+  font-size: 1.3rem; /* Match other collapsed icons */
+}

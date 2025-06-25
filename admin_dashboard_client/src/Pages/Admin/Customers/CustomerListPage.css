@@ -1,0 +1,449 @@
+/* General Page Styles */
+.customer-list-page {
+  padding: 24px;
+  background-color: #f8f9fa; /* Lighter gray for background */
+  min-height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Page Header */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #dee2e6; /* Lighter border */
+}
+
+.page-title {
+  font-size: 1.875rem; /* ~30px */
+  font-weight: 600;
+  color: #212529; /* Darker text for titles */
+  display: flex;
+  align-items: center;
+}
+
+.count-badge {
+  background-color: #cfe2ff; /* Softer blue */
+  color: #0a58ca; /* Bootstrap blue text */
+  padding: 4px 10px;
+  border-radius: 16px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  margin-left: 12px;
+}
+
+/* Common Button Styles */
+.btn {
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s ease-in-out;
+  border: 1px solid transparent;
+  text-decoration: none; /* For any button that might be an <a> tag */
+}
+
+.btn-primary {
+  background-color: #10B981; /* Primary Green */
+  color: white;
+  border-color: #10B981;
+}
+.btn-primary:hover {
+  background-color: #0c9469; /* Darker Green */
+  border-color: #0c9469;
+}
+.btn-primary:disabled {
+  background-color: #a3e9d3;
+  border-color: #a3e9d3;
+  cursor: not-allowed;
+}
+
+.btn-outline {
+  background-color: #ffffff;
+  color: #495057; /* Gray text */
+  border: 1px solid #ced4da; /* Gray border */
+}
+.btn-outline:hover {
+  background-color: #f8f9fa;
+  color: #212529;
+}
+.btn-outline:disabled {
+  color: #adb5bd;
+  border-color: #e9ecef;
+  cursor: not-allowed;
+}
+.btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+
+/* Header Actions */
+.header-actions .export-button {
+  /* Uses btn & btn-outline */
+}
+
+
+/* Filter Controls */
+.filter-controls {
+  margin-bottom: 24px;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.search-form {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.search-input-container {
+  position: relative;
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+}
+
+.search-icon {
+  position: absolute;
+  left: 14px;
+  color: #adb5bd; /* Lighter gray for icon */
+  width: 18px;
+  height: 18px;
+  z-index: 1;
+}
+
+.search-input {
+  width: 100%;
+  padding: 10px 14px 10px 44px; /* Left padding for icon */
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  color: #212529;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.search-input:focus {
+  outline: none;
+  border-color: #10B981; /* Green focus */
+  box-shadow: 0 0 0 0.25rem rgba(16, 185, 129, 0.25); /* Green focus ring */
+}
+
+.clear-search-btn {
+  position: absolute;
+  right: 10px;
+  background: transparent;
+  border: none;
+  font-size: 1.2rem;
+  color: #adb5bd;
+  cursor: pointer;
+  padding: 0 5px;
+  display: flex;
+  align-items: center;
+}
+.clear-search-btn:hover {
+  color: #495057;
+}
+
+.search-button {
+ /* Uses btn & btn-primary */
+}
+
+/* Loading, Error, No Data Messages */
+.loading-indicator,
+.error-message,
+.no-data-message {
+  text-align: center;
+  padding: 40px 20px;
+  font-size: 1rem;
+  color: #6c757d; /* Medium gray text */
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  margin-top: 20px;
+}
+.error-message {
+  color: #dc3545; /* Red for error */
+  background-color: #f8d7da;
+  border: 1px solid #f5c2c7;
+}
+.no-data-message {
+  color: #0a58ca;
+  background-color: #cfe2ff;
+  border: 1px solid #b6d4fe;
+}
+
+/* Table Styles */
+.table-responsive-container {
+  overflow-x: auto;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.customers-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 800px; /* Min width before horizontal scroll appears */
+}
+
+.customers-table th,
+.customers-table td {
+  padding: 14px 16px; /* Increased padding */
+  text-align: left;
+  border-bottom: 1px solid #e9ecef; /* Lighter border for rows */
+  font-size: 0.875rem;
+  color: #495057;
+  vertical-align: middle;
+}
+
+.customers-table th {
+  background-color: #f8f9fa; /* Very light gray for headers */
+  font-weight: 600;
+  color: #212529; /* Darker header text */
+  text-transform: uppercase;
+  font-size: 0.75rem; /* Slightly smaller for uppercase headers */
+  letter-spacing: 0.5px;
+}
+.customers-table tbody tr:hover {
+  background-color: #f1f3f5; /* Subtle hover for rows */
+}
+
+.customer-name-cell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 500;
+  color: #212529;
+}
+
+.customer-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #dee2e6;
+}
+
+.contact-info-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.contact-info-cell span {
+  font-size: 0.825rem;
+  color: #6c757d;
+}
+.contact-info-cell span:first-child {
+  color: #495057;
+  font-weight: 500;
+}
+
+.text-center { text-align: center !important; } /* Use !important carefully for utility classes */
+.text-right { text-align: right !important; }
+
+/* Action Buttons */
+.action-buttons {
+  display: flex;
+  gap: 8px;
+  justify-content: center; /* Center actions in their cell */
+}
+
+.action-btn {
+  background-color: transparent;
+  border: none; /* No border by default for icon buttons */
+  padding: 8px; /* Slightly larger touch target */
+  border-radius: 50%; /* Round buttons */
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s, color 0.2s;
+  line-height: 1; /* Ensure icon is centered */
+}
+.action-btn svg {
+  width: 18px;
+  height: 18px;
+}
+.action-btn-text {
+  display: none; /* Hide text by default, show on larger screens or if specified */
+  margin-left: 6px;
+  font-size: 0.8rem;
+}
+
+.view-btn {
+  color: #0d6efd; /* Bootstrap Blue */
+}
+.view-btn:hover {
+  background-color: #e7f1ff; /* Lighter blue */
+}
+
+/* Pagination */
+.pagination-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px 0;
+  margin-top: 24px;
+  gap: 12px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.pagination-controls button {
+  /* Uses btn & btn-outline */
+}
+.pagination-controls span {
+  font-size: 0.9rem;
+  color: #495057;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 992px) {
+  .page-title {
+    font-size: 1.6rem;
+  }
+  .customers-table {
+    min-width: 700px;
+  }
+}
+
+@media (max-width: 768px) {
+  .customer-list-page {
+    padding: 16px;
+  }
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .page-title {
+    font-size: 1.5rem;
+  }
+  .search-form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .search-button {
+    width: 100%;
+  }
+
+  .customers-table th,
+  .customers-table td {
+    padding: 10px 12px;
+    font-size: 0.825rem;
+  }
+  .customer-avatar {
+    width: 36px;
+    height: 36px;
+  }
+  .action-btn svg {
+    width: 16px;
+    height: 16px;
+  }
+  .action-btn-text { /* Show text on view button for tablets if desired */
+    /* display: inline; */
+  }
+
+  .pagination-controls {
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px;
+  }
+}
+
+/* Stacked table for very small screens */
+@media (max-width: 600px) {
+  .page-title {
+    font-size: 1.25rem;
+  }
+  .header-actions .export-button {
+    width: 100%;
+  }
+  .table-responsive-container {
+    box-shadow: none;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+  }
+  .customers-table {
+    min-width: auto; /* Remove min-width for stacked layout */
+    border: none;
+  }
+
+  .customers-table thead {
+    display: none; /* Hide table headers */
+  }
+
+  .customers-table tr {
+    display: block;
+    margin-bottom: 16px;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    padding: 10px;
+    background-color: #fff; /* Ensure white background for each card */
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  }
+  .customers-table tr:last-child {
+    margin-bottom: 0;
+  }
+
+  .customers-table td {
+    display: flex; /* Use flex for better alignment */
+    justify-content: space-between; /* Align label and value */
+    align-items: center; /* Vertically align items */
+    text-align: right; /* Value on the right */
+    padding: 8px 0; /* Adjust padding */
+    border-bottom: 1px dotted #e9ecef;
+    font-size: 0.85rem;
+  }
+  .customers-table td:last-child {
+    border-bottom: none;
+  }
+
+  .customers-table td::before {
+    content: attr(data-label); /* Get label from data-label attribute */
+    font-weight: bold;
+    text-align: left;
+    color: #212529;
+    margin-right: 10px; /* Space between label and value */
+  }
+
+  /* Adjust specific cells for stacked view */
+  .customers-table td[data-label="Customer Name"] .customer-name-cell,
+  .customers-table td[data-label="Contact Info"] .contact-info-cell,
+  .customers-table td[data-label="Action"] .action-buttons {
+    width: 100%; /* Allow these complex cells to take full width if needed */
+    justify-content: flex-end; /* Align content to the right for consistency */
+  }
+  .customers-table td[data-label="Customer Name"] .customer-name-cell {
+     flex-direction: row-reverse; /* Avatar on the right if preferred */
+  }
+   .customers-table td[data-label="Customer Name"] .customer-name-cell span {
+    margin-right: auto; /* Pushes name to the left */
+   }
+
+  .customers-table td[data-label="Contact Info"] .contact-info-cell {
+    align-items: flex-end; /* Align email/phone to the right */
+  }
+  
+  .action-btn-text { /* Show text on action buttons on mobile */
+    display: inline;
+  }
+  .action-btn {
+    border-radius: 6px; /* rectangular button on mobile */
+    padding: 6px 10px;
+    background-color: #f8f9fa; /* slight background for better visibility */
+  }
+   .view-btn:hover {
+    background-color: #e0e0e0; 
+  }
+}

@@ -5,8 +5,9 @@ import { verifyToken as protectUser } from "../middleware/userAuthMiddleware.js"
 import {
   validateUserSignup,
   validateUserLogin,
-  validateUserSendOtp, // *** Ensure this matches the export in validators.js ***
-  //   validateUserVerifyOtp, // Need this if adding verify endpoint
+  validateUserSendOtp,
+  validateChangePassword,
+  validateForgotPassword,
   handleValidationErrors,
 } from "../middleware/validators.js";
 
@@ -21,7 +22,7 @@ router.post(
   validateUserSendOtp,
   handleValidationErrors,
   userAuthController.sendUserOtp
-); // *** Use correct validator ***
+);
 
 // POST /api/auth/signup
 router.post(
@@ -46,7 +47,26 @@ router.post("/logout", userAuthController.logoutUser);
 router.get("/google", userAuthController.googleAuthInitiate);
 router.get("/google/callback", userAuthController.googleAuthCallback);
 
-// GET /api/auth/status - Check if user is logged in (protected by JWT)
-router.get("/status", protectUser, userAuthController.checkUserAuthStatus); // *** Ensure this is added ***
+// GET /api/auth/status - Check if user is logged in
+router.get("/status", protectUser, userAuthController.checkUserAuthStatus);
+
+// --- Password Management Routes ---
+
+// POST /api/auth/change-password (User must be logged in)
+router.post(
+  "/change-password",
+  protectUser,
+  validateChangePassword,
+  handleValidationErrors,
+  userAuthController.changePassword
+);
+
+// POST /api/auth/forgot-password (Publicly accessible)
+router.post(
+  "/forgot-password",
+  validateForgotPassword,
+  handleValidationErrors,
+  userAuthController.forgotPassword
+);
 
 export default router;

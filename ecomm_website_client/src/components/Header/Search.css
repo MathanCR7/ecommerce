@@ -1,0 +1,577 @@
+/* Global Variables (from your provided CSS) */
+:root {
+    --primary-color: #0f3460; /* Dark Blue */
+    --secondary-color: #e94560; /* Accent Red/Pink */
+    --accent-color-alt: #ff8d4d; /* Orange Accent */
+    --light-bg: #f8f9fa;       /* Very Light Gray (almost white) */
+    --grey-bg: #f3f5f9;        /* Light Gray */
+    --text-dark: #212529;      /* Almost Black */
+    --text-medium: #495057;    /* Dark Gray */
+    --text-light: #6c757d;     /* Medium Gray */
+    --border-color: #dee2e6;   /* Light Gray Border */
+    --white-color: #fff;
+    --header-height-desktop: 4.5rem; /* Adjusted for new layout */
+    --header-height-mobile: 3.8rem; /* Base for single row, will be overridden */
+    --header-height-mobile-actual: 7.3rem; /* Estimated for 2 rows mobile: (0.8rem padding + 36px logo + 0.8rem gap + 42px search + 0.8rem padding)*/
+    --default-transition: all 0.3s ease;
+  }
+  
+  /* Base styling for FontAwesome icons */
+  .svg-inline--fa {
+    display: inline-block;
+    height: 1em;
+    overflow: visible;
+    vertical-align: -0.125em;
+  }
+  
+  
+  /* ==================== Search Part ==================== */
+  .search {
+    background-color: var(--white-color);
+    padding: 0.8rem 0;
+    position: relative;
+    z-index: 100;
+    transition: var(--default-transition);
+    min-height: var(--header-height-desktop); /* Use min-height for flexibility */
+    box-sizing: border-box;
+    display: flex; /* Added to help vertically center container if needed */
+    align-items: center; /* Vertically center the .container */
+    border-bottom: 1px solid var(--border-color);
+  }
+  
+  .search .container {
+    display: grid;
+    grid-template-columns: auto 1fr auto; /* col1: logo+brand, col2: search, col3: icons */
+    align-items: center;
+    gap: 1.8rem; /* Spacing between main sections */
+    width: 100%;
+    max-width: 1200px; /* Optional: constrain max width of header content */
+    margin: 0 auto; /* Center container if max-width is used */
+    padding: 0 1rem; /* Add padding to container for smaller screens */
+  }
+  
+  /* Logo and Brand Name Wrapper */
+  .logo-brand-wrapper {
+    grid-column: 1 / 2;
+    display: flex;
+    align-items: center;
+    gap: 0.9rem; /* Space between logo and brand name */
+  }
+  
+  .logo-link .main-logo-img {
+    display: block;
+    max-height: 45px;
+    width: auto;
+    object-fit: contain;
+  }
+  
+  .brand-name-link {
+    text-decoration: none;
+  }
+  
+  .brand-name-text {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin: 0;
+    line-height: 1.2;
+    white-space: nowrap;
+    font-family: 'Arial', sans-serif; /* Example: A slightly more distinct font */
+  }
+  
+  /* Search Box */
+  .search-box {
+    grid-column: 2 / 3;
+    width: 100%;
+    max-width: 550px; /* Max width for search bar */
+    justify-self: center; /* Center search bar in its grid area */
+    border: 1px solid var(--border-color);
+    border-radius: 25px;
+    background: var(--white-color);
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    height: 44px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.04);
+    transition: box-shadow 0.2s ease, border-color 0.2s ease;
+  }
+  .search-box:focus-within {
+    box-shadow: 0 3px 12px rgba(var(--primary-color-rgb, 15, 52, 96), 0.15); /* Use primary color for shadow */
+    border-color: var(--primary-color);
+  }
+  
+  .search-box input {
+    padding: 0.6rem 1rem 0.6rem 1.2rem; /* Left padding for text */
+    font-size: 0.95rem;
+    color: var(--text-dark);
+    flex-grow: 1;
+    border: none;
+    background: transparent;
+    min-width: 0; /* Allows input to shrink */
+  }
+  .search-box input::placeholder {
+    color: var(--text-light);
+    opacity: 0.8;
+  }
+  
+  .search-submit-button {
+    background: transparent;
+    border: none;
+    padding: 0 1.2rem; /* Clickable area for icon */
+    cursor: pointer;
+    color: var(--text-light);
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    transition: color 0.2s ease;
+  }
+  .search-submit-button:hover,
+  .search-box:focus-within .search-submit-button {
+    color: var(--primary-color);
+  }
+  
+  
+  /* Icons Wrapper */
+  .search .icons-wrapper {
+    grid-column: 3 / 4;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 1rem;
+  }
+  
+  .icon-circle-link {
+    display: block;
+    position: relative;
+  }
+  
+  .icon-circle {
+    width: 42px;
+    height: 42px;
+    background-color: var(--grey-bg);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    color: var(--text-medium);
+    transition: var(--default-transition);
+    border: 1px solid transparent;
+  }
+  .icon-circle:hover {
+    background-color: var(--white-color);
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  }
+  .icon-circle .svg-inline--fa.fa-spinner {
+    animation: fa-spin 1s infinite linear;
+  }
+  
+  /* User Avatar specific */
+  .user-avatar-icon {
+    overflow: hidden;
+    padding: 0;
+    background-color: #e0e0e0;
+  }
+  .user-profile-picture {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+  
+  /* User Dropdown Menu */
+  .user-menu-container {
+    position: relative;
+  }
+  
+  .user-dropdown {
+    position: absolute;
+    top: calc(100% + 12px); /* Increased gap */
+    right: 0;
+    background-color: var(--white-color);
+    border-radius: 10px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12); /* Enhanced shadow */
+    z-index: 1001;
+    min-width: 230px; /* Wider dropdown */
+    padding: 8px 0;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(12px) scale(0.97);
+    transition: opacity 0.28s ease, transform 0.28s ease, visibility 0.28s ease;
+    border: 1px solid #e7eaf3;
+  }
+  .user-menu-container:hover .user-dropdown, /* Hover for desktop */
+  .user-menu-container .user-dropdown[aria-expanded="true"] { /* Click/state for mobile */
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+  }
+  
+  .dropdown-greeting-header {
+    padding: 12px 18px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 6px;
+  }
+  
+  .dropdown-greeting-username {
+    font-weight: 600;
+    font-size: 1.05rem;
+    color: var(--text-dark);
+    margin: 0;
+    line-height: 1.3;
+    word-break: break-word;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .dropdown-divider {
+    margin: 6px 0;
+    border: 0;
+    border-top: 1px solid var(--border-color);
+  }
+  .dropdown-item {
+    display: flex;
+    align-items: center;
+    padding: 11px 18px;
+    text-decoration: none;
+    color: var(--text-medium);
+    font-size: 0.98rem;
+    background-color: transparent;
+    border: none;
+    width: calc(100% - 12px); /* Adjust for margin */
+    margin: 2px 6px; /* Margin for rounded item effect */
+    text-align: left;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease, padding-left 0.2s ease;
+    border-radius: 6px;
+  }
+  .dropdown-item:hover {
+    background-color: var(--grey-bg);
+    color: var(--primary-color);
+    padding-left: 22px;
+  }
+  .dropdown-icon {
+    margin-right: 14px;
+    color: var(--text-light);
+    width: 18px;
+    text-align: center;
+    font-size: 0.95em;
+    transition: color 0.2s ease;
+  }
+  .dropdown-item:hover .dropdown-icon {
+    color: var(--primary-color);
+  }
+  .dropdown-logout-button {
+    color: var(--secondary-color);
+  }
+  .dropdown-logout-button:hover {
+    background-color: var(--secondary-color) !important; /* Ensure override */
+    color: var(--white-color) !important;
+  }
+  .dropdown-logout-button:hover .dropdown-icon {
+    color: var(--white-color) !important;
+  }
+  
+  /* Cart Styling */
+  .cart {
+    position: relative;
+  }
+  .cart-link {
+    display: block;
+    position: relative;
+  }
+  .cart span.cart-count {
+    position: absolute;
+    top: -5px;
+    right: -6px;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 5px;
+    line-height: 20px;
+    border-radius: 10px;
+    text-align: center;
+    background-color: var(--secondary-color);
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--white-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(233, 69, 106, 0.5);
+    pointer-events: none;
+    border: 1.5px solid var(--white-color);
+  }
+  /* ==================== End Search Part ==================== */
+  
+  
+  /* ==================== Sticky Header ==================== */
+  .search.active {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: var(--white-color);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.07);
+    z-index: 999;
+    min-height: var(--header-height-desktop); /* Ensure sticky has same min-height */
+    animation: slideDownHeader 0.35s ease-out forwards;
+  }
+  
+  @keyframes slideDownHeader {
+    from {
+      transform: translateY(-100%);
+      opacity: 0.7;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  /* ==================== End Sticky Header ==================== */
+  
+  
+  /* ==================== Media Queries ==================== */
+  /* ~~~ Tablet and Smaller Desktop (992px) ~~~ */
+  @media (max-width: 992px) {
+    .search .container {
+      gap: 1.2rem;
+      padding: 0 1.2rem; /* More padding for container */
+    }
+    .logo-link .main-logo-img {
+      max-height: 40px;
+    }
+    .brand-name-text {
+      font-size: 1.4rem;
+    }
+    .search-box {
+      max-width: 400px; /* Adjust search box width */
+    }
+    .search .icons-wrapper {
+      gap: 0.8rem;
+    }
+  }
+  
+  /* ~~~ Tablet Portrait & Mobile (768px) - MAJOR CHANGE POINT ~~~ */
+  @media (max-width: 768px) {
+    .search {
+      padding: 0.8rem 0; /* Vertical padding for the section */
+      min-height: var(--header-height-mobile-actual); /* Use actual height for 2 rows */
+    }
+    .search.active {
+      min-height: var(--header-height-mobile-actual); /* Sticky header also uses this height */
+      height: var(--header-height-mobile-actual); /* Fixed height for sticky ensures dropdown calc is fine */
+    }
+  
+    .search .container {
+      display: flex; /* Switch to flexbox for mobile */
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      row-gap: 0.8rem; /* Gap between rows */
+      column-gap: 0.5rem; /* Small gap between items in a row if they wrap */
+      padding: 0 1rem; /* Container padding */
+    }
+  
+    .logo-brand-wrapper {
+      order: 1;
+      /* margin-right: auto; Removed to allow icons-wrapper to align naturally */
+      flex-grow: 1; /* Allow it to take available space on the left */
+      gap: 0.6rem;
+    }
+    .logo-link .main-logo-img { max-height: 36px; }
+    .brand-name-text {
+      font-size: 1.3rem;
+    }
+  
+    .icons-wrapper {
+      order: 2;
+      margin-left: auto; /* Pushes icons to the far right of the first row */
+      gap: 0.6rem;
+    }
+  
+    .search-box {
+      order: 3;
+      width: 100%; /* Full width on the second row */
+      height: 42px;
+      margin-top: 0.2rem; /* Reduced top margin */
+      max-width: none; /* Allow full width */
+      justify-self: unset; /* Reset from desktop grid */
+    }
+    .search-box input { font-size: 0.9rem; padding: 0.5rem 0.8rem 0.5rem 1rem; }
+    .search-submit-button { padding: 0 1rem; }
+  
+    .icon-circle { width: 40px; height: 40px; font-size: 1.05rem; }
+    .cart span.cart-count {
+      min-width: 18px; height: 18px; font-size: 0.65rem;
+      top: -4px; right: -5px; padding: 0 4px;
+    }
+  
+    .user-dropdown {
+      /* Let it be relative to avatar on tablet, unless very small screen */
+      /* For tap, manage open state with JS via isUserDropdownOpen */
+      min-width: 240px; /* Ensure enough width */
+      top: calc(100% + 8px); /* Adjust gap for mobile */
+    }
+  }
+  
+  /* ~~~ Smaller Mobile Phones (576px) ~~~ */
+  @media (max-width: 576px) {
+    .search .container {
+      padding: 0 0.8rem; /* Slightly less padding */
+    }
+    .logo-link .main-logo-img { max-height: 32px; }
+    .brand-name-text {
+      font-size: 1.15rem;
+      /* Consider hiding if too crowded, or make it smaller */
+      /* display: none; */
+    }
+    .logo-brand-wrapper {
+      gap: 0.4rem;
+    }
+    .icons-wrapper { gap: 0.4rem; }
+    .icon-circle { width: 38px; height: 38px; font-size: 1rem; }
+  
+    .user-dropdown {
+      position: fixed; /* Fix dropdown to viewport */
+      left: 10px;
+      right: 10px;
+      /* Use --header-height-mobile-actual which is defined for the 2-row layout */
+      top: calc(var(--header-height-mobile-actual) + 10px); /* Position below sticky mobile header */
+      width: auto; /* Let content define width within fixed bounds */
+      min-width: 0;
+      max-width: none; /* Override desktop max-width */
+      box-shadow: 0 10px 35px rgba(0,0,0,0.12);
+      transform: translateY(0) scale(1); /* Override open animation for fixed */
+    }
+     /* Ensure dropdown is visible when state is open and screen is small */
+    .user-menu-container .user-dropdown[aria-expanded="true"] {
+      opacity: 1;
+      visibility: visible;
+    }
+  
+    .dropdown-greeting-header { padding: 10px 15px; }
+    .dropdown-greeting-username { font-size: 1rem; }
+    .dropdown-item { padding: 10px 15px; font-size: 0.95rem; }
+    .dropdown-icon { margin-right: 12px; }
+  }
+
+  /* ... existing Search.css styles ... */
+/* ... existing Search.css styles ... */
+/* ... other styles ... */
+
+.search-box-container {
+  position: relative; /* For positioning the dropdown */
+  display: flex;
+  flex-grow: 1; /* Allow search box to take available space */
+  margin: 0 20px; /* Example spacing */
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  background-color: #f0f0f0; /* Example background */
+  border-radius: 25px;
+  padding: 8px 15px;
+  width: 100%; /* Make search box fill its container */
+  border: 1px solid transparent; /* For focus state */
+}
+
+.search-box:focus-within {
+  border-color: #007bff; /* Example focus color */
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Example focus shadow */
+}
+
+.search-box .search-box-icon {
+  margin-right: 10px;
+  color: #555;
+}
+
+.search-box input[type="text"] {
+  border: none;
+  outline: none;
+  background-color: transparent;
+  width: 100%;
+  font-size: 1rem;
+}
+
+.search-results-dropdown {
+  position: absolute;
+  top: 100%; /* Position below the search box */
+  left: 0;
+  right: 0;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-top: none; /* If search box has bottom border */
+  border-radius: 0 0 8px 8px; /* Rounded bottom corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000; /* Ensure it's above other content */
+  max-height: 400px; /* Limit height and make scrollable if needed */
+  overflow-y: auto;
+  width: 70%;
+}
+
+.search-dropdown-message {
+  padding: 10px 15px;
+  color: #555;
+  text-align: center;
+}
+
+.search-dropdown-message .faSpinner {
+  margin-right: 8px;
+}
+
+.search-result-item {
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  text-decoration: none;
+  color: #333;
+  border-bottom: 1px solid #eee; /* Separator for items */
+}
+
+.search-result-item:last-child {
+  border-bottom: none;
+}
+
+.search-result-item:hover {
+  background-color: #f5f5f5;
+}
+
+.search-result-image {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  margin-right: 10px;
+  border-radius: 4px; /* Slightly rounded images */
+  background-color: #eee; /* Placeholder background */
+}
+
+.search-result-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.search-result-name {
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.search-result-type {
+  font-size: 0.75rem;
+  color: #777;
+  text-transform: capitalize;
+}
+
+/* ... other styles for icons, logo, user dropdown etc. ... */
+
+/* Ensure user dropdown does not overlap search dropdown if both are open */
+.user-dropdown {
+    z-index: 1001; /* Higher than search dropdown if necessary, or adjust positioning */
+}

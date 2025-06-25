@@ -4,137 +4,171 @@ import path from "path";
 import fs from "fs";
 import { fileURLToPath } from "url";
 
-// ES Module __dirname equivalent relative to this config file
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Project Root (assuming config is in backend/config)
-const PROJECT_ROOT = path.resolve(__dirname, "..");
-const UPLOADS_DIR = path.join(PROJECT_ROOT, "uploads"); // Base uploads directory path
+// Resolve PROJECT_ROOT one level up from 'config' directory
+const PROJECT_ROOT = path.resolve(__dirname, "..", ".."); // Adjusted to go up two levels if config is inside backend
+// If your project structure is backend/config, backend/uploads, backend/controllers etc., then:
+// const PROJECT_ROOT = path.resolve(__dirname, ".."); // This would be correct
 
-// --- Helper Functions ---
-// Ensures a directory exists (absolute path)
+const UPLOADS_DIR_NAME = "uploads"; // Define the uploads directory name
+const UPLOADS_DIR_PATH_FROM_BACKEND_ROOT = path.join(
+  "backend",
+  UPLOADS_DIR_NAME
+); // Path relative to project root for deletion
+const ABSOLUTE_UPLOADS_DIR = path.join(
+  PROJECT_ROOT,
+  UPLOADS_DIR_PATH_FROM_BACKEND_ROOT
+);
+
 const ensureDirExistsAbsolute = (absolutePath) => {
   if (!fs.existsSync(absolutePath)) {
     try {
       fs.mkdirSync(absolutePath, { recursive: true });
-      console.log(`Created directory: ${absolutePath}`);
+      console.log(`[Multer Config] Created directory: ${absolutePath}`);
     } catch (err) {
-      console.error(`Error creating directory ${absolutePath}:`, err);
-      throw err; // Critical if upload dir can't be made
+      console.error(
+        `[Multer Config] Error creating directory ${absolutePath}:`,
+        err
+      );
+      throw err; // Propagate error to stop server initialization if critical
     }
   }
   return absolutePath;
 };
 
-// --- Storage Configurations ---
-const createStorage = (destinationSubDir, filenamePrefix) => {
-  // Ensure the specific subdirectory exists within the base 'uploads' directory
-  const absoluteUploadPath = ensureDirExistsAbsolute(
-    path.join(UPLOADS_DIR, destinationSubDir)
-  );
+// Initialize base UPLOADS_DIR on module load
+ensureDirExistsAbsolute(ABSOLUTE_UPLOADS_DIR);
 
+const createStorage = (destinationSubDir, filenamePrefix) => {
+  const absoluteUploadPathWithSubDir = ensureDirExistsAbsolute(
+    path.join(ABSOLUTE_UPLOADS_DIR, destinationSubDir)
+  );
   return multer.diskStorage({
     destination: (req, file, cb) => {
-      cb(null, absoluteUploadPath); // Use the ensured absolute path
+      cb(null, absoluteUploadPathWithSubDir);
     },
     filename: (req, file, cb) => {
       const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
       const extension = path.extname(file.originalname);
-      // Filename includes the prefix (e.g., 'item-12345.jpg')
       cb(null, `${filenamePrefix}-${uniqueSuffix}${extension}`);
     },
   });
 };
 
-// --- File Filter ---
 const imageFileFilter = (req, file, cb) => {
-  // Regular expression to test file mimetype for common image types
   const allowedImageTypes = /image\/(jpeg|jpg|png|gif|webp)/;
   if (allowedImageTypes.test(file.mimetype)) {
-    cb(null, true); // Accept image
+    cb(null, true);
   } else {
     console.warn(
       `[Multer Filter] Rejected file type: ${file.mimetype} for ${file.originalname}`
     );
-    // Create a specific error that the error handler can potentially identify
     const error = new Error(
-      "Only image files (JPEG, PNG, WEBP, GIF) are allowed."
+      "Only image files (JPEG, JPG, PNG, GIF, WEBP) are allowed."
     );
-    error.code = "INVALID_FILE_TYPE"; // Custom error code
-    cb(error, false); // Reject file with a specific error
+    error.code = "INVALID_FILE_TYPE"; // Custom code for easier handling
+    cb(error, false);
   }
 };
 
-// --- File Size Limit ---
 const MAX_SIZE_MB = parseInt(process.env.MAX_FILE_UPLOAD_SIZE_MB || "5", 10);
-const fileSizeLimit = MAX_SIZE_MB * 1024 * 1024; // Size in bytes
+const fileSizeLimit = MAX_SIZE_MB * 1024 * 1024;
 
-// --- Multer Instances ---
-
-// For User Profile Pictures -> uploads/users/user-<uniqueId>.ext
-const userStorage = createStorage("users", "user");
+// User Profile Picture
+const userStorage = createStorage("users", "user-profile");
 const uploadUserProfile = multer({
   storage: userStorage,
   fileFilter: imageFileFilter,
   limits: { fileSize: fileSizeLimit },
-}).single("profilePicture"); // Field name expected from user profile form
+}).single("profilePicture");
 
-// For Category Images -> uploads/categories/category-<uniqueId>.ext
+// Category Image
 const categoryStorage = createStorage("categories", "category");
 const uploadCategoryImage = multer({
   storage: categoryStorage,
   fileFilter: imageFileFilter,
   limits: { fileSize: fileSizeLimit },
-}).single("image"); // Field name expected from category form
+}).single("image"); // Frontend sends as 'image' for category
 
-// *** RENAMED: For Item Images -> uploads/items/item-<uniqueId>.ext ***
-const itemStorage = createStorage("items", "item"); // Changed subDir and prefix
-const uploadItemImage = multer({
-  // Renamed multer instance
-  storage: itemStorage, // Use itemStorage
+// Item Images - For Creation (expects 'images' field)
+const itemStorage = createStorage("items", "item-image"); // Subdirectory "items" for item images
+const MAX_ITEM_IMAGES_CREATE = 5; // Corresponds to frontend MAX_IMAGES
+const uploadItemImagesForCreate = multer({
+  storage: itemStorage,
+  fileFilter: imageFileFilter,
+  limits: { fileSize: fileSizeLimit, files: MAX_ITEM_IMAGES_CREATE },
+}).array("images", MAX_ITEM_IMAGES_CREATE); // 'images' from frontend FormData for new item
+
+// Item Images - For Update (expects 'newImages' field for new files)
+const MAX_ITEM_IMAGES_UPDATE = 5; // Should be consistent with create and frontend
+const uploadItemImagesForUpdate = multer({
+  storage: itemStorage, // Reuse same storage configuration
+  fileFilter: imageFileFilter,
+  limits: { fileSize: fileSizeLimit, files: MAX_ITEM_IMAGES_UPDATE },
+}).array("newImages", MAX_ITEM_IMAGES_UPDATE); // 'newImages' from frontend FormData for item update
+
+// Banner Image
+const bannerStorage = createStorage("banners", "banner-image");
+const uploadBannerImageMiddleware = multer({
+  storage: bannerStorage,
   fileFilter: imageFileFilter,
   limits: { fileSize: fileSizeLimit },
-}).single("image"); // Field name expected from item form (assuming it's also 'image')
+}).single("bannerImage");
 
-// --- File Deletion Utility ---
-// Takes path RELATIVE to the 'uploads' directory (e.g., "items/item-123.jpg")
-const deleteFile = async (relativePath) => {
-  if (!relativePath || typeof relativePath !== "string") {
-    console.log("[Delete File] Invalid or missing relative path provided.");
-    return false; // Indicate failure or invalid input
+/**
+ * Deletes a file from the uploads directory.
+ * @param {string} relativePathFromUploadsDir - The path of the file relative to the UPLOADS_DIR.
+ *                                               Example: "items/item-image-123.jpg"
+ * @returns {Promise<boolean>} True if deletion was successful or file didn't exist, false on error.
+ */
+const deleteFile = async (relativePathFromUploadsDir) => {
+  if (
+    !relativePathFromUploadsDir ||
+    typeof relativePathFromUploadsDir !== "string"
+  ) {
+    console.warn(
+      "[Delete File] Invalid or missing relative path from uploads directory provided."
+    );
+    return false;
   }
 
-  // Construct absolute path from the base uploads directory + relative path
-  const absolutePath = path.join(UPLOADS_DIR, relativePath);
-  console.log(`[Delete File] Attempting to delete: ${absolutePath}`);
+  // Construct absolute path from the base ABSOLUTE_UPLOADS_DIR
+  const absolutePath = path.join(
+    ABSOLUTE_UPLOADS_DIR,
+    relativePathFromUploadsDir
+  );
 
+  console.log(`[Delete File] Attempting to delete: ${absolutePath}`);
   try {
-    await fs.promises.access(absolutePath, fs.constants.F_OK); // Check existence using recommended mode F_OK
+    await fs.promises.access(absolutePath, fs.constants.F_OK); // Check if file exists
     await fs.promises.unlink(absolutePath); // Delete the file
     console.log(`[Delete File] Successfully deleted file: ${absolutePath}`);
-    return true; // Indicate success
+    return true;
   } catch (error) {
     if (error.code === "ENOENT") {
-      // File doesn't exist - often not a critical error during cleanup
       console.log(
         `[Delete File] File not found (already deleted or invalid path?): ${absolutePath}`
       );
+      return true; // Consider not found as a "successful" outcome for cleanup
     } else {
-      // Log other errors (permissions, etc.)
       console.error(
         `[Delete File] Error deleting file ${absolutePath}:`,
         error
       );
+      return false; // Indicate failure
     }
-    return false; // Indicate failure
   }
 };
 
-// *** UPDATED EXPORT LIST ***
 export {
   uploadUserProfile,
   uploadCategoryImage,
-  uploadItemImage, // Export the renamed item image uploader
+  uploadItemImagesForCreate, // Renamed for clarity
+  uploadItemImagesForUpdate, // New specific middleware for updates
+  uploadBannerImageMiddleware,
   deleteFile,
+  ABSOLUTE_UPLOADS_DIR, // Export for potential use elsewhere if needed for constructing paths
+  UPLOADS_DIR_NAME, // Export for constructing relative paths for DB storage
 };

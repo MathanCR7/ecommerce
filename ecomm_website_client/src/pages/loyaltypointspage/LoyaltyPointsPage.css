@@ -1,0 +1,340 @@
+/* src/pages/loyaltypointspage/LoyaltyPointsPage.css */
+
+/* Base container styling */
+.loyalty-points-page-container {
+    max-width: 700px; /* Similar width to Wallet for consistency */
+    margin: 40px auto;
+    padding: 0 20px;
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    line-height: 1.6;
+    background-color: #ffffff; /* White background */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    min-height: calc(100vh - var(--header-height, 80px) - var(--footer-height, 60px)); /* Ensure min height */
+    box-sizing: border-box;
+}
+
+/* Page title */
+.loyalty-points-page-container h1 {
+    text-align: center;
+    color: #1a4d2e; /* Dark green */
+    margin-bottom: 30px;
+    font-size: 2.8em;
+    font-weight: 700;
+    padding-bottom: 10px;
+    border-bottom: 3px solid #4c9a2a;
+    line-height: 1.2;
+}
+
+/* Section Headings */
+.loyalty-points-page-container h2 {
+    color: #4c9a2a; /* Bright green */
+    margin-top: 35px;
+    margin-bottom: 20px;
+    font-size: 1.9em;
+    font-weight: 600;
+    text-align: center; /* Center section headings */
+    border-bottom: 1px dashed #c8e6c9;
+    padding-bottom: 5px;
+}
+
+/* Messages (Loading, Error, No Transactions) */
+.loyalty-points-page-container .loading-message,
+.loyalty-points-page-container .error-message,
+.loyalty-points-page-container .no-transactions-message {
+    text-align: center;
+    font-size: 1.1em;
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: #fff9c4; /* Light yellow/gold */
+    color: #fbc02d; /* Darker yellow/gold */
+    border: 1px solid #ffeb3b;
+}
+
+.loyalty-points-page-container .error-message {
+     background-color: #ffebee; /* Light red */
+     color: #b71c1c; /* Dark red */
+     border-color: #ef9a9a;
+}
+
+
+/* Loyalty Summary Section */
+.loyalty-summary-section {
+    text-align: center; /* Center balance display */
+}
+
+.points-box {
+    background-color: #fff9c4; /* Light yellow/gold background */
+    border: 2px solid #fbc02d; /* Yellow/gold border */
+    border-radius: 10px;
+    padding: 25px 30px;
+    display: inline-block; /* Shrink box to content */
+    margin: 20px auto;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    font-size: 2.5em; /* Large font for balance */
+    font-weight: bold;
+    color: #e65100; /* Dark orange/brown - feels rewarding */
+    display: flex; /* Use flex to align balance and label */
+    align-items: baseline;
+    gap: 5px;
+}
+
+
+
+.points-label {
+    font-size: 0.8em; /* Smaller label */
+    font-weight: normal;
+    color: #555;
+}
+
+.how-to-earn {
+    margin-top: 20px;
+    font-size: 1em;
+    color: #555;
+}
+
+.how-to-earn a { /* Style if you add a link */
+     color: #4c9a2a;
+     text-decoration: none;
+     font-weight: bold;
+}
+.how-to-earn a:hover {
+     text-decoration: underline;
+}
+
+
+/* Transaction History Section */
+.transaction-history-section {
+    margin-top: 40px;
+}
+
+.transaction-list {
+    margin-top: 20px;
+    border-top: 1px solid #eee; /* Separator line */
+    padding-top: 10px;
+}
+
+.transaction-item {
+    display: flex; /* Layout details and amount side-by-side */
+    justify-content: space-between; /* Push details left, amount right */
+    align-items: center; /* Vertically center content */
+    padding: 15px 0;
+    border-bottom: 1px solid #eee; /* Separator between items */
+    transition: background-color 0.2s ease;
+}
+
+.transaction-item:last-child {
+    border-bottom: none; /* No border for the last item */
+}
+
+.transaction-item:hover {
+    background-color: #f5f5f5; /* Light hover effect */
+}
+
+.transaction-details {
+    flex-grow: 1; /* Details take available space */
+    margin-right: 15px; /* Space between details and amount */
+}
+
+.transaction-description {
+    font-weight: bold;
+    color: #333;
+    font-size: 1em;
+}
+
+.transaction-date {
+    font-size: 0.9em;
+    color: #777;
+    margin-top: 4px;
+}
+
+.transaction-points { /* Use transaction-points for points display */
+    font-weight: bold;
+    font-size: 1.1em;
+    flex-shrink: 0; /* Prevent amount from shrinking */
+    text-align: right;
+}
+
+.transaction-points.earn {
+    color: #2e7d32; /* Dark green for earned points */
+}
+
+.transaction-points.redeem {
+    color: #d32f2f; /* Red for redeemed points */
+}
+
+/* Style for 'adjustment' if used, might need conditional color */
+.transaction-points.adjustment {
+     color: #0277bd; /* Blue for adjustments */
+}
+
+
+/* How to Redeem Section */
+.how-to-redeem-section {
+     margin-top: 40px;
+}
+
+.how-to-redeem-section p {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #555;
+}
+
+.redeem-button {
+     display: block; /* Button on its own line */
+     width: fit-content; /* Button size based on content */
+     margin: 0 auto; /* Center the button */
+     padding: 12px 25px;
+     background-color: #fbc02d; /* Yellow/gold button */
+     color: #1a4d2e; /* Dark green text */
+     border: none;
+     border-radius: 5px;
+     font-size: 1.1em;
+     font-weight: bold;
+     cursor: pointer;
+     transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+.redeem-button:hover {
+    background-color: #f9a825; /* Darker yellow/gold on hover */
+}
+
+.redeem-button:active {
+     transform: scale(0.98);
+}
+
+
+/* --- Responsive Design --- */
+
+@media (max-width: 768px) {
+    .loyalty-points-page-container {
+        margin: 20px auto;
+        padding: 0 15px;
+    }
+
+     .loyalty-points-page-container h1 {
+        font-size: 2.2em;
+        margin-bottom: 25px;
+     }
+
+     .loyalty-points-page-container h2 {
+        font-size: 1.6em;
+        margin-top: 30px;
+        margin-bottom: 15px;
+     }
+
+    .points-box {
+        padding: 20px 25px;
+        font-size: 2em;
+        margin: 15px auto;
+    }
+
+    .how-to-earn {
+        font-size: 0.95em;
+         margin-top: 15px;
+    }
+
+    .transaction-item {
+        padding: 12px 0;
+        flex-direction: column; /* Stack details and points on smaller screens */
+        align-items: flex-start; /* Align items to the left */
+        gap: 5px; /* Space between stacked items */
+    }
+
+    .transaction-details {
+         margin-right: 0; /* Remove margin */
+         width: 100%; /* Full width */
+    }
+
+    .transaction-description {
+        font-size: 0.95em;
+    }
+
+    .transaction-date {
+        font-size: 0.85em;
+    }
+
+    .transaction-points {
+         width: 100%; /* Full width */
+         text-align: left; /* Align amount to the left below details */
+         font-size: 1em;
+         margin-top: 5px;
+         padding-top: 5px;
+         border-top: 1px dashed #eee; /* Add a subtle separator when stacked */
+    }
+
+    .how-to-redeem-section p {
+        font-size: 0.95em;
+         margin-bottom: 15px;
+    }
+
+     .redeem-button {
+         padding: 10px 20px;
+         font-size: 1em;
+     }
+}
+
+@media (max-width: 480px) {
+     .loyalty-points-page-container {
+          margin: 15px auto;
+          padding: 0 10px;
+     }
+
+     .loyalty-points-page-container h1 {
+        font-size: 1.8em;
+        margin-bottom: 20px;
+        padding-bottom: 5px;
+     }
+
+      .loyalty-points-page-container h2 {
+        font-size: 1.4em;
+        margin-top: 25px;
+        margin-bottom: 10px;
+     }
+
+    .points-box {
+        padding: 15px 20px;
+        font-size: 1.8em;
+        margin: 15px auto;
+    }
+
+     .points-label {
+         font-size: 0.7em;
+     }
+
+     .how-to-earn {
+         font-size: 0.9em;
+         margin-top: 10px;
+     }
+
+     .transaction-item {
+         padding: 10px 0;
+         gap: 3px;
+     }
+
+     .transaction-description {
+         font-size: 0.9em;
+     }
+
+     .transaction-date {
+         font-size: 0.8em;
+     }
+
+      .transaction-points {
+         font-size: 0.9em;
+          margin-top: 3px;
+          padding-top: 3px;
+     }
+
+     .how-to-redeem-section p {
+         font-size: 0.9em;
+          margin-bottom: 10px;
+     }
+
+      .redeem-button {
+         padding: 8px 15px;
+         font-size: 0.9em;
+      }
+}

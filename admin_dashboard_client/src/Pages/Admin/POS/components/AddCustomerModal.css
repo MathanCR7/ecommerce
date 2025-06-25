@@ -1,0 +1,133 @@
+/* src/Pages/Admin/POS/components/AddCustomerModal.css */
+.modal-overlay-pos {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Ensure it's on top */
+  }
+  
+  .modal-content-pos {
+    background-color: white;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    width: 90%;
+    max-width: 450px;
+    animation: slide-down 0.3s ease-out;
+  }
+  
+  @keyframes slide-down {
+    from {
+      opacity: 0;
+      transform: translateY(-30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .modal-header-pos {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .modal-header-pos h3 {
+    margin: 0;
+    font-size: 1.4em;
+    color: #333;
+  }
+  
+  .close-btn-pos {
+    background: none;
+    border: none;
+    font-size: 1.5em;
+    cursor: pointer;
+    color: #777;
+  }
+  .close-btn-pos:hover {
+    color: #333;
+  }
+  
+  .modal-form-pos .form-group-pos {
+    margin-bottom: 15px;
+  }
+  
+  .modal-form-pos label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 500;
+    font-size: 0.95em;
+    color: #555;
+  }
+  .required-asterisk {
+    color: red;
+    margin-left: 2px;
+  }
+  
+  .modal-form-pos input[type="text"],
+  .modal-form-pos input[type="email"],
+  .modal-form-pos input[type="tel"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 1em;
+  }
+  .modal-form-pos input[type="text"]:focus,
+  .modal-form-pos input[type="email"]:focus,
+  .modal-form-pos input[type="tel"]:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+    outline: none;
+  }
+  
+  .error-text-pos {
+      color: #dc3545;
+      font-size: 0.85em;
+      margin-top: 4px;
+  }
+  
+  
+  .modal-actions-pos {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px; /* Spacing between buttons */
+    margin-top: 25px;
+  }
+  
+  .modal-actions-pos button {
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 500;
+    border: none;
+  }
+  
+  .reset-btn-pos {
+    background-color: #6c757d;
+    color: white;
+  }
+  .reset-btn-pos:hover {
+    background-color: #5a6268;
+  }
+  
+  .submit-btn-pos {
+    background-color: #007bff;
+    color: white;
+  }
+  .submit-btn-pos:hover {
+    background-color: #0056b3;
+  }

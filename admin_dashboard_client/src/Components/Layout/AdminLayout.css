@@ -43,3 +43,66 @@
       /* .admin-layout.sidebar-collapsed .sidebar { ... } */
       /* .admin-layout .sidebar { ... } */
   }
+  .order-notification-popup {
+  position: fixed;
+  top: 80px; /* Adjust based on your Header height */
+  right: 20px;
+  background-color: #17a2b8; /* Info blue, or #28a745 for success green */
+  color: white;
+  padding: 15px 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1050; /* Ensure it's above other content */
+  display: flex;
+  flex-direction: column; /* Stack message and buttons */
+  align-items: flex-start; /* Align content to the start */
+  gap: 10px; /* Space between message and buttons */
+  transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+  opacity: 0;
+  transform: translateX(100%); /* Start off-screen to the right */
+  max-width: 350px; /* Limit width */
+}
+
+.order-notification-popup.show {
+  opacity: 1;
+  transform: translateX(0); /* Slide in */
+}
+
+.order-notification-popup p {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.order-notification-popup .buttons {
+  display: flex;
+  gap: 10px;
+  align-self: flex-end; /* Align buttons to the right */
+}
+
+.order-notification-popup .btn {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.order-notification-popup .btn-view {
+  background-color: #ffffff;
+  color: #17a2b8; /* Match popup background */
+}
+.order-notification-popup .btn-view:hover {
+  background-color: #f0f0f0;
+}
+
+.order-notification-popup .btn-dismiss {
+  background-color: transparent;
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+}
+.order-notification-popup .btn-dismiss:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}

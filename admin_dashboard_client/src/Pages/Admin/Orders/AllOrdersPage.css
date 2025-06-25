@@ -1,0 +1,908 @@
+/* ========================================================================
+// FILE: client/src/Pages/Admin/Orders/AllOrdersPage.css
+// Description: Enhanced styling for the Admin All Orders List Page.
+// Refactored based *strictly* on the provided screenshot layout and visual elements,
+// with added visual polish, smoother transitions, and improved responsiveness.
+// Includes modern CSS practices and media queries for various devices.
+// Updated for debounced client-side search (removed search button styles).
+// Added 'Total' status card styles.
+// ======================================================================== */
+
+/* --- Root Variables (Optional but Recommended for Consistency) --- */
+:root {
+    --primary-blue: #007bff;
+    --secondary-grey: #f1f5f9;
+    --text-dark: #2d3a4b;
+    --text-medium: #555;
+    --text-light: #6b7280;
+    --background-light: #f8fafd;
+    --card-background: #ffffff;
+    --border-color: #d1d5db;
+    --shadow-subtle: 0 2px 4px rgba(0, 0, 0, 0.08);
+    --shadow-card-hover: 0 4px 8px rgba(0, 0, 0, 0.12);
+    --radius-small: 4px;
+    --radius-medium: 8px;
+    --radius-pill: 16px;
+    --transition-speed: 0.2s;
+    --spacing-unit: 1rem; /* Base spacing unit */
+}
+
+
+/* --- Base Styles --- */
+.all-orders-page-container {
+    padding: calc(var(--spacing-unit) * 1.5) calc(var(--spacing-unit) * 2); /* Responsive padding */
+    background-color: var(--background-light);
+    min-height: 100vh;
+    font-family: 'Inter', sans-serif; /* A modern, clean font like Inter or Poppins often used */
+    color: var(--text-medium);
+    line-height: 1.6; /* Improved readability */
+    overflow-x: hidden; /* Prevent body overflow from layout issues */
+    display: flex; /* Use flex to manage layout direction easily */
+    flex-direction: column;
+    gap: var(--spacing-unit); /* Add gap between main sections */
+}
+
+/* --- Header --- */
+.orders-page-header {
+    display: flex;
+    align-items: center;
+    /* margin-bottom removed due to container gap */
+    flex-wrap: wrap; /* Allow wrapping */
+    gap: 10px; /* Gap between h1 and badge */
+}
+
+.orders-page-header h1 {
+    font-size: 26px; /* Slightly larger header */
+    font-weight: 700; /* Bolder */
+    color: var(--text-dark);
+    margin: 0;
+    flex-grow: 1; /* Allow h1 to take space */
+}
+
+.orders-count-badge {
+    background-color: #e0e7ff; /* Light purple-blue */
+    color: #4f46e5; /* Deeper purple-blue */
+    padding: 6px 12px; /* Increased padding */
+    border-radius: var(--radius-pill);
+    font-size: 15px; /* Slightly larger font */
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px; /* Space between icon and number */
+    white-space: nowrap; /* Prevent wrapping */
+    box-shadow: var(--shadow-subtle); /* Add subtle shadow */
+}
+
+/* --- Filter Bar Card --- */
+.orders-filter-bar-card {
+    background-color: var(--card-background);
+    padding: calc(var(--spacing-unit) * 1.5); /* Increased padding */
+    /* margin-bottom removed due to container gap */
+    border-radius: var(--radius-medium);
+    box-shadow: var(--shadow-subtle);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-unit) calc(var(--spacing-unit) * 1.2); /* Adjust gap */
+    align-items: flex-end;
+    font-size: 14px;
+    border: 1px solid #e0e0e0; /* Added a subtle border */
+}
+
+.filter-bar-header {
+    width: 100%;
+    font-size: 15px; /* Slightly larger */
+    font-weight: 600;
+    color: var(--text-medium);
+    margin-bottom: calc(var(--spacing-unit) * 0.5);
+    padding-bottom: calc(var(--spacing-unit) * 0.5);
+    border-bottom: 1px solid #eee; /* Separator line */
+}
+
+.filter-control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px; /* Adjust gap */
+    flex: 1;
+    min-width: 180px; /* Increased minimum width */
+}
+
+.filter-control-group label {
+    display: none; /* Hide labels as per screenshot */
+}
+
+.date-input-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%; /* Ensure it takes full width of its flex item */
+}
+
+.filter-control-group input[type="date"],
+.filter-control-group select { /* Also style select if added later */
+    padding: 12px 15px; /* Increased padding */
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-small);
+    font-size: 14px;
+    color: var(--text-dark);
+    background-color: var(--card-background);
+    height: 44px; /* Consistent height */
+    box-sizing: border-box;
+    transition: border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+    flex-grow: 1;
+    width: 100%; /* Ensure it fills the container */
+}
+
+.filter-control-group input[type="date"]::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    opacity: 0.8;
+    transition: opacity var(--transition-speed) ease;
+}
+.filter-control-group input[type="date"]::-webkit-calendar-picker-indicator:hover {
+    opacity: 1;
+}
+
+
+.filter-control-group input[type="date"]:focus,
+.filter-control-group select:focus {
+    outline: none;
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2); /* More prominent focus ring */
+}
+
+.filter-action-buttons {
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+    /* No width or flex-basis here, let flex-wrap handle it */
+    flex-shrink: 0; /* Prevent shrinking */
+}
+
+.btn-clear-filters, .btn-show-data {
+    padding: 12px 25px; /* Increased padding */
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: var(--radius-small);
+    cursor: pointer;
+    transition: background-color var(--transition-speed) ease, opacity var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+    border: none;
+    height: 44px; /* Match input height */
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Center content */
+    gap: 8px; /* Space between icon and text */
+    min-width: 100px; /* Ensure minimum width */
+}
+
+.btn-clear-filters {
+    background-color: var(--secondary-grey);
+    color: #4b5563;
+    border: 1px solid #d1d5db; /* Added border for definition */
+}
+.btn-clear-filters:hover:not(:disabled) {
+    background-color: #e2e8f0;
+    box-shadow: var(--shadow-subtle);
+}
+
+.btn-show-data {
+    background-color: var(--primary-blue);
+    color: white;
+    box-shadow: var(--shadow-subtle);
+}
+.btn-show-data:hover:not(:disabled) {
+    background-color: #0056b3;
+    box-shadow: 0 3px 6px rgba(0, 123, 255, 0.3);
+}
+.btn-show-data:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    background-color: #a0c6f1; /* Lighter blue */
+    box-shadow: none;
+}
+.btn-show-data .spinner-icon {
+     font-size: 1em;
+     margin-right: 8px; /* Space between spinner and text */
+}
+
+/* --- Status Summary Cards --- */
+.status-summary-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); /* Adjusted minmax for slightly larger cards */
+    gap: var(--spacing-unit); /* Increased gap */
+    /* margin-bottom removed due to container gap */
+}
+
+.status-card {
+    background-color: var(--card-background);
+    padding: var(--spacing-unit);
+    border-radius: var(--radius-medium);
+    box-shadow: var(--shadow-subtle);
+    display: flex;
+    align-items: center;
+    gap: 12px; /* Increased gap */
+    transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+    border: 1px solid #eee; /* Subtle border */
+}
+.status-card:hover {
+    transform: translateY(-4px); /* More pronounced lift */
+    box-shadow: var(--shadow-card-hover);
+}
+
+
+.status-card-icon {
+    font-size: 22px; /* Slightly larger icon size */
+    padding: 10px; /* Increased padding */
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0; /* Prevent icon from shrinking */
+}
+
+/* Define background and icon colors - Enhanced vibrant but soft palette */
+.status-icon-pending { background-color: #fff3e0; color: #ff9800; } /* Orange */
+.status-icon-confirmed { background-color: #e8eaf6; color: #3f51b5; } /* Indigo */
+.status-icon-processing { background-color: #fff0f6; color: #e91e63; } /* Pink */
+.status-icon-out-for-delivery { background-color: #e8f5e9; color: #4caf50; } /* Green */
+.status-icon-delivered { background-color: #e3f2fd; color: #2196f3; } /* Blue */
+.status-icon-cancelled { background-color: #ffebee; color: #f44336; } /* Red */
+.status-icon-refunded { background-color: #f3e5f5; color: #9c27b0; } /* Purple */
+.status-icon-failed-to-deliver { background-color: #ffcdd2; color: #d32f2f; } /* Dark Red */
+.status-icon-total { background-color: #e1f5fe; color: #039be5; } /* Light Blue for Total */
+
+
+.status-card-info {
+    flex-grow: 1; /* Allow info to take space */
+}
+
+.status-card-info p {
+    margin: 0;
+    font-size: 13px;
+    color: var(--text-light);
+    line-height: 1.3; /* Improved line spacing */
+}
+.status-card-info strong {
+    display: block;
+    font-size: 20px; /* Larger count */
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 3px;
+}
+
+/* --- Search and Export Row --- */
+.search-export-action-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* margin-bottom removed due to container gap */
+    background-color: var(--card-background);
+    padding: calc(var(--spacing-unit) * 1);
+    border-radius: var(--radius-medium);
+    box-shadow: var(--shadow-subtle);
+    gap: var(--spacing-unit); /* Increased gap */
+    flex-wrap: wrap;
+    border: 1px solid #eee; /* Subtle border */
+}
+
+/* Updated styles for search input container (removed button) */
+.search-input-container {
+    display: flex;
+    align-items: center;
+    position: relative; /* If you want to absolute position icon/spinner */
+    flex-grow: 1;
+    max-width: 450px; /* Adjusted max width */
+    min-width: 200px; /* Minimum width before stacking */
+}
+
+.search-input-container input[type="text"] {
+    padding: 12px 15px; /* Increased padding */
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-small); /* Full border radius */
+    font-size: 14px;
+    color: var(--text-dark);
+    flex-grow: 1;
+    min-width: 120px; /* Ensure input doesn't get too small */
+    height: 44px; /* Consistent height */
+    box-sizing: border-box;
+    transition: border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+}
+.search-input-container input[type="text"]:focus {
+    outline: none;
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
+    z-index: 1;
+}
+
+/* Optional: Style for search icon inside input container */
+/* .search-input-container .search-icon {
+    position: absolute;
+    right: 15px;
+    color: var(--text-light);
+    font-size: 16px;
+    pointer-events: none; // Don't block clicks
+} */
+/* Optional: Style for debounce spinner */
+/* .search-input-container .search-debounce-spinner {
+    position: absolute;
+    right: 15px;
+    color: var(--primary-blue);
+    font-size: 16px;
+} */
+
+
+.export-button-container {
+    position: relative; /* For dropdown functionality if added */
+    flex-shrink: 0;
+}
+
+.btn-export-orders {
+    padding: 12px 25px; /* Increased padding */
+    background-color: #28a745; /* Green */
+    color: white;
+    border: none;
+    border-radius: var(--radius-small);
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Space between icon and text */
+    transition: background-color var(--transition-speed) ease, opacity var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+    height: 44px; /* Match other button heights */
+    box-sizing: border-box;
+    box-shadow: var(--shadow-subtle);
+}
+.btn-export-orders:hover:not(:disabled) {
+    background-color: #218838;
+    box-shadow: 0 3px 6px rgba(40, 167, 69, 0.3);
+}
+.btn-export-orders:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    background-color: #98d8aa; /* Lighter green */
+    box-shadow: none;
+}
+.btn-export-orders .dropdown-arrow {
+    margin-left: 5px;
+    font-size: 0.8em; /* Smaller arrow */
+}
+.btn-export-orders .spinner-icon {
+     margin-right: 8px; /* Space between spinner and text */
+}
+
+
+/* --- Orders Table Section --- */
+.orders-table-view-container {
+    background-color: var(--card-background);
+    border-radius: var(--radius-medium);
+    box-shadow: var(--shadow-subtle);
+    overflow-x: auto; /* Enable horizontal scroll for table */
+    /* margin-bottom removed due to container gap */
+    border: 1px solid #eee; /* Subtle border */
+}
+
+.orders-table { /* Using .orders-table class directly */
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 900px; /* Minimum width to force scroll if needed */
+}
+
+.orders-table th,
+.orders-table td {
+    padding: 14px 15px; /* Increased padding */
+    text-align: left;
+    font-size: 13px;
+    border-bottom: 1px solid #e0e0e0;
+    white-space: nowrap;
+    vertical-align: middle; /* Vertically center content */
+}
+
+.orders-table th {
+    background-color: #f8f8f8; /* Lighter header background */
+    color: var(--text-medium);
+    font-weight: 600;
+    text-transform: uppercase; /* Uppercase column titles */
+    font-size: 12px; /* Slightly smaller header font */
+    letter-spacing: 0.5px; /* Add slight letter spacing */
+}
+
+.orders-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.orders-table tbody tr:hover {
+    background-color: #fdfdfd; /* Very light hover background */
+}
+
+/* Center first column (SL) */
+.orders-table th:first-child,
+.orders-table td:first-child {
+    text-align: center;
+    width: 60px; /* Slightly wider for SL */
+    padding-left: 5px; padding-right: 5px; /* Adjust padding */
+}
+
+.order-id-cell {
+    font-weight: 500;
+    color: var(--primary-blue);
+    cursor: pointer; /* Indicate clickable */
+    transition: color var(--transition-speed) ease;
+}
+.order-id-cell:hover {
+    text-decoration: underline;
+    color: #0056b3; /* Darker blue on hover */
+}
+
+
+.customer-cell {
+     font-weight: 500;
+     color: var(--text-dark);
+}
+
+.total-amount-cell div {
+    font-weight: 600; /* Bolder amount */
+    color: var(--text-dark);
+}
+.payment-status-indicator {
+    font-size: 10px; /* Smaller font */
+    padding: 3px 7px;
+    border-radius: var(--radius-pill); /* Pill shape */
+    display: inline-block;
+    margin-top: 4px;
+    font-weight: 700; /* Bolder text */
+    text-transform: uppercase;
+}
+.payment-status-indicator.paid {
+    background-color: #d4edda; /* Light green */
+    color: #155724; /* Dark green */
+}
+.payment-status-indicator.unpaid {
+    background-color: #f8d7da; /* Light red */
+    color: #721c24; /* Dark red */
+}
+.payment-status-indicator.unknown {
+    background-color: #e9ecef; /* Light grey */
+    color: #495057; /* Dark grey */
+}
+
+
+/* Status Badge in Table - Enhanced colors matching status cards */
+.status-badge-table {
+    padding: 5px 10px; /* Adjusted padding */
+    border-radius: var(--radius-pill); /* Pill shape */
+    font-size: 11px;
+    font-weight: 700; /* Bolder */
+    text-align: center;
+    min-width: 80px; /* Increased minimum width */
+    display: inline-block;
+    text-transform: capitalize;
+    white-space: nowrap;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.08); /* Subtle shadow on badge */
+}
+/* Colors for badges - Match status card colors */
+.status-badge-table.status-pending { background-color: #fff3e0; color: #ff9800; } /* Orange */
+.status-badge-table.status-confirmed { background-color: #e8eaf6; color: #3f51b5; } /* Indigo */
+.status-badge-table.status-processing { background-color: #fff0f6; color: #e91e63; } /* Pink */
+.status-badge-table.status-out-for-delivery { background-color: #e8f5e9; color: #4caf50; } /* Green */
+.status-badge-table.status-delivered { background-color: #e3f2fd; color: #2196f3; } /* Blue */
+.status-badge-table.status-cancelled { background-color: #ffebee; color: #f44336; } /* Red */
+.status-badge-table.status-refunded { background-color: #f3e5f5; color: #9c27b0; } /* Purple */
+.status-badge-table.status-failed-to-deliver { background-color: #ffcdd2; color: #d32f2f; } /* Dark Red */
+/* Add styles for any other potential statuses */
+.status-badge-table.status-unknown { background-color: #e0e0e0; color: #616161; } /* Grey */
+.status-badge-table.status-payment-processing { background-color: #fff9c4; color: #fbc02d;} /* Light Yellow */
+
+
+.order-type-cell {
+    text-transform: capitalize;
+    font-weight: 500;
+    color: var(--text-dark);
+}
+
+
+.actions-cell {
+    text-align: center;
+    white-space: nowrap; /* Prevent action buttons wrapping */
+}
+.actions-cell .btn-icon-action {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 6px; /* Slightly larger hit area */
+    font-size: 17px; /* Icon size */
+    color: #9e9e9e; /* Softer grey */
+    transition: color var(--transition-speed) ease, transform var(--transition-speed) ease;
+    margin: 0 4px; /* Increased space between icons */
+    outline: none; /* Remove default outline */
+}
+.actions-cell .btn-icon-action:hover:not(:disabled) {
+    color: var(--primary-blue);
+    transform: scale(1.15); /* Slightly more pronounced scale */
+}
+.actions-cell .btn-icon-action:focus-visible { /* Accessibility: Outline only on keyboard focus */
+    outline: 2px solid var(--primary-blue);
+    outline-offset: 2px;
+}
+.actions-cell .btn-icon-action.btn-print-invoice:hover:not(:disabled) {
+     color: #28a745; /* Green hover for print */
+}
+.actions-cell .btn-icon-action:disabled {
+    color: #e0e0e0; /* Very light grey when disabled */
+    cursor: not-allowed;
+    transform: none; /* No scale effect */
+}
+
+/* --- Pagination Controls --- */
+.orders-pagination-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px; /* Increased gap */
+    margin-top: var(--spacing-unit);
+    padding: calc(var(--spacing-unit) * 0.5) 0;
+    flex-wrap: wrap;
+}
+
+.orders-pagination-controls button {
+    padding: 10px 15px; /* Increased padding */
+    border: 1px solid #ced4da;
+    border-radius: var(--radius-small);
+    background-color: var(--card-background);
+    cursor: pointer;
+    font-size: 14px;
+    color: #495057;
+    transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease, border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+    min-width: 35px; /* Minimum width for page numbers */
+    text-align: center;
+    outline: none; /* Remove default outline */
+}
+
+.orders-pagination-controls button:hover:not(:disabled),
+.orders-pagination-controls button:focus-visible:not(:disabled) {
+    background-color: #e9ecef;
+    border-color: #adb5bd;
+    color: #343a40;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.orders-pagination-controls button.active {
+    background-color: var(--primary-blue);
+    color: white;
+    border-color: var(--primary-blue);
+    font-weight: 600; /* Bolder active page */
+}
+.orders-pagination-controls button.active:hover {
+     background-color: #0056b3;
+     border-color: #0056b3;
+}
+
+.orders-pagination-controls button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background-color: #f8f9fa; /* Lighter disabled background */
+    color: #adb5bd; /* Lighter text */
+    border-color: #e9ecef;
+    box-shadow: none;
+}
+
+/* --- Loading, Error, No Orders Messages --- */
+.message-feedback-container {
+    padding: var(--spacing-unit) * 2; /* Increased padding */
+    background-color: var(--card-background);
+    border-radius: var(--radius-medium);
+    box-shadow: var(--shadow-subtle);
+    text-align: center;
+    font-size: 16px;
+    color: var(--text-light);
+    /* margin-top removed due to container gap */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-unit) * 0.8; /* Space between icon/spinner and text */
+    border: 1px solid #eee; /* Subtle border */
+    min-height: 150px; /* Give it some height */
+    justify-content: center; /* Center content vertically */
+}
+
+.message-feedback-container.loading {
+    color: #007bff; /* Blue for loading */
+}
+.message-feedback-container.loading .spinner-icon {
+    font-size: 30px; /* Larger spinner */
+    color: currentColor; /* Use parent color */
+}
+
+.message-feedback-container.error {
+    color: #721c24; /* Dark red */
+    background-color: #f8d7da; /* Light red background */
+    border: 1px solid #f5c6cb; /* Red border */
+    font-weight: 500;
+}
+.message-feedback-container.error p {
+    font-size: 14px;
+    color: #721c24;
+    margin: 0;
+}
+
+
+/* Spinner Animation */
+.spinner-icon.spin {
+    animation: spin 1s linear infinite;
+}
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+
+/* --- Custom Scrollbar for Table (Optional but nice) --- */
+.custom-scrollbar::-webkit-scrollbar {
+    height: 8px; /* Height of horizontal scrollbar */
+    width: 8px; /* Width of vertical scrollbar (if needed) */
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Light grey track */
+    border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #888; /* Dark grey thumb */
+    border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Darker grey on hover */
+}
+
+
+/* --- Responsive Design (Media Queries) --- */
+
+/* General adjustments for various screen sizes using flexible units */
+
+
+/* Desktop/Large screens (e.g., >= 1200px) - Fine-tuning */
+@media (min-width: 1200px) {
+    .all-orders-page-container {
+        padding: calc(var(--spacing-unit) * 2) calc(var(--spacing-unit) * 3);
+        gap: calc(var(--spacing-unit) * 1.5); /* Increased gap */
+    }
+     .orders-filter-bar-card {
+        padding: calc(var(--spacing-unit) * 1.5) calc(var(--spacing-unit) * 2);
+    }
+    .search-export-action-row {
+        padding: calc(var(--spacing-unit) * 1) calc(var(--spacing-unit) * 2);
+    }
+     .status-summary-container {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* Wider cards */
+        gap: calc(var(--spacing-unit) * 1.5); /* Increased gap */
+    }
+    .status-card {
+        padding: calc(var(--spacing-unit) * 1.2);
+    }
+}
+
+
+/* Medium screens (e.g., < 992px) - Tablet Landscape/Small Desktop */
+@media (max-width: 991px) {
+    .orders-filter-bar-card {
+        flex-direction: column; /* Stack filter groups */
+        align-items: stretch;
+        gap: var(--spacing-unit);
+    }
+    .filter-control-group {
+        min-width: 100%; /* Full width */
+    }
+     .filter-action-buttons {
+        width: 100%;
+        justify-content: flex-end; /* Align buttons to the right */
+        gap: 10px;
+    }
+
+    .status-summary-container {
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); /* Adjust minmax */
+        gap: calc(var(--spacing-unit) * 0.8);
+    }
+
+    .search-export-action-row {
+        flex-direction: column; /* Stack search and export */
+        align-items: stretch;
+        gap: var(--spacing-unit);
+    }
+    /* Updated for search input container */
+    .search-input-container {
+        max-width: none;
+        width: 100%;
+    }
+     .search-input-container input[type="text"] {
+         width: 100%; /* Ensure full width */
+     }
+
+    .export-button-container {
+        width: 100%; /* Export button full width container */
+        text-align: right; /* Align button to the right */
+    }
+    .btn-export-orders {
+         display: inline-flex; /* Keep flex but don't stretch */
+         /* Optionally justify-content: center; if you want button centered */
+    }
+}
+
+/* Smaller screens (e.g., < 768px) - Tablet Portrait/Large Phone */
+@media (max-width: 767px) {
+    .all-orders-page-container {
+        padding: calc(var(--spacing-unit) * 1); /* Reduced padding */
+         gap: calc(var(--spacing-unit) * 0.8); /* Reduced gap */
+    }
+    .orders-page-header {
+        flex-direction: column; /* Stack header elements */
+        align-items: flex-start;
+        gap: 5px;
+    }
+    .orders-count-badge {
+        margin-left: 0;
+    }
+    .orders-page-header h1 {
+        font-size: 24px;
+    }
+    .orders-count-badge {
+        font-size: 14px;
+        padding: 5px 10px;
+    }
+    .orders-filter-bar-card,
+    .search-export-action-row,
+    .orders-table-view-container,
+    .message-feedback-container {
+        padding: var(--spacing-unit); /* Reduced padding */
+        border-radius: 6px;
+    }
+    .status-summary-container {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); /* Adjust minmax again */
+        gap: calc(var(--spacing-unit) * 0.6);
+    }
+    .status-card {
+         padding: calc(var(--spacing-unit) * 0.8);
+         gap: 10px;
+    }
+     .status-card-icon {
+        font-size: 20px;
+        padding: 8px;
+     }
+     .status-card-info strong {
+        font-size: 18px;
+     }
+     .status-card-info p {
+        font-size: 12px;
+     }
+
+     .orders-table th,
+    .orders-table td {
+        padding: 12px; /* Reduced table padding */
+        font-size: 12px;
+    }
+    .orders-table th:first-child,
+    .orders-table td:first-child {
+        width: 50px; /* Smaller SL width */
+    }
+    .status-badge-table {
+        font-size: 10px;
+        padding: 4px 8px;
+        min-width: 70px;
+    }
+     .actions-cell .btn-icon-action {
+        font-size: 15px;
+        padding: 5px;
+        margin: 0 3px;
+    }
+    .orders-pagination-controls {
+        gap: 6px;
+    }
+    .orders-pagination-controls button {
+        padding: 8px 12px;
+        font-size: 13px;
+    }
+}
+
+/* Extra small screens (e.g., < 576px) - Phones */
+@media (max-width: 575px) {
+    .all-orders-page-container {
+        padding: calc(var(--spacing-unit) * 0.8); /* Minimal padding */
+         gap: calc(var(--spacing-unit) * 0.6); /* Minimal gap */
+    }
+    .orders-page-header {
+        flex-direction: column; /* Stack header elements */
+        align-items: flex-start;
+        gap: 5px;
+    }
+    .orders-count-badge {
+        margin-left: 0;
+    }
+    .orders-page-header h1 {
+        font-size: 20px;
+    }
+    .orders-filter-bar-card {
+        gap: calc(var(--spacing-unit) * 0.8);
+    }
+    .filter-action-buttons {
+        flex-direction: column; /* Stack buttons */
+        align-items: stretch;
+        gap: 8px;
+    }
+    .btn-clear-filters, .btn-show-data {
+        width: 100%;
+        justify-content: center;
+    }
+    .status-summary-container {
+        grid-template-columns: 1fr; /* Single column */
+        gap: calc(var(--spacing-unit) * 0.5);
+    }
+    .status-card {
+         padding: calc(var(--spacing-unit) * 0.6);
+         gap: 8px;
+    }
+     .status-card-icon {
+        font-size: 18px;
+        padding: 7px;
+     }
+     .status-card-info strong {
+        font-size: 17px;
+     }
+     .status-card-info p {
+        font-size: 11px;
+     }
+
+    .search-export-action-row {
+        gap: calc(var(--spacing-unit) * 0.8);
+        flex-direction: column;
+        align-items: stretch;
+    }
+     /* Updated for search input container */
+    .search-input-container {
+        min-width: 100%;
+        width: 100%; /* Explicitly set width */
+    }
+     .search-input-container input[type="text"] {
+         width: 100%; /* Ensure full width */
+         min-width: unset; /* Remove min-width constraint */
+     }
+
+    .export-button-container {
+        width: 100%;
+        text-align: center; /* Center the export button */
+    }
+    .btn-export-orders {
+        width: 100%; /* Export button full width */
+        justify-content: center; /* Center content */
+        padding: 12px 15px; /* Restore vertical padding */
+    }
+
+
+    .orders-table {
+        min-width: 550px; /* Minimum width for scroll */
+    }
+
+     .orders-table th,
+    .orders-table td {
+        padding: 10px; /* Reduced table padding */
+        font-size: 11px;
+    }
+     .status-badge-table {
+        font-size: 9px;
+        padding: 3px 6px;
+        min-width: 60px;
+     }
+
+    .actions-cell .btn-icon-action {
+        font-size: 14px;
+        padding: 4px;
+        margin: 0 2px;
+    }
+
+    .orders-pagination-controls {
+        gap: 4px;
+    }
+     .orders-pagination-controls button {
+        padding: 6px 10px;
+        font-size: 12px;
+     }
+}

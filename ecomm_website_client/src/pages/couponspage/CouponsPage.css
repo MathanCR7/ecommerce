@@ -1,0 +1,398 @@
+/* src/pages/couponspage/CouponsPage.css */
+
+/* Base page container styling */
+.coupons-page-container {
+    max-width: 1000px; /* Slightly wider container for coupons */
+    margin: 40px auto;
+    padding: 0 20px;
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    line-height: 1.6;
+    background-color: #f8f8f8; /* Light background for the page */
+}
+
+/* Page title */
+.coupons-page-container h1 {
+    text-align: center;
+    color: #1a4d2e; /* Dark green */
+    margin-bottom: 30px;
+    font-size: 2.8em;
+    font-weight: 700;
+    /* Optional: Add subtle text shadow */
+    /* text-shadow: 1px 1px 2px rgba(0,0,0,0.1); */
+}
+
+/* Messages (Loading, Error, No Coupons) */
+.loading-message,
+.error-message,
+.no-coupons-message {
+    text-align: center;
+    font-size: 1.2em;
+    margin-top: 50px;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.loading-message {
+    color: #4c9a2a; /* Bright green */
+    background-color: #e8f5e9; /* Light green background */
+}
+
+.error-message {
+    color: #d32f2f; /* Red */
+    background-color: #ffebee; /* Light red background */
+    border: 1px solid #ef9a9a;
+}
+
+.no-coupons-message {
+    color: #555;
+    background-color: #eceff1; /* Light grey */
+    border: 1px solid #cfd8dc;
+}
+
+
+/* Coupon List Grid */
+.coupon-list {
+    display: grid;
+    /* Auto-fit columns: min-width 300px, auto-repeat */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px; /* Space between cards */
+    padding-top: 20px; /* Space below heading */
+}
+
+/* Individual Coupon Card */
+.coupon-card {
+    background: linear-gradient(to bottom right, #ffffff, #f0f0f0); /* Subtle gradient */
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* More pronounced shadow */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden; /* Ensure everything stays within borders */
+    position: relative; /* Needed for absolute positioning if adding graphics */
+}
+
+.coupon-card:hover {
+    transform: translateY(-5px); /* Slight lift effect on hover */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Status indicators */
+.coupon-card.expired {
+    opacity: 0.7;
+    border-color: #ff9800; /* Orange border */
+    background: linear-gradient(to bottom right, #fff3e0, #ffecb3); /* Light orange gradient */
+}
+
+.coupon-card.inactive {
+     opacity: 0.8;
+     border-color: #9e9e9e; /* Grey border */
+     background: linear-gradient(to bottom right, #fafafa, #e0e0e0); /* Greyish gradient */
+}
+
+
+/* Content layout within the card */
+.coupon-details {
+    flex-grow: 1; /* Takes up available space */
+    margin-bottom: 15px;
+}
+
+.discount-info {
+    font-size: 2em; /* Large discount display */
+    font-weight: bold;
+    color: #4c9a2a; /* Bright green */
+    margin-bottom: 5px;
+    display: flex;
+    align-items: baseline;
+    gap: 5px;
+}
+
+.discount-info .discount-type {
+    font-size: 0.5em; /* Smaller text for PERCENT/AMOUNT */
+    font-weight: normal;
+    color: #555;
+    align-self: flex-end;
+    margin-bottom: 5px; /* Align text baselines better */
+}
+
+
+.coupon-title {
+    font-size: 1.2em;
+    font-weight: 600;
+    color: #1a4d2e; /* Dark green */
+    margin-bottom: 10px;
+}
+
+.min-purchase, .max-discount {
+    font-size: 0.9em;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+
+/* Coupon Code Section */
+.coupon-code-section {
+     margin-top: auto; /* Push to the bottom */
+     border-top: 1px dashed #ccc;
+     padding-top: 15px;
+     display: flex;
+     flex-direction: column;
+     align-items: center; /* Center code and button */
+     position: relative; /* For "Copied!" message positioning */
+}
+
+.code-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Center content */
+    background-color: #e8f5e9; /* Light green background for code */
+    border: 1px dashed #4c9a2a; /* Dashed border */
+    border-radius: 5px;
+    padding: 8px 15px;
+    margin-bottom: 10px;
+    width: fit-content; /* Only take necessary width */
+}
+
+.coupon-code {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #1a4d2e; /* Dark green */
+    letter-spacing: 1px;
+    margin-right: 10px; /* Space between code and button */
+    user-select: all; /* Allow easy selection/copying */
+}
+
+.copy-button {
+    background-color: #4c9a2a; /* Bright green button */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 8px;
+    cursor: pointer;
+    display: flex; /* Center icon if using SVG */
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease;
+}
+
+.copy-button:hover {
+    background-color: #3a7e20; /* Darker green on hover */
+}
+
+.copy-button svg {
+    fill: white; /* Ensure SVG icon is white */
+    width: 18px; /* Size the icon */
+    height: 18px;
+}
+
+.copied-feedback {
+    position: absolute;
+    bottom: -20px; /* Position below the code section */
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.8em;
+    color: #4c9a2a; /* Green text */
+    background-color: #e8f5e9;
+    padding: 2px 8px;
+    border-radius: 3px;
+    white-space: nowrap; /* Prevent wrapping */
+    z-index: 10; /* Ensure it's above other elements */
+    animation: fadeOut 2s forwards; /* Animation */
+}
+
+@keyframes fadeOut {
+  0% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+
+/* Coupon Validity Section */
+.coupon-validity {
+    font-size: 0.9em;
+    color: #555;
+    margin-top: 15px; /* Space above validity info */
+    border-top: 1px dashed #ccc;
+    padding-top: 15px;
+    display: flex;
+    justify-content: space-between; /* Space between status and dates */
+    align-items: center;
+}
+
+.coupon-validity .status {
+     font-weight: bold;
+     padding: 3px 8px;
+     border-radius: 4px;
+     font-size: 0.85em;
+}
+
+.coupon-validity .status.active {
+    color: #1b5e20; /* Darker green */
+    background-color: #c8e6c9; /* Very light green */
+}
+
+.coupon-validity .status.expired {
+    color: #b71c1c; /* Dark red */
+    background-color: #ffcdd2; /* Very light red */
+}
+
+.coupon-validity .status.upcoming {
+     color: #0277bd; /* Dark blue */
+     background-color: #b3e5fc; /* Very light blue */
+}
+
+.coupon-validity .valid-dates {
+    font-style: italic;
+    color: #666;
+    font-size: 0.9em;
+}
+
+/* --- Responsive Design --- */
+
+/* Adjust grid for smaller screens */
+@media (max-width: 768px) {
+    .coupons-page-container {
+        margin: 20px auto;
+        padding: 0 15px;
+    }
+
+    .coupons-page-container h1 {
+        font-size: 2.2em;
+        margin-bottom: 25px;
+    }
+
+    .coupon-list {
+        gap: 20px; /* Smaller gap */
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); /* Allow smaller cards */
+    }
+
+    .coupon-card {
+        padding: 15px; /* Reduce padding */
+    }
+
+     .discount-info {
+        font-size: 1.8em;
+     }
+
+     .coupon-title {
+         font-size: 1.1em;
+     }
+
+     .min-purchase, .max-discount {
+         font-size: 0.85em;
+     }
+
+     .code-wrapper {
+         padding: 6px 12px;
+     }
+
+    .coupon-code {
+        font-size: 1em;
+    }
+
+    .copy-button svg {
+        width: 16px;
+        height: 16px;
+    }
+
+    .coupon-validity {
+        font-size: 0.85em;
+    }
+
+     .coupon-validity .status {
+         font-size: 0.8em;
+     }
+
+     .copied-feedback {
+         bottom: -18px; /* Adjust position */
+     }
+}
+
+/* Mobile (max-width 480px) */
+@media (max-width: 480px) {
+    .coupons-page-container {
+         margin: 15px auto;
+         padding: 0 10px;
+    }
+
+     .coupons-page-container h1 {
+        font-size: 1.8em;
+        margin-bottom: 20px;
+     }
+
+     .coupon-list {
+        gap: 15px; /* Further reduce gap */
+        grid-template-columns: 1fr; /* Stack cards vertically */
+     }
+
+     .coupon-card {
+         padding: 12px; /* Further reduce padding */
+     }
+
+    .discount-info {
+        font-size: 1.6em;
+         justify-content: center; /* Center discount info on small screens */
+    }
+
+    .discount-info .discount-type {
+         font-size: 0.4em;
+          margin-bottom: 3px;
+    }
+
+
+     .coupon-title {
+        font-size: 1em;
+         text-align: center; /* Center title on small screens */
+     }
+
+    .min-purchase, .max-discount {
+        font-size: 0.8em;
+        text-align: center; /* Center details */
+    }
+
+     .coupon-code-section {
+        padding-top: 10px;
+        margin-bottom: 5px; /* Reduce space */
+     }
+
+     .code-wrapper {
+        padding: 5px 10px;
+     }
+
+     .coupon-code {
+        font-size: 0.9em;
+        margin-right: 8px;
+     }
+
+     .copy-button svg {
+        width: 14px;
+        height: 14px;
+     }
+
+     .coupon-validity {
+         flex-direction: column; /* Stack status and dates */
+         align-items: center;
+         gap: 5px; /* Space between stacked items */
+         font-size: 0.8em;
+         margin-top: 10px;
+         padding-top: 10px;
+     }
+
+     .coupon-validity .status {
+         font-size: 0.75em;
+         margin-bottom: 3px;
+     }
+
+     .coupon-validity .valid-dates {
+         font-size: 0.75em;
+         text-align: center;
+     }
+
+      .copied-feedback {
+         bottom: -15px; /* Adjust position */
+         font-size: 0.7em;
+         padding: 1px 5px;
+     }
+}

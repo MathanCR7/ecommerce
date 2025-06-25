@@ -1,35 +1,577 @@
-/* Use the shared styles from loginform.css */
-/* Add specific styles for RegistrationForm if needed below */
+/* --- Global Variables (Enhanced Theme) --- */
+:root {
+  --registration-primary-color: #007bff; /* Vibrant Blue for primary actions */
+  --registration-primary-hover-color: #0056b3;
+  --registration-secondary-color: #6c757d; /* Grey for secondary actions */
+  --registration-secondary-hover-color: #5a6268;
+  --registration-success-color: #28a745; /* Green for success states/messages */
+  --registration-success-bg-light: #d4edda;
+  --registration-success-border-light: #c3e6cb;
+  --registration-info-bg-light: #e7f3fe; /* Light blue for info messages */
+  --registration-info-border-light: #b3d7f8;
+  --registration-info-text-dark: #0c5460;
 
-/* Example: Style the OTP info box more */
-.otp-info {
-    background-color: #d1ecf1; /* Light cyan */
-    border-color: #bee5eb;
-    color: #0c5460; /* Dark cyan text */
-    padding: 15px;
-    border-radius: 8px;
-    margin-bottom: 25px;
+
+  --registration-text-dark: #212529;
+  --registration-text-medium: #495057;
+  --registration-text-light: #6c757d;
+  --registration-border-color: #ced4da;
+  --registration-input-bg: #fff;
+  --registration-input-focus-border: var(--registration-primary-color);
+  --registration-input-focus-shadow: rgba(0, 123, 255, 0.25);
+  --registration-card-bg: #ffffff;
+  --registration-page-bg: #f0f2f5; /* Lighter, cooler page background */
+  --registration-google-color: #db4437;
+  --registration-google-hover-bg: #f8f9fa;
+  --registration-link-color: var(--registration-primary-color);
+  --registration-link-hover-color: var(--registration-primary-hover-color);
+  --registration-modal-overlay-bg: rgba(0, 0, 0, 0.5);
+
+  --registration-font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+/* --- Base Styles --- */
+body { /* Apply font to whole page if this component is a full page */
+  font-family: var(--registration-font-family);
+}
+
+/* --- Registration Page Section --- */
+.registration-page-section {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* Align to top for longer forms on small screens */
+  min-height: 100vh;
+  padding: 50px 20px;
+  background-color: var(--registration-page-bg);
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+
+/* --- Registration Card Container --- */
+.registration-card-container {
+  background-color: var(--registration-card-bg);
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 500px; /* Slightly wider for better spacing */
+  margin: 20px auto; /* Add some margin for scroll */
+  box-sizing: border-box;
+}
+
+/* --- Registration Form Heading --- */
+.registration-form-heading {
+  margin-bottom: 30px;
+  text-align: center;
+}
+.registration-form-heading h1 {
+  font-size: 2.25rem; /* Slightly larger */
+  font-weight: 600;
+  color: var(--registration-text-dark);
+  margin-bottom: 10px;
+}
+.registration-form-heading p {
+  font-size: 1rem;
+  color: var(--registration-text-medium);
+}
+.registration-form-heading .form-link {
+  color: var(--registration-link-color);
+  font-weight: 500;
+  text-decoration: none;
+}
+.registration-form-heading .form-link:hover {
+  color: var(--registration-link-hover-color);
+  text-decoration: underline;
+}
+
+/* --- Main Form Structure --- */
+.registration-main-form {
+  display: flex;
+  flex-direction: column;
+  gap: 22px; /* Increased gap for better separation */
+}
+
+/* --- Input Group Styling --- */
+.registration-input-group {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 8px;
+}
+.registration-input-group label {
+  font-weight: 500;
+  color: var(--registration-text-medium);
+  font-size: 0.9rem;
+}
+.registration-input-group input[type="text"],
+.registration-input-group input[type="email"],
+.registration-input-group input[type="password"],
+.registration-input-group input[type="date"] {
+  width: 100%;
+  padding: 12px 16px; /* Slightly more padding */
+  border: 1px solid var(--registration-border-color);
+  border-radius: 8px; /* More rounded */
+  font-size: 1rem;
+  color: var(--registration-text-dark);
+  background-color: var(--registration-input-bg);
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  box-sizing: border-box;
+}
+.registration-input-group input:focus {
+  border-color: var(--registration-input-focus-border);
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem var(--registration-input-focus-shadow);
+}
+.registration-input-group input::placeholder {
+  color: var(--registration-text-light);
+  opacity: 0.9;
+}
+.registration-input-group input:disabled {
+  background-color: #e9ecef;
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Styling for the PhoneInput component */
+.PhoneInput {
+  border: 1px solid var(--registration-border-color);
+  border-radius: 8px;
+  background-color: var(--registration-input-bg);
+  padding: 0 10px; /* Internal padding for PhoneInput container */
+  height: 50px; /* Match input height */
+  display: flex;
+  align-items: center;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+.PhoneInput:focus-within {
+  border-color: var(--registration-input-focus-border);
+  box-shadow: 0 0 0 0.2rem var(--registration-input-focus-shadow);
+}
+.PhoneInputInput {
+  border: none !important;
+  box-shadow: none !important;
+  background-color: transparent !important;
+  padding: 12px 8px !important; /* Match other inputs vertical padding */
+  font-size: 1rem !important;
+  height: 100% !important;
+  color: var(--registration-text-dark) !important;
+  outline: none !important;
+}
+.PhoneInputInput::placeholder {
+  color: var(--registration-text-light) !important;
+  opacity: 0.9 !important;
+}
+.PhoneInputCountryIcon {
+  margin-right: 8px; /* More space for icon */
+  box-shadow: none !important;
+}
+.PhoneInputCountrySelectArrow {
+  opacity: 0.7;
+}
+.PhoneInput.PhoneInput--disabled .PhoneInputInput{
+  background-color: transparent !important; /* Ensure disabled PhoneInput is consistent */
+}
+.PhoneInput.PhoneInput--disabled {
+  background-color: #e9ecef;
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+
+/* --- OTP Section --- */
+.registration-otp-section {
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transition: max-height 0.5s cubic-bezier(0.25, 0.1, 0.25, 1), 
+              opacity 0.4s ease-out, 
+              margin-top 0.5s cubic-bezier(0.25, 0.1, 0.25, 1),
+              padding-top 0.5s cubic-bezier(0.25, 0.1, 0.25, 1),
+              padding-bottom 0.5s cubic-bezier(0.25, 0.1, 0.25, 1),
+              gap 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+  margin-top: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.registration-otp-section.visible {
+  max-height: 400px; /* Ensure enough height for content + messages */
+  opacity: 1;
+  margin-top: 10px; /* Space from phone input */
+  padding-top: 10px; /* Internal padding */
+  padding-bottom: 10px;
+  gap: 15px; /* Gap between elements inside OTP section when visible */
+  border-top: 1px solid #e0e0e0; /* Subtle separator */
+}
+
+.registration-otp-info-box {
+  background-color: var(--registration-info-bg-light);
+  border: 1px solid var(--registration-info-border-light);
+  color: var(--registration-info-text-dark);
+  padding: 12px 15px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  text-align: center;
+  line-height: 1.5;
+}
+.registration-otp-info-box strong {
+  font-weight: 600;
+}
+.registration-otp-input-field { /* Specific class for OTP input */
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid var(--registration-border-color);
+  border-radius: 8px;
+  font-size: 1.1rem; /* Larger for OTP */
+  color: var(--registration-text-dark);
+  background-color: var(--registration-input-bg);
+  text-align: center;
+  letter-spacing: 4px; /* Space out OTP digits */
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+.registration-otp-input-field:focus {
+  border-color: var(--registration-input-focus-border);
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem var(--registration-input-focus-shadow);
+}
+.registration-resend-otp-btn {
+  margin-top: 0px; /* Reduced top margin as gap handles it */
+}
+
+
+/* --- Buttons General Styling --- */
+.registration-btn {
+  padding: 12px 25px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.15s ease, transform 0.1s ease;
+  border: 1px solid transparent;
+  width: 100%;
+  text-align: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+.registration-btn:disabled {
+  opacity: 0.60;
+  cursor: not-allowed;
+}
+.registration-btn:not(:disabled):active {
+    transform: translateY(1px); /* Subtle press effect */
+}
+
+/* Submit Button (Primary action button) */
+.registration-btn-submit {
+  background-color: var(--registration-primary-color);
+  color: #fff;
+  border-color: var(--registration-primary-color);
+}
+.registration-btn-submit:hover:not(:disabled) {
+  background-color: var(--registration-primary-hover-color);
+  border-color: var(--registration-primary-hover-color);
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.2);
+}
+
+/* Social Buttons */
+.registration-btn-social {
+  background-color: #fff;
+  color: var(--registration-text-dark);
+  border: 1px solid var(--registration-border-color);
+}
+.registration-btn-social:hover:not(:disabled) {
+  background-color: var(--registration-google-hover-bg);
+  border-color: #adb5bd;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+.registration-btn-google .social-icon {
+  color: var(--registration-google-color);
+  margin-right: 12px; /* More space for icon */
+  font-size: 1.2rem;
+}
+
+/* Secondary button style (e.g., Cancel in modal) */
+.registration-btn-secondary {
+  background-color: var(--registration-secondary-color);
+  color: #fff;
+  border-color: var(--registration-secondary-color);
+}
+.registration-btn-secondary:hover:not(:disabled) {
+  background-color: var(--registration-secondary-hover-color);
+  border-color: var(--registration-secondary-hover-color);
+}
+
+/* Link-style button (e.g., Resend OTP) */
+.registration-btn-link {
+  background-color: transparent;
+  color: var(--registration-link-color);
+  border-color: transparent;
+  font-weight: 500;
+  padding: 8px 15px; /* Smaller padding for link-like buttons */
+}
+.registration-btn-link:hover:not(:disabled) {
+  color: var(--registration-link-hover-color);
+  text-decoration: underline;
+  background-color: rgba(0, 123, 255, 0.05); /* Subtle hover background */
+}
+
+
+/* --- Divider --- */
+.registration-divider {
+  margin: 25px 0;
+  text-align: center;
+  position: relative;
+  color: var(--registration-text-light);
+  font-size: 0.9rem;
+}
+.registration-divider span {
+  background-color: var(--registration-card-bg);
+  padding: 0 15px; /* More padding around text */
+  position: relative;
+  z-index: 1;
+}
+.registration-divider::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background-color: var(--registration-border-color);
+  z-index: 0;
+}
+
+/* --- Bottom Actions & Terms --- */
+.registration-terms-info {
+  margin-top: 15px; /* Adjusted margin */
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--registration-text-light);
+  line-height: 1.6;
+}
+.registration-text-link {
+  color: var(--registration-link-color);
+  text-decoration: none;
+  font-weight: 500;
+}
+.registration-text-link:hover {
+  color: var(--registration-link-hover-color);
+  text-decoration: underline;
+}
+
+
+/* --- Modal styles (for PhoneVerificationModal) --- */
+.registration-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--registration-modal-overlay-bg);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1050;
+  padding: 20px;
+  box-sizing: border-box;
+}
+.registration-modal-content {
+  background-color: var(--registration-card-bg);
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  width: 100%;
+  max-width: 450px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  position: relative; /* For close button positioning */
+}
+.registration-modal-close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: var(--registration-text-light);
+  cursor: pointer;
+  padding: 5px;
+  line-height: 1;
+}
+.registration-modal-close-btn:hover {
+  color: var(--registration-text-dark);
+}
+.registration-modal-header {
+  text-align: center;
+  padding-top: 10px; /* Space for close button */
+}
+.registration-modal-header h3 {
+  font-size: 1.75rem;
+  color: var(--registration-text-dark);
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+.registration-modal-header p {
+  font-size: 1rem;
+  color: var(--registration-text-medium);
+  line-height: 1.5;
+}
+.registration-modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.registration-modal-body .modal-input-group {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 8px;
+}
+.registration-modal-body .modal-input-group label {
+  font-weight: 500;
+  color: var(--registration-text-medium);
+  font-size: 0.9rem;
+}
+.registration-modal-body .modal-btn {
+  font-size: 1rem;
+  padding: 10px 20px;
+}
+
+.PhoneInputInModal {
+  border: 1px solid var(--registration-border-color);
+  border-radius: 8px;
+  background-color: var(--registration-input-bg);
+  padding: 0 10px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+}
+.PhoneInputInModal .PhoneInputInput {
+  border: none;
+  background-color: transparent;
+  padding: 10px 8px;
+  font-size: 1rem;
+  height: 100%;
+  box-shadow: none;
+}
+.PhoneInputInModal .PhoneInputInput:focus {
+  box-shadow: none;
+}
+.PhoneInputInModal:focus-within {
+  border-color: var(--registration-input-focus-border);
+  box-shadow: 0 0 0 0.2rem var(--registration-input-focus-shadow);
+}
+.PhoneInputInModal .PhoneInputCountryIcon{
+  margin-right: 8px;
+}
+.PhoneInputInModal .PhoneInputCountrySelectArrow {
+  opacity: 0.7;
+}
+.modal-otp-input {
+  width: 100%;
+  padding: 10px 15px;
+  border: 1px solid var(--registration-border-color);
+  border-radius: 8px;
+  font-size: 1.2rem;
+  color: var(--registration-text-dark);
+  background-color: var(--registration-input-bg);
+  text-align: center;
+  letter-spacing: 3px;
+}
+.modal-otp-input:focus {
+  border-color: var(--registration-input-focus-border);
+  box-shadow: 0 0 0 0.2rem var(--registration-input-focus-shadow);
+  outline: 0;
+}
+
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 767.98px) { /* Tablets */
+  .registration-page-section {
+    padding: 30px 15px;
+  }
+  .registration-card-container {
+    padding: 30px 25px;
+    margin: 15px auto;
+  }
+  .registration-form-heading h1 {
+    font-size: 2rem;
+  }
+  .registration-form-heading p {
     font-size: 0.95rem;
-    border: 1px solid #bee5eb;
-    text-align: left; /* Align text left */
-    line-height: 1.5;
   }
-  
-  .otp-info strong {
-      font-weight: 600;
-      color: #0a435c; /* Slightly darker */
+  .registration-main-form {
+    gap: 20px;
   }
-  
-  /* Example: Style the back button differently */
-  .btn-back {
-    background-color: #f8f9fa; /* Light gray */
-    color: #495057; /* Dark gray text */
-    border: 1px solid #ced4da;
+  .registration-modal-content {
+    max-width: 400px;
+    padding: 25px;
   }
-  
-  .btn-back:hover:not(:disabled) {
-    background-color: #e2e6ea;
-    border-color: #dae0e5;
+  .registration-modal-header h3 {
+    font-size: 1.5rem;
   }
-  
-  /* Add more specific styles here */
+}
+
+@media (max-width: 575.98px) { /* Small mobiles */
+  .registration-page-section {
+    padding: 20px 10px;
+    align-items: flex-start; /* Keep alignment for potentially taller content */
+  }
+  .registration-card-container {
+    padding: 25px 20px; /* Adjusted padding */
+    border-radius: 10px;
+  }
+  .registration-form-heading h1 {
+    font-size: 1.75rem;
+  }
+  .registration-form-heading p {
+    font-size: 0.9rem;
+  }
+  .registration-input-group input[type="text"],
+  .registration-input-group input[type="email"],
+  .registration-input-group input[type="password"],
+  .registration-input-group input[type="date"],
+  .PhoneInputInput,
+  .PhoneInputInModal .PhoneInputInput,
+  .registration-otp-input-field,
+  .modal-otp-input {
+    font-size: 0.95rem; /* Slightly larger for better readability on small screens */
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  .PhoneInput, .PhoneInputInModal { 
+    height: 46px; 
+  }
+  .registration-btn, .registration-modal-body .modal-btn {
+    font-size: 0.95rem;
+    padding: 10px 18px;
+  }
+  .registration-terms-info { 
+    font-size: 0.8rem; 
+  }
+  .registration-divider {
+    margin: 20px 0;
+  }
+  .registration-otp-section.visible {
+    gap: 12px;
+  }
+  .registration-modal-content {
+    padding: 20px;
+    gap: 15px;
+    max-width: calc(100vw - 30px); /* Ensure it fits screen width */
+  }
+  .registration-modal-header h3 { font-size: 1.4rem; }
+  .registration-modal-header p { font-size: 0.9rem; }
+  .registration-modal-close-btn {
+    font-size: 1.8rem;
+    top: 8px;
+    right: 10px;
+  }
+}

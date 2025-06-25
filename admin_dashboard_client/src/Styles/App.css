@@ -1,6 +1,7 @@
 /* ======================================================================== */
 /* FILE: client/src/Styles/App.css                                         */
 /* ======================================================================== */
+/* If not using Tailwind CSS, remove these lines. Otherwise, ensure Tailwind is set up in your build process. */
 
 /* --- General Page Layout --- */
 .page-container {

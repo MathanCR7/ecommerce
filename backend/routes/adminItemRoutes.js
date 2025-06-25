@@ -1,52 +1,48 @@
 // backend/routes/adminItemRoutes.js
 import express from "express";
 import {
-  getAllAdminItems, // Renamed function
-  getAdminItemById, // Renamed function
-  createAdminItem, // Renamed function
-  updateAdminItem, // Renamed function
-  deleteAdminItem, // Renamed function
-  deleteMultipleAdminItems, // Renamed function
-} from "../controllers/adminItemController.js"; // Renamed controller file
-import { protect as protectAdmin } from "../middleware/adminAuthMiddleware.js";
-// *** Assume you have uploadItemImage in multerConfig or rename uploadProductImage ***
-import { uploadItemImage } from "../config/multerConfig.js"; // Renamed multer function
+  getAllAdminItems,
+  getAdminItemById,
+  createAdminItem,
+  updateAdminItem,
+  deleteAdminItem,
+  deleteMultipleAdminItems,
+  getActiveItemsForSelect,
+} from "../controllers/adminItemController.js";
+import { protect } from "../middleware/adminAuthMiddleware.js"; // Assuming this is your correct admin auth middleware
 import {
-  validateItem, // *** Assume you rename validateProduct to validateItem ***
+  uploadItemImagesForCreate, // Corrected import for create
+  uploadItemImagesForUpdate, // Corrected import for update
+} from "../config/multerConfig.js";
+import {
+  validateItem,
   handleValidationErrors,
-} from "../middleware/validators.js"; // Renamed validator
+} from "../middleware/validators.js";
 
 const router = express.Router();
 
-// Apply admin authentication middleware
-router.use(protectAdmin);
+// Apply admin authentication to all routes in this file
+router.use(protect);
+router.get("/list-for-select", getActiveItemsForSelect);
 
-// --- Define Routes ---
+router.route("/").get(getAllAdminItems).post(
+  uploadItemImagesForCreate, // Use for item creation (expects 'images' field)
+  validateItem,
+  handleValidationErrors,
+  createAdminItem
+);
 
-// POST /api/admin/items/delete-multiple
-router.post("/delete-multiple", deleteMultipleAdminItems); // Renamed handler
+router.route("/delete-multiple").post(deleteMultipleAdminItems); // No file upload here, so no multer
 
-// GET /api/admin/items/ and POST /api/admin/items/
-router
-  .route("/")
-  .get(getAllAdminItems) // Renamed handler
-  .post(
-    uploadItemImage, // Renamed multer function
-    validateItem, // Renamed validator
-    handleValidationErrors,
-    createAdminItem // Renamed handler
-  );
-
-// GET /api/admin/items/:id, PUT /api/admin/items/:id, DELETE /api/admin/items/:id
 router
   .route("/:id")
-  .get(getAdminItemById) // Renamed handler
+  .get(getAdminItemById)
   .put(
-    uploadItemImage, // Renamed multer function
-    validateItem, // Renamed validator
+    uploadItemImagesForUpdate, // Use for item update (expects 'newImages' field)
+    validateItem, // Consider if a separate validateItemUpdate is needed
     handleValidationErrors,
-    updateAdminItem // Renamed handler
+    updateAdminItem
   )
-  .delete(deleteAdminItem); // Renamed handler
+  .delete(deleteAdminItem);
 
 export default router;

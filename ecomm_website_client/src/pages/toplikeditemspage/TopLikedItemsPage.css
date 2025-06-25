@@ -1,0 +1,13 @@
+/* ecomm_website_client/src/pages/toplikeditemspage/TopLikedItemsPage.css */
+.top-liked-items-page-container {
+    padding-top: 1rem; /* Adjusted padding */
+    padding-bottom: 3rem;
+    min-height: 70vh;
+  }
+  
+  /* 
+    The main content display is handled by AllItemsDisplay.css.
+    This file can be used for specific overrides or additional styling for the TopLikedItemsPage wrapper if needed.
+    For example, if you wanted a different background or overall page layout distinct from CategoryPage.
+  */
+  

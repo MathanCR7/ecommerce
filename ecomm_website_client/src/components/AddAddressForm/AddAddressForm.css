@@ -1,0 +1,450 @@
+/* frontend/src/components/AddAddressForm/AddAddressForm.css */
+
+/* General Page Content Styles */
+.add-address-form-page-content {
+  width: 100%;
+  max-width: 900px; /* Max width for the form content */
+  margin: 0 auto;   /* Center the form on larger screens */
+  padding: 20px;   /* Padding around the content */
+  display: flex;
+  flex-direction: column;
+  gap: 30px; /* Space between sections */
+  background-color: #ffffff; /* Assuming a white background for the form area if page bg is different */
+  border-radius: 12px; /* Optional: if this component should have its own rounded box */
+  /* box-shadow: 0 8px 25px rgba(0,0,0,0.05); Optional: subtle shadow for the whole form container */
+}
+
+.form-header-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* margin-bottom: 30px; Handled by main gap */
+}
+
+.add-address-form-page-content h2 {
+  text-align: left;
+  margin: 0;
+  color: #2c3e50;
+  font-size: 1.9rem;
+  font-weight: 600;
+}
+
+/* Map Section Styling */
+.map-section {
+  border: 1px solid #e0e0e0;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #fcfdff; /* Lighter than page bg */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+}
+
+.map-loading-placeholder {
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #f0f2f5;
+  border-radius: 8px;
+  color: #6c757d;
+  font-style: italic;
+  font-size: 1.1rem;
+}
+.map-loading-placeholder svg {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  color: #007bff;
+}
+
+
+.map-controls {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
+  align-items: center;
+}
+
+.map-search-input {
+  flex-grow: 1;
+  padding: 12px 15px;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.map-search-input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0,123,255,.2);
+}
+
+.current-location-btn {
+  padding: 11px 18px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+.current-location-btn:hover:not(:disabled) {
+  background-color: #0056b3;
+  transform: translateY(-1px);
+}
+.current-location-btn:active:not(:disabled) {
+  transform: translateY(0px);
+}
+.current-location-btn svg {
+  font-size: 1.1em;
+}
+
+.location-error-message {
+  color: #dc3545; /* Bootstrap danger color */
+  font-size: 0.875rem;
+  margin-top: -5px; /* Pull up slightly if map-controls has margin-bottom */
+  margin-bottom: 10px;
+  padding: 8px 12px;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  border-radius: 4px;
+}
+
+
+/* Form Fields Styling */
+.address-form-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 25px; /* Increased gap */
+}
+
+.form-row {
+  display: flex;
+  gap: 25px;
+}
+
+.form-row .form-group {
+  flex: 1;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.form-group label {
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #495057;
+  font-size: 0.9rem;
+}
+.form-group label sup {
+  color: #e74c3c; /* Brighter red for asterisk */
+  font-weight: bold;
+  margin-left: 3px;
+}
+
+.form-group input[type="text"],
+.form-group input[type="tel"],
+.form-group textarea {
+  padding: 12px 15px;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  font-size: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  background-color: #fff;
+}
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0,123,255,.2);
+  background-color: #fff;
+}
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: #a0a8b1;
+  font-size: 0.95rem;
+}
+
+/* React Phone Number Input Customization */
+.phone-input-custom-wrapper {
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  display: flex;
+  align-items: center; /* Vertically align flag and input */
+  transition: border-color 0.2s, box-shadow 0.2s;
+  background-color: #fff; /* Ensure bg for wrapper */
+}
+.phone-input-custom-wrapper:focus-within {
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0,123,255,.2);
+}
+
+.phone-input-field { /* Targets the actual input field */
+  padding: 12px 10px !important;
+  border: none !important;
+  border-radius: 0 !important; /* Input corners should not be rounded if wrapper is */
+  font-size: 1rem !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  box-shadow: none !important;
+  background-color: transparent !important; /* Inherit from wrapper */
+  outline: none !important; /* Remove default focus outline for the input itself */
+}
+
+.PhoneInputCountrySelect { /* The dropdown for country code */
+  margin-left: 10px;
+  margin-right: 6px;
+  border: none !important; /* Remove border from select if needed */
+  background: transparent;
+}
+.PhoneInputCountryIcon {
+  box-shadow: none !important;
+  border-radius: 3px; /* Slightly round flag icons */
+}
+.PhoneInputCountrySelectArrow {
+  opacity: 0.6;
+}
+
+
+/* Label Buttons (Home, Workplace, Other) */
+.label-options {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 5px; /* Align with other form group spacing */
+  flex-wrap: wrap;
+}
+
+.label-button {
+  padding: 10px 20px;
+  border: 1px solid #adb5bd;
+  border-radius: 25px; /* Pill shape */
+  background-color: #f8f9fa;
+  color: #343a40;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+.label-button:hover:not(.active) {
+  background-color: #e9ecef;
+  border-color: #007bff;
+}
+.label-button.active {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+  box-shadow: 0 2px 5px rgba(0,123,255,0.2);
+}
+
+/* Form Action Buttons */
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-top: 20px; /* Reduced from 30px to balance with section gap */
+  padding-top: 25px;
+  border-top: 1px solid #e3e8f0;
+}
+
+.button-primary, .button-secondary {
+  padding: 12px 28px;
+  font-size: 1rem;
+  font-weight: 500;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.25s ease, transform 0.15s ease, box-shadow 0.25s ease;
+  letter-spacing: 0.5px;
+}
+.button-primary:disabled, .button-secondary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.button-primary {
+  background-color: #28a745; /* Green for save/update */
+  color: white;
+  box-shadow: 0 3px 8px rgba(40, 167, 69, 0.15);
+}
+.button-primary:hover:not(:disabled) {
+  background-color: #218838;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 12px rgba(40, 167, 69, 0.25);
+}
+.button-primary:active:not(:disabled) {
+  transform: translateY(0px);
+  box-shadow: 0 2px 5px rgba(40, 167, 69, 0.2);
+}
+
+.button-secondary {
+  background-color: #6c757d; /* Grey for cancel */
+  color: white;
+  box-shadow: 0 3px 8px rgba(108, 117, 125, 0.1);
+}
+.button-secondary:hover:not(:disabled) {
+  background-color: #5a6268;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 12px rgba(108, 117, 125, 0.2);
+}
+.button-secondary:active:not(:disabled) {
+  transform: translateY(0px);
+  box-shadow: 0 2px 5px rgba(108, 117, 125, 0.15);
+}
+
+/* Location Help Modal Styles */
+.location-help-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1050; /* High z-index */
+  padding: 15px;
+  box-sizing: border-box;
+}
+
+.location-help-modal-content {
+  background-color: #fff;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  width: 100%;
+  max-width: 550px;
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: fadeInModal 0.3s ease-out;
+}
+
+@keyframes fadeInModal {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.location-help-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #e9ecef;
+  padding-bottom: 15px;
+  margin-bottom: 20px;
+}
+
+.location-help-modal-header h3 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.close-modal-btn {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: #888;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+}
+.close-modal-btn:hover {
+  color: #333;
+}
+
+.location-help-modal-body p {
+  margin-bottom: 15px;
+  line-height: 1.6;
+  color: #555;
+}
+.location-help-modal-body ul {
+  padding-left: 20px;
+  margin-bottom: 15px;
+}
+.location-help-modal-body li {
+  margin-bottom: 8px;
+}
+
+.location-help-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 15px;
+  border-top: 1px solid #e9ecef;
+  margin-top: 20px;
+}
+
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .add-address-form-page-content {
+    padding: 15px; /* Less padding on smaller screens */
+    gap: 25px;
+  }
+  .add-address-form-page-content h2 {
+    font-size: 1.6rem;
+  }
+  .form-row {
+    flex-direction: column;
+    gap: 25px;
+  }
+  .map-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .current-location-btn {
+    width: 100%;
+    justify-content: center;
+  }
+  .form-actions {
+    flex-direction: column-reverse;
+  }
+  .button-primary, .button-secondary {
+    width: 100%;
+    padding: 14px 20px; /* Slightly larger tap area on mobile */
+  }
+  .map-section {
+    padding: 15px;
+  }
+}
+
+@media (max-width: 576px) {
+  .add-address-form-page-content h2 {
+    font-size: 1.4rem;
+  }
+  .form-group label {
+    font-size: 0.85rem;
+  }
+  .form-group input[type="text"],
+  .phone-input-field {
+    padding: 11px 14px; /* Adjusted padding */
+    font-size: 0.95rem;
+  }
+  .label-button {
+    padding: 9px 16px; /* Adjusted padding */
+    font-size: 0.85rem;
+  }
+  .button-primary, .button-secondary {
+    font-size: 0.95rem;
+  }
+  .current-location-btn {
+    padding: 10px 15px;
+  }
+  .location-help-modal-content {
+    padding: 20px;
+  }
+  .location-help-modal-header h3 {
+    font-size: 1.3rem;
+  }
+}

@@ -1,65 +1,227 @@
-.slider-container {
-  position: relative;
-  display: flex;
-  gap: 5rem;
-}
+/* src/components/Mainpage/Mainpage.css */
 
-.slider h1 {
-  font-size: 2.7rem;
-}
-
-.slider p {
-  margin: 10px 0;
-  font-size: 1.2rem;
-}
-
-.slick-track {
-  display: flex;
-  align-items: center;
-}
-
-.slider ul {
-  position: absolute;
-}
-
-.slider ul li button {
-  background: transparent;
-  color: transparent;
-}
-
-.slider ul li button::before {
-  font-size: 15px;
-  color: #0f3460;
-  position: absolute;
-  top: 2px;
-  left: 0;
-  margin: auto;
-}
-
-.slider .box {
-  display: flex !important;
-  gap: 5rem;
-}
-
-/* .slider .box .left {
-  width: 70%;
-}
-
-.slider .box .right {
-  width: 30%;
-} */
-
-.slider .box img {
-  max-width: 100%;
-  height: 100%;
-}
+/* ============================================= */
+/* --- KEEP ALL YOUR EXISTING CSS RULES ABOVE --- */
+/* For .slider, .slider .box, .category, .box-category, etc. */
+/* Make sure existing styles for .slider-container */
+/* handle the layout of its three direct children */
+/* (.category, .slider, and the div rendered by ShopbyCategories) */
+/* ============================================= */
 
 .img img {
   width: 100%;
   height: auto;
 }
+.slider-container {
+  position: relative;
+  display: flex;
+  gap: 2rem; /* Gap between Categories sidebar and PromotionalBanner */
+  align-items: flex-start; /* Align items to the top */
+  /* .container class (applied in Mainpage.jsx) will handle max-width and centering */
+}
 
-/* Product Related CSS */
+/* ============================================= */
+/* Promotional Banner Section Styles (CAROUSEL)  */
+/* ============================================= */
+
+.promotional-banner-section {
+  flex: 1; /* Allows the banner section to grow and take available space */
+  min-width: 0; /* Important for flex items to shrink properly within flex container */
+  position: relative;
+  border-radius: 12px; /* Rounded corners for the entire banner section */
+  overflow: hidden; /* Ensures content (like slick dots) respects border-radius */
+  margin-top: 20px;
+  /* box-shadow: 0 6px 20px rgba(0,0,0,0.1); */ /* Optional shadow for depth */
+}
+
+/* Styling for each individual slide */
+.promotional-banner-slide {
+  min-height: 400px; /* Define a minimum height for slides */
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  display: flex !important; /* Important to override slick's default display for content alignment */
+  flex-direction: column;
+  justify-content: center; /* Vertically center the overlay content */
+  align-items: flex-start; /* Horizontally align overlay content to the start */
+  padding: 30px 50px; /* Padding for the content within the slide */
+  position: relative; /* For the ::before pseudo-element overlay */
+  color: #ffffff; /* Default text color - assuming dark images, adjust if needed */
+  box-sizing: border-box;
+  border-radius: 12px; /* Match parent section */
+}
+
+/* Add a semi-transparent overlay for better text readability */
+.promotional-banner-slide::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(9, 8, 8, 0.7); /* UPDATED: Darker overlay as requested */
+  z-index: 1; /* Below the text content */
+  border-radius: 12px; /* Match slide */
+}
+
+/* This is the content wrapper INSIDE each slide, on top of the overlay */
+.promo-banner-overlay-content {
+  position: relative; /* To sit on top of the ::before pseudo-element */
+  z-index: 2;
+  max-width: 600px; /* Limit width of text content for better readability */
+  text-align: left; /* Default text alignment */
+}
+
+.promo-banner-overlay-content h1 {
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: #ffffff; /* White text for contrast against dark overlay */
+  margin-bottom: 15px;
+  line-height: 1.2;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6); /* Enhanced shadow for readability */
+  /* font-family: 'Your-Bold-Font', sans-serif; */ /* Specify your font */
+}
+
+.promo-banner-overlay-content p {
+  font-size: 1.1rem;
+  color: #f0f0f0; /* Slightly off-white */
+  line-height: 1.6;
+  margin-bottom: 25px;
+  max-width: 500px; /* Limit width of paragraph */
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5); /* Enhanced shadow for readability */
+  /* font-family: 'Your-Regular-Font', sans-serif; */ /* Specify your font */
+}
+
+.promo-banner-cta.btn.btn-primary {
+  background-color: #ef4b4b; /* Example: Bright pink/red */
+  border: none;
+  color: white;
+  padding: 12px 30px;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  /* font-family: 'Your-Medium-Font', sans-serif; */ /* Specify your font */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
+
+.promo-banner-cta.btn.btn-primary:hover {
+  background-color: #d84040; /* Darker shade on hover */
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+}
+
+.default-promotional-banner .promo-banner-overlay-content h1,
+.default-promotional-banner .promo-banner-overlay-content p {
+    color: #fff; /* Ensure text is white on default banner too */
+}
+
+
+/* Loading, Empty, and Error States for Promotional Banner */
+.banner-loading,
+.banner-error {
+  text-align: center;
+  padding: 40px 15px;
+  min-height: 400px; /* Match slide height for consistency */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #333; /* Darker text for light background */
+  font-size: 1.1rem;
+  background-color: #f8f9fa;
+  border-radius: 12px;
+  width: 100%;
+}
+.banner-loading .fa-spin {
+  font-size: 1.8rem;
+  margin-bottom: 15px;
+  color: #ef4b4b;
+}
+.banner-error {
+  color: #dc3545;
+  background-color: #fddfe2;
+}
+.banner-error p {
+  font-weight: bold;
+}
+.banner-error i {
+  font-size: 0.9em;
+  color: #721c24;
+}
+
+/* --- Slick Carousel Customizations --- */
+.promotional-banner-section .slick-slider {
+  margin-bottom: 0;
+  border-radius: 12px; /* Ensure slider itself respects border-radius */
+}
+.promotional-banner-section .slick-list {
+  border-radius: 12px; /* Important for fade transition with rounded corners */
+}
+
+/* --- Custom Slick Dots - ENHANCED --- */
+.custom-slick-dots {
+  position: absolute;
+  bottom: 20px; /* Position dots slightly above the bottom edge */
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex !important; /* Override Slick's default if necessary */
+  justify-content: center;
+  align-items: center;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  z-index: 3; /* Ensure dots are above slide's pseudo-element and content */
+}
+
+.custom-slick-dots li {
+  margin: 0 6px; /* Spacing between dots */
+  padding: 0;
+}
+
+.custom-slick-dots li button {
+  font-size: 0; /* Hide text content of button (e.g., numbers) */
+  line-height: 0;
+  display: block;
+  width: 10px;   /* Size of inactive dots */
+  height: 10px;  /* Size of inactive dots */
+  padding: 0;
+  cursor: pointer;
+  border: none; /* Use background for main appearance */
+  outline: none;
+  background-color: rgba(255, 255, 255, 0.4); /* Semi-transparent white for inactive dots */
+  border-radius: 50%; /* Make them circular */
+  transition: all 0.3s cubic-bezier(0.7, 0, 0.3, 1); /* Smooth transition for all properties */
+  box-shadow: 0 0 3px rgba(0,0,0,0.2); /* Subtle shadow for depth */
+}
+
+/* Remove default slick ::before styling if any */
+.custom-slick-dots li button:before {
+    content: ""; /* Explicitly remove content */
+    /* The user's original CSS had a commented out section for :before,
+       this ensures no default dot character appears if font-size:0 on button isn't enough */
+}
+
+
+.custom-slick-dots li button:hover {
+  background-color: rgba(255, 255, 255, 0.7); /* Brighter on hover */
+  transform: scale(1.1); /* Slight scale on hover */
+}
+
+.custom-slick-dots li.slick-active button {
+  background-color: #ef4b4b; /* Active dot color - matches CTA */
+  width: 14px;  /* Larger size for active dot */
+  height: 14px; /* Larger size for active dot */
+  transform: scale(1.2); /* Emphasize active dot */
+  box-shadow: 0 0 6px rgba(239, 75, 75, 0.5); /* Glow effect for active dot */
+}
+
+
+/* ============================================= */
+/* Product Related CSS (Existing from user)      */
+/* ============================================= */
 
 .product {
   background: #fff;
@@ -159,11 +321,12 @@
   top: 40%;
   width: 50px;
   height: 50px;
-  line-height: 55px;
+  line-height: 55px; /* Consider flex for vertical centering if icon size varies */
   background: #0f3460;
   border-radius: 50%;
   transition: 0.5s;
   z-index: 5;
+  text-align: center; /* Ensure icon is centered if line-height method is used */
 }
 
 .control-btn .prev {
@@ -179,6 +342,7 @@
   font-size: 20px;
   transition: 0.5s;
   color: #fff;
+  vertical-align: middle; /* Helps with line-height centering */
 }
 
 .control-btn .next:hover,
@@ -188,85 +352,337 @@
   cursor: pointer;
 }
 
-@media only screen and (max-width: 1440px) {
-  .slider-container {
-    gap: 2rem;
-  }
+/* ============================================= */
+/* Popular Categories Section Styles (Existing)  */
+/* ============================================= */
 
-  .slider .box {
-    gap: 1rem;
-  }
+.popular-categories-section {
+  padding-top: 40px;
+}
 
-  .product-content {
-    grid-template-columns: repeat(2, 1fr);
+.section-heading {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #1a2b48;
+  margin-bottom: 30px;
+  text-align: left;
+}
+
+.categories-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px 20px;
+  margin: 20px -10px; /* This negative margin might need review depending on parent padding */
+}
+
+.category-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  text-decoration: none;
+  color: inherit;
+  width: 120px;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.category-item:hover {
+  transform: translateY(-5px);
+}
+
+.category-image-wrapper {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-bottom: 12px;
+  background-color: #e9ebee;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+  border: 1px solid #d1d5db;
+}
+
+.category-item img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.3s ease;
+}
+
+.category-item:hover img {
+  transform: scale(1.1);
+}
+
+.category-name {
+  font-size: 0.95rem;
+  color: #5a677d;
+  font-weight: 500;
+  line-height: 1.4;
+  user-select: none;
+}
+
+.categories-loading,
+.categories-empty,
+.categories-error {
+  text-align: center;
+  padding: 30px 15px;
+  color: #6b7280;
+  font-size: 1rem;
+  font-style: italic;
+}
+
+.categories-error {
+  color: #dc3545;
+}
+.categories-error p { margin: 5px 0; }
+.categories-error i { font-size: 0.9em; color: #e74c3c;}
+
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+.fa-spin {
+  animation: spin 1s linear infinite;
+}
+
+
+/* ============================================= */
+/* --- Media Queries (Adjust as needed) ---      */
+/* ============================================= */
+
+@media only screen and (max-width: 1200px) {
+  .promotional-banner-slide {
+    min-height: 380px;
+    padding: 25px 40px;
+  }
+  .promo-banner-overlay-content h1 {
+    font-size: 2.5rem;
+  }
+  .promo-banner-overlay-content p {
+    font-size: 1.05rem;
   }
 }
 
 @media only screen and (max-width: 1024px) {
   .slider-container {
-    flex-direction: column-reverse;
-    gap: 1rem;
+    flex-direction: column-reverse; /* Or column, depending on desired order */
+    gap: 1.5rem;
   }
-
-  .slider h1 {
-    font-size: 1.3rem;
+  .promotional-banner-section {
+    width: 100%; /* Ensure it takes full width if sidebar stacks */
   }
-
-  .slider p {
-    /* margin: 16px 0; */
-    font-size: 0.8rem;
+  .promotional-banner-slide {
+    min-height: 350px;
+    padding: 20px 30px;
+    align-items: center; /* Center content on smaller screens */
   }
-
-  .slider ul {
-    position: absolute;
-    bottom: -5%;
-  }
-
-  .slider ul li button {
-    background: transparent;
-    color: transparent;
-  }
-
-  .contentWidth {
+  .promo-banner-overlay-content {
+    text-align: center; /* Center text */
     max-width: 90%;
-    margin-left: auto;
-    margin-right: auto;
+  }
+  .promo-banner-overlay-content h1 {
+    font-size: 2.2rem;
+  }
+  .promo-banner-overlay-content p {
+    font-size: 1rem;
+    max-width: 100%;
+  }
+  .custom-slick-dots {
+    bottom: 15px; /* Adjust dot position */
+  }
+  .custom-slick-dots li button {
+    width: 9px;
+    height: 9px;
+  }
+  .custom-slick-dots li.slick-active button {
+    width: 12px;
+    height: 12px;
+  }
+
+  /* Popular Categories adjustments for 1024px */
+  .section-heading {
+    font-size: 1.5rem;
+    margin-bottom: 25px;
+  }
+  .categories-grid {
+    gap: 25px 18px;
+  }
+  .category-item {
+    width: 110px;
+  }
+  .category-image-wrapper {
+    width: 90px;
+    height: 90px;
+    margin-bottom: 10px;
+  }
+  .category-name {
+    font-size: 0.9rem;
   }
 }
 
-@media only screen and (max-width: 768px) {
+@media (max-width: 768px) {
+  .promotional-banner-slide {
+    min-height: 320px;
+    padding: 20px;
+  }
+  .promo-banner-overlay-content h1 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+  }
+  .promo-banner-overlay-content p {
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+  }
+  .promo-banner-cta.btn.btn-primary {
+    padding: 10px 25px;
+    font-size: 0.95rem;
+  }
+  .custom-slick-dots {
+    bottom: 10px;
+  }
+  .custom-slick-dots li {
+    margin: 0 4px;
+  }
+  .custom-slick-dots li button {
+    width: 8px;
+    height: 8px;
+  }
+  .custom-slick-dots li.slick-active button {
+    width: 10px;
+    height: 10px;
+  }
+
+  /* Product Grid and Control Buttons for 768px */
+  .product-content {
+    grid-template-columns: repeat(1, 1fr); /* Or repeat(2, 1fr) if space allows */
+  }
   .control-btn .next,
   .control-btn .prev {
-    position: absolute;
-    top: 40%;
-    width: 30px;
-    height: 30px;
-    line-height: 55px;
-    background: #0f3460;
-    border-radius: 50%;
-    transition: 0.5s;
-    z-index: 5;
-    display: flex;
+    width: 35px; /* Smaller control buttons */
+    height: 35px;
+    line-height: 35px; /* Adjust line-height to match new height */
+    display: flex; /* Better for centering icon */
     align-items: center;
     justify-content: center;
   }
-
   .control-btn .next i,
   .control-btn .prev i {
-    font-size: 10px;
-    transition: 0.5s;
-    color: #fff;
+    font-size: 14px; /* Smaller icon */
+  }
+  .control-btn .prev { left: -15px; }
+  .control-btn .next { right: -15px; }
+
+
+  /* Popular Categories adjustments for 768px */
+  .popular-categories-section {
+    padding-top: 35px;
+    /* padding-bottom: 45px; No need, handled by content */
+  }
+  .section-heading {
+    font-size: 1.4rem;
+    margin-bottom: 20px;
+    text-align: center; /* Center heading on smaller screens */
+  }
+  .categories-grid {
+    gap: 20px 15px;
+    /* margin: 20px 0; If negative margin causes issues */
+  }
+  .category-item {
+    width: 100px;
+  }
+  .category-image-wrapper {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 8px;
+  }
+  .category-name {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .promotional-banner-slide {
+    min-height: 280px; /* Adjust height for very small screens */
+    padding: 15px;
+  }
+  .promo-banner-overlay-content h1 {
+    font-size: 1.6rem; /* Further reduce font size */
+  }
+  .promo-banner-overlay-content p {
+    font-size: 0.8rem; /* Further reduce font size */
+    margin-bottom: 15px;
+  }
+  .promo-banner-cta.btn.btn-primary {
+    padding: 8px 20px;
+    font-size: 0.85rem; /* Further reduce font size */
+  }
+  .custom-slick-dots li {
+    margin: 0 3px;
+  }
+  .custom-slick-dots li button {
+    width: 7px;
+    height: 7px;
+  }
+  .custom-slick-dots li.slick-active button {
+    width: 9px;
+    height: 9px;
   }
 
-  .control-btn .prev {
-    left: -10px;
+  /* Popular Categories adjustments for 480px */
+  .popular-categories-section {
+    padding-top: 30px;
+  }
+  .section-heading {
+    font-size: 1.3rem;
+    margin-bottom: 18px;
+  }
+  .categories-grid {
+    gap: 15px 10px;
+    /* Consider justify-content: space-around if items look too sparse */
+  }
+  .category-item {
+    width: 90px; /* Or calc( (100% / 3) - 10px*2/3 ) for 3 per row */
+                /* e.g., for 3 items per row with 10px gap: width: calc(33.333% - 7px); */
+}
+  .category-image-wrapper {
+    width: 70px;
+    height: 70px;
+    margin-bottom: 6px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+  }
+  .category-name {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 360px) {
+  /* Fine-tune for very small mobile if needed */
+  .promo-banner-overlay-content h1 {
+    font-size: 1.4rem;
+  }
+  .promo-banner-overlay-content p {
+    font-size: 0.75rem;
+  }
+   .promo-banner-cta.btn.btn-primary {
+    padding: 7px 15px;
+    font-size: 0.8rem;
   }
 
-  .control-btn .next {
-    right: -10px;
+  .category-item {
+    width: 80px;
   }
-
-  .product-content {
-    grid-template-columns: repeat(1, 1fr);
+  .category-image-wrapper {
+    width: 60px;
+    height: 60px;
+  }
+  .category-name {
+    font-size: 0.75rem;
   }
 }

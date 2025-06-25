@@ -1,0 +1,785 @@
+/* ========================================================================
+// FILE: client/src/Pages/Admin/Orders/OrderDetailsPage.css
+// Description: Styling for the Admin Order Details Page.
+// Based on the provided screenshot layout and visual style.
+// Includes responsive design considerations.
+// ======================================================================== */
+
+/* --- Base Styles --- */
+.order-details-container {
+    padding: 20px 25px; /* Match screenshot padding */
+    background-color: #f8fafd; /* Light background color from screenshot */
+    min-height: 100vh; /* Full viewport height */
+    font-family: 'Arial', sans-serif; /* Simple sans-serif like screenshot */
+    color: #333; /* Default text color */
+}
+
+/* --- Header --- */
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; /* Align items to the top */
+    margin-bottom: 20px;
+    padding-bottom: 15px; /* Space before grid starts */
+    border-bottom: 1px solid #dee2e6; /* Separator line */
+    flex-wrap: wrap; /* Allow header elements to wrap */
+    gap: 10px 20px; /* Gap between wrapped items */
+}
+
+.order-title-group {
+    display: flex;
+    flex-direction: column; /* Stack order ID and created at */
+    gap: 5px;
+}
+
+.order-title-group .order-id {
+    font-size: 22px; /* Larger font for Order ID */
+    font-weight: 700;
+    color: #343a40; /* Darker text */
+    margin: 0;
+    display: inline-block; /* Needed for margin-bottom */
+}
+
+.order-created-at {
+    font-size: 14px;
+    color: #6c757d; /* Muted text */
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.order-created-at .fa-calendar-alt {
+    color: #007bff; /* Icon color */
+}
+
+
+/* Note: Status badge is likely displayed next to Order ID in the screenshot, but the provided code
+   places it elsewhere initially. Let's assume the screenshot's main status badge is just for context,
+   and the primary status control is in the right column "Order Setup" section.
+   If you want the status badge next to the ID as in the mini-screenshot at the top-left,
+   you'd add a status badge span inside .order-title-group next to .order-id similar to AllOrdersPage. */
+
+
+.order-header-actions {
+    display: flex;
+    gap: 10px; /* Space between buttons */
+    align-items: center;
+    flex-wrap: wrap; /* Allow buttons to wrap */
+    margin-top: 5px; /* Align slightly down from order ID */
+}
+
+.order-header-actions .btn-primary,
+.order-header-actions .btn-secondary {
+    padding: 8px 12px; /* Smaller padding for header buttons */
+    font-size: 14px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, opacity 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    height: 36px; /* Consistent button height */
+    box-sizing: border-box;
+}
+
+.order-header-actions .btn-primary {
+    background-color: #007bff;
+    color: white;
+}
+
+.order-header-actions .btn-primary:hover:not(:disabled) {
+    background-color: #0056b3;
+}
+
+.order-header-actions .btn-secondary {
+    background-color: #6c757d; /* Grey button */
+    color: white;
+}
+
+.order-header-actions .btn-secondary:hover:not(:disabled) {
+    background-color: #5a6268;
+}
+
+.order-header-actions button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* --- Details Grid --- */
+.order-details-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr; /* Left column wider than right */
+    gap: 20px; /* Gap between columns */
+}
+
+/* Responsive grid */
+@media (max-width: 991px) {
+    .order-details-grid {
+        grid-template-columns: 1fr; /* Stack columns on smaller screens */
+        gap: 15px; /* Reduce gap */
+    }
+    .grid-left, .grid-right {
+        min-width: 0; /* Allow shrinking */
+    }
+}
+
+/* --- Section Styling --- */
+.details-section {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    margin-bottom: 20px; /* Space between sections within a column */
+}
+
+.details-section:last-child {
+    margin-bottom: 0; /* No bottom margin on the last section */
+}
+
+/* Section Header H3 - Style to match screenshot */
+.details-section h3 {
+    font-size: 16px; /* Slightly smaller size as in screenshot */
+    font-weight: 600;
+    color: #343a40;
+    margin: 0 0 15px 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e9ecef; /* Light separator */
+    display: flex; /* Use flex for icon+text */
+    align-items: center;
+    gap: 10px; /* Space between icon and text */
+}
+/* Specific H3 styles where icon is present */
+/* Removed empty ruleset for section headers with icons */
+
+.section-icon {
+    color: #007bff; /* Icon color for section headers */
+    font-size: 18px; /* Slightly smaller icon */
+}
+/* No icon shown for Order Setup, Delivery Info, Customer Info in screenshot - adjust in JSX */
+
+
+/* --- Order Items Section --- */
+.order-items-section table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.order-items-section th,
+.order-items-section td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #dee2e6;
+    text-align: left;
+    font-size: 13px; /* Smaller font size for table text */
+    vertical-align: top; /* Align cell content to top */
+}
+
+.order-items-section th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+    color: #495057;
+}
+
+.order-items-section tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Item Details Column */
+.item-details-col {
+    width: 30%; /* Give more space to item details (percentage for responsiveness) */
+    min-width: 200px; /* Ensure minimum width */
+}
+
+.item-details-cell {
+    display: flex;
+    align-items: flex-start; /* Align image and info to the top */
+    gap: 10px;
+    white-space: normal; /* Allow item details text to wrap */
+}
+
+.item-image {
+    width: 60px; /* Larger image size */
+    height: 60px; /* Larger image size */
+    object-fit: cover;
+    border-radius: 4px;
+    border: 1px solid #dee2e6;
+    flex-shrink: 0; /* Prevent image from shrinking */
+}
+
+.item-info {
+    display: flex;
+    flex-direction: column;
+    font-size: 13px; /* Base font size for item info */
+}
+
+.item-name {
+    font-weight: 600;
+    margin-bottom: 4px; /* More space below name */
+    line-height: 1.4;
+    color: #343a40;
+}
+
+.item-meta {
+    font-size: 12px; /* Smaller font for meta info */
+    color: #6c757d; /* Muted text */
+    margin-bottom: 2px; /* Space between meta lines */
+}
+
+/* Price/Discount/Total columns */
+/* Target columns by position or specific class if added in JSX */
+.order-items-section th:nth-child(3), /* Qty */
+.order-items-section th:nth-child(4), /* Unit Price */
+.order-items-section th:nth-child(5), /* Discount */
+.order-items-section th:nth-child(6), /* Total Price */
+.order-items-section td:nth-child(3), /* Qty */
+.order-items-section td:nth-child(4), /* Unit Price */
+.order-items-section td:nth-child(5), /* Discount */
+.order-items-section td:nth-child(6) /* Total Price */ {
+    white-space: nowrap; /* Prevent wrapping in these columns */
+    text-align: right; /* Align numbers to the right */
+}
+.order-items-section td:nth-child(3), /* Qty */
+.order-items-section th:nth-child(3) {
+     text-align: center; /* Center quantity */
+}
+
+
+/* --- Price Breakdown, Info List Sections --- */
+.price-list,
+.info-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px; /* Space between items in the list */
+}
+
+.price-item,
+.info-list p {
+    display: flex;
+    justify-content: space-between; /* Push key and value apart */
+    font-size: 14px;
+    padding: 8px 0; /* Add padding for spacing */
+    border-bottom: 1px dashed #e9ecef; /* Dashed border */
+    margin: 0; /* Remove default <p> margin */
+}
+
+.price-list .price-item:last-child,
+.info-list p:last-child {
+    border-bottom: none; /* No border for the last item */
+    padding-bottom: 0;
+}
+
+.price-item span:first-child,
+.info-list p strong {
+    font-weight: 600;
+    color: #555;
+    flex-shrink: 0; /* Prevent labels from shrinking */
+    padding-right: 10px; /* Space after label */
+}
+
+.price-item span:last-child,
+.info-list p span {
+    color: #343a40;
+    text-align: right; /* Align values to the right */
+    flex-grow: 1; /* Allow values to take space */
+    word-break: break-word; /* Break long words */
+}
+
+/* Specific styling for totals/important lines in price breakdown */
+.price-item.sub-total,
+.price-item.total-price {
+    font-size: 15px;
+    font-weight: 600;
+    padding-top: 10px; /* Add some space above */
+}
+
+.price-item.sub-total {
+    border-top: 1px dashed #ced4da; /* Top border above subtotal */
+}
+
+.price-item.total-price {
+    font-size: 18px; /* Larger total font */
+    font-weight: 700;
+    color: #000; /* Darker color for total */
+    border-top: 1px solid #dee2e6; /* Solid border above total */
+    border-bottom: none;
+    padding-top: 15px; /* More space above total */
+    padding-bottom: 0;
+}
+
+/* Payment status within price list */
+.payment-status {
+    font-weight: 600;
+}
+.payment-status.paid {
+    color: #28a745; /* Green */
+}
+.payment-status.not-paid {
+    color: #dc3545; /* Red */
+}
+
+/* Payment Verification Status Badge */
+.payment-verify-status {
+     display: inline-block;
+     padding: 3px 8px;
+     border-radius: 4px;
+     font-size: 0.9em;
+     font-weight: 600;
+     text-align: center;
+}
+.payment-verify-status.status-approved { background-color: #d4edda; color: #155724; } /* Green */
+.payment-verify-status.status-pending { background-color: #fff3cd; color: #856404; } /* Yellow */
+.payment-verify-status.status-rejected { background-color: #f8d7da; color: #721c24; } /* Red */
+
+
+/* Special style for Coupon/Item Discount lines */
+.price-item.item-discount span:first-child,
+.price-item.coupon-discount span:first-child,
+.price-item.extra-discount span:first-child {
+     color: #dc3545; /* Red color for discount labels */
+}
+.price-item.item-discount span:last-child,
+.price-item.coupon-discount span:last-child,
+.price-item.extra-discount span:last-child {
+    color: #dc3545; /* Red color for discount values */
+}
+
+/* Payment Note styling */
+.payment-note {
+    background-color: #fff3cd; /* Light yellow background */
+    padding: 10px;
+    border-left: 4px solid #ffc107; /* Yellow left border */
+    border-radius: 4px;
+    font-size: 13px;
+    color: #856404; /* Dark yellow text */
+    margin-top: 10px; /* Space above note */
+    word-break: break-word; /* Allow breaking long notes */
+}
+.payment-note strong {
+    color: #856404; /* Ensure strong text is also dark yellow */
+}
+
+
+/* --- Order Setup Section --- */
+.order-setup-section h3 {
+    /* No icon in screenshot */
+    gap: 0;
+}
+
+.order-setup-section .setup-item {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Space between label, control, button */
+    margin-bottom: 15px; /* Space between setup items */
+    flex-wrap: wrap; /* Allow elements to wrap if needed */
+}
+
+.order-setup-section .setup-item:last-child {
+    margin-bottom: 0;
+}
+
+.order-setup-section label {
+    font-weight: 600;
+    color: #555;
+    font-size: 14px;
+    min-width: 150px; /* Give label a min-width for alignment */
+    flex-shrink: 0; /* Prevent shrinking */
+}
+
+/* Styling for select and input fields in setup */
+.order-setup-section select,
+.order-setup-section input[type="date"],
+.order-setup-section input[type="text"] {
+    padding: 8px 12px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #495057;
+    min-width: 150px; /* Minimum width */
+    flex-grow: 1; /* Allow inputs/selects to grow */
+    max-width: 250px; /* Max width for select/inputs */
+    background-color: #fff;
+    cursor: pointer;
+    box-sizing: border-box; /* Include padding in size */
+    height: 36px; /* Consistent height */
+}
+.order-setup-section select {
+    appearance: none; /* Remove default arrow */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%23495057'%3E%3Cpath fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd' /%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 1.2em;
+    padding-right: 30px;
+}
+.order-setup-section input[type="date"]::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    opacity: 0.6;
+}
+.order-setup-section input[type="date"],
+.order-setup-section input[type="text"] {
+     max-width: 150px; /* Adjust max width for date/time inputs */
+}
+
+.order-setup-section select:disabled,
+.order-setup-section input:disabled {
+    background-color: #e9ecef;
+    cursor: not-allowed;
+    opacity: 0.8;
+}
+
+/* Group date and time inputs visually */
+.delivery-datetime-inputs {
+    display: flex;
+    gap: 5px; /* Space between date and time inputs */
+    flex-grow: 1;
+    flex-wrap: wrap; /* Allow inputs to wrap if space is tight */
+}
+.delivery-datetime-inputs input {
+    flex-grow: 1; /* Allow individual inputs to grow */
+}
+
+
+/* Buttons in Setup Section */
+.order-setup-section .btn-primary,
+.order-setup-section .btn-secondary {
+    padding: 8px 15px;
+    font-size: 14px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, opacity 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    height: 36px; /* Consistent height */
+    box-sizing: border-box;
+}
+
+.order-setup-section .btn-primary.btn-update-delivery-time {
+     /* Use a distinct color for the update button */
+    background-color: #007bff; /* Blue update button */
+    color: white;
+}
+.order-setup-section .btn-primary.btn-update-delivery-time:hover:not(:disabled) {
+     background-color: #0056b3;
+}
+
+
+.order-setup-section .btn-secondary.btn-assign-delivery {
+    background-color: #6c757d; /* Grey assign button */
+    color: white;
+     margin-top: 5px; /* Add margin if placed below date/time */
+}
+.order-setup-section .btn-secondary.btn-assign-delivery:hover:not(:disabled) {
+    background-color: #5a6268;
+}
+
+.order-setup-section button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Status Update Message */
+.status-update-message {
+    margin-top: 5px; /* Reduced margin */
+    padding: 8px; /* Reduced padding */
+    border-radius: 4px;
+    font-size: 13px; /* Smaller font */
+    text-align: center;
+    width: 100%; /* Take full width */
+    box-sizing: border-box;
+}
+
+.status-update-message.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.status-update-message.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* --- Info List (General) --- */
+/* Styles are shared with Price List, defined above */
+
+/* --- Loading/Error/Not Found States --- */
+.order-details-container.loading,
+.order-details-container.error-message,
+.order-details-container.no-order-found {
+    text-align: center;
+    font-size: 16px;
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    min-height: 150px; /* Ensure some height */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.order-details-container.loading .spinner-icon {
+    font-size: 22px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.order-details-container.error-message {
+    color: #721c24;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+}
+
+.order-details-container.no-order-found {
+    color: #6c757d;
+}
+
+
+/* --- Responsive Design (Media Queries) --- */
+
+/* Tablets and larger phones (e.g., < 768px) */
+@media (max-width: 767px) {
+    .order-details-container {
+        padding: 15px; /* Reduced padding */
+    }
+    .order-header {
+         flex-direction: column; /* Stack header content */
+         align-items: flex-start;
+         gap: 10px;
+    }
+    .order-title-group .order-id {
+         font-size: 20px;
+    }
+    .order-created-at {
+        font-size: 13px;
+    }
+    .order-header-actions {
+         width: 100%; /* Full width */
+         justify-content: flex-end; /* Align buttons to the right */
+         gap: 8px;
+    }
+    .order-header-actions .btn-primary,
+    .order-header-actions .btn-secondary {
+         padding: 8px 10px;
+         font-size: 13px;
+         height: 34px;
+    }
+
+
+    .details-section {
+        padding: 15px; /* Reduced section padding */
+        margin-bottom: 15px;
+        border-radius: 6px;
+    }
+    .details-section h3 {
+        font-size: 15px;
+        margin-bottom: 10px;
+        padding-bottom: 8px;
+        gap: 8px;
+    }
+    .section-icon {
+        font-size: 16px;
+    }
+
+    /* Table adjustments */
+    .order-items-section table {
+        min-width: 500px; /* Maintain minimum width for scroll */
+    }
+    .order-items-section th,
+    .order-items-section td {
+        padding: 8px 10px;
+        font-size: 12px;
+    }
+    .item-image {
+        width: 50px;
+        height: 50px;
+    }
+    .item-info {
+        font-size: 12px;
+    }
+    .item-name {
+        font-size: 13px;
+    }
+    .item-meta {
+        font-size: 11px;
+    }
+     .item-details-col {
+        width: 35%; /* Adjust column width */
+     }
+
+
+    /* Price/Info list adjustments */
+    .price-list, .info-list {
+         gap: 6px; /* Reduced gap */
+    }
+     .price-item, .info-list p {
+         padding: 6px 0; /* Reduced padding */
+         font-size: 13px;
+     }
+     .price-item.total-price {
+         font-size: 16px;
+         padding-top: 12px;
+     }
+     .payment-note {
+         padding: 8px;
+         font-size: 12px;
+     }
+
+
+    /* Order Setup adjustments */
+    .order-setup-section .setup-item {
+         flex-direction: column; /* Stack elements in setup items */
+         align-items: stretch;
+         gap: 8px;
+         margin-bottom: 10px;
+    }
+    .order-setup-section label {
+         min-width: auto; /* Remove min-width when stacked */
+         font-size: 13px;
+    }
+     .order-setup-section select,
+     .order-setup-section input[type="date"],
+     .order-setup-section input[type="text"] {
+         max-width: none; /* Allow to stretch */
+         height: 34px;
+         font-size: 13px;
+     }
+      .delivery-datetime-inputs {
+          flex-direction: column; /* Stack date and time inputs */
+           gap: 5px;
+      }
+      .order-setup-section .btn-primary,
+      .order-setup-section .btn-secondary {
+          width: 100%; /* Full width buttons */
+          justify-content: center;
+          height: 34px;
+           font-size: 13px;
+      }
+       .status-update-message {
+            font-size: 12px;
+            padding: 6px;
+       }
+
+}
+
+/* Small phones (e.g., < 576px) */
+@media (max-width: 575px) {
+    .order-details-container {
+        padding: 10px; /* Minimum padding */
+    }
+     .order-header {
+         gap: 8px;
+     }
+    .order-title-group .order-id {
+        font-size: 18px;
+    }
+    .order-created-at {
+         font-size: 12px;
+         gap: 3px;
+    }
+    .order-header-actions {
+         gap: 5px;
+    }
+     .order-header-actions .btn-primary,
+    .order-header-actions .btn-secondary {
+        padding: 6px 8px;
+        font-size: 12px;
+        height: 32px;
+    }
+
+     .order-details-grid {
+         gap: 10px;
+     }
+
+    .details-section {
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+    .details-section h3 {
+        font-size: 14px;
+        margin-bottom: 8px;
+        padding-bottom: 6px;
+        gap: 6px;
+    }
+    .section-icon {
+        font-size: 15px;
+    }
+
+    /* Table adjustments */
+     .order-items-section table {
+        min-width: 400px; /* Maintain minimum width for scroll */
+    }
+     .order-items-section th,
+    .order-items-section td {
+         padding: 6px 8px;
+        font-size: 11px;
+     }
+     .item-image {
+        width: 40px;
+        height: 40px;
+     }
+     .item-info {
+        font-size: 11px;
+     }
+     .item-name {
+        font-size: 12px;
+     }
+      .item-meta {
+        font-size: 10px;
+     }
+     .item-details-col {
+        width: 40%; /* Adjust column width */
+     }
+
+
+    /* Price/Info list adjustments */
+    .price-list, .info-list {
+         gap: 5px; /* Reduced gap */
+    }
+     .price-item, .info-list p {
+         padding: 5px 0; /* Reduced padding */
+         font-size: 12px;
+     }
+     .price-item.total-price {
+         font-size: 15px;
+         padding-top: 10px;
+     }
+     .payment-note {
+         padding: 6px;
+         font-size: 11px;
+     }
+
+     /* Order Setup adjustments */
+     .order-setup-section .setup-item {
+         gap: 6px;
+         margin-bottom: 8px;
+     }
+     .order-setup-section label {
+         font-size: 12px;
+     }
+      .order-setup-section select,
+     .order-setup-section input[type="date"],
+     .order-setup-section input[type="text"] {
+         height: 32px;
+          font-size: 12px;
+          padding: 6px 8px;
+     }
+       .order-setup-section .btn-primary,
+      .order-setup-section .btn-secondary {
+          height: 32px;
+           font-size: 12px;
+           padding: 6px 8px;
+      }
+       .status-update-message {
+            font-size: 11px;
+            padding: 5px;
+       }
+}

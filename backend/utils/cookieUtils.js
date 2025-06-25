@@ -6,9 +6,9 @@ dotenv.config(); // Ensure .env variables are loaded
 const COOKIE_DOMAIN = process.env.COOKIE_DOMAIN;
 const NODE_ENV = process.env.NODE_ENV;
 const COOKIE_EXPIRES_IN_MS = parseInt(
-  process.env.COOKIE_EXPIRES_IN_MS || "86400000",
+  process.env.COOKIE_EXPIRES_IN_MS || "86400000", // Default 1 day
   10
-); // Default 1 day
+);
 
 // Sets authentication cookies (accessToken and user data)
 export const setAuthCookies = (res, token, userData, setTokenCookie = true) => {
@@ -27,21 +27,22 @@ export const setAuthCookies = (res, token, userData, setTokenCookie = true) => {
       httpOnly: true, // Protects against XSS
     };
     res.cookie("accessToken", token, accessTokenCookieOptions);
-    console.log("accessToken cookie set for domain:", COOKIE_DOMAIN);
+    // console.log("accessToken cookie set for domain:", COOKIE_DOMAIN); // Optional: for debugging
   }
 
   // 2. User Data Cookie (Readable by Frontend JS)
   // Prepare safe user data (ensure password and other sensitive fields are removed)
   const safeUserData = { ...userData }; // Clone user data
   delete safeUserData.password; // Explicitly remove password if present
+  // **REMOVED:** delete safeUserData.googleId; // Now we KEEP googleId for frontend check
   // Add other fields to remove if necessary: delete safeUserData.__v;
 
   const userCookieOptions = {
     ...baseCookieOptions,
     httpOnly: false, // Allow frontend JS to read this
   };
-  res.cookie("user", JSON.stringify(safeUserData), userCookieOptions);
-  console.log("user cookie set for domain:", COOKIE_DOMAIN);
+  res.cookie("user", JSON.stringify(safeUserData), userCookieOptions); // Cookie name is 'user'
+  // console.log("user cookie set for domain:", COOKIE_DOMAIN); // Optional: for debugging
 };
 
 // Clears authentication cookies
@@ -56,8 +57,5 @@ export const clearAuthCookies = (res) => {
   };
   res.cookie("accessToken", "", { ...cookieOptions });
   res.cookie("user", "", { ...cookieOptions, httpOnly: false }); // Clear user cookie too
-  console.log("Auth cookies cleared for domain:", COOKIE_DOMAIN);
+  // console.log("Auth cookies cleared for domain:", COOKIE_DOMAIN); // Optional: for debugging
 };
-
-// Note: Session cookie ('connect.sid' by default) clearing is handled separately
-// in admin logout using res.clearCookie('connect.sid').

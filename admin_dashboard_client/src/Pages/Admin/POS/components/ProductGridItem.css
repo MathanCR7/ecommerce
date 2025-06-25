@@ -1,0 +1,48 @@
+/* src/Pages/Admin/POS/components/ProductGridItem.css */
+.product-grid-item {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: box-shadow 0.2s ease-in-out;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  .product-grid-item:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .product-item-image {
+    max-width: 100px; /* Adjust as needed */
+    max-height: 100px; /* Adjust as needed */
+    object-fit: cover;
+    margin: 0 auto 10px;
+    border-radius: 4px;
+  }
+  
+  .product-item-details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .product-item-name {
+    font-size: 0.9em;
+    margin-bottom: 5px;
+    color: #333;
+    /* Allow text to wrap */
+    white-space: normal;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    min-height: 2.4em; /* approx 2 lines */
+  }
+  
+  .product-item-price {
+    font-size: 1em;
+    font-weight: bold;
+    color: #007bff;
+  }

@@ -1,0 +1,361 @@
+/* src/components/Mainpage/AllItems.css */
+
+/* --- Section Styling --- */
+.all-items-section {
+    padding: 30px 0; /* Vertical padding */
+    margin-top: 20px; /* Space above section */
+  }
+  
+  /* Apply container padding if not already handled by a parent */
+  /* .container { padding-left: 15px; padding-right: 15px; margin-left: auto; margin-right: auto; } */
+  
+  .all-items-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    padding: 0 15px; /* Padding inside the container */
+  }
+  
+  .section-heading {
+    font-size: 22px;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+  }
+  
+  /* --- Filter Dropdown --- */
+  .filter-dropdown-container {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .filter-button {
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 7px 14px;
+    font-size: 13px;
+    color: #555;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .filter-button:hover {
+    background-color: #f8f9fa;
+  }
+  
+  .filter-button:focus,
+  .filter-button:active {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+  }
+  
+  .filter-button .arrow {
+    margin-left: 8px;
+    font-size: 10px;
+    transition: transform 0.2s ease;
+    pointer-events: none; /* Prevent arrow from stealing click */
+  }
+  
+  .filter-button .arrow.up {
+    transform: rotate(180deg);
+  }
+  
+  .filter-menu {
+    position: absolute;
+    top: 105%;
+    right: 0;
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    list-style: none;
+    padding: 8px 0;
+    margin: 0;
+    min-width: 170px;
+    z-index: 100; /* Ensure it's above other content */
+    max-height: 200px;
+    overflow-y: auto;
+  }
+  
+  .filter-menu-item {
+    padding: 9px 18px;
+    font-size: 13px;
+    color: #333;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+  
+  .filter-menu-item:hover,
+  .filter-menu-item:focus {
+    background-color: #f0f0f0;
+     outline: none;
+  }
+  
+  .filter-menu-item.active {
+    background-color: #e9ecef;
+    font-weight: 500;
+    color: #007bff; /* Or your primary color */
+  }
+  
+  /* --- Loading, Error, Empty States --- */
+  .items-loading,
+  .items-error,
+  .items-empty {
+    text-align: center;
+    padding: 40px 15px;
+    font-size: 15px;
+    color: #6c757d;
+  }
+  .items-error p { margin-bottom: 5px; }
+  .items-error i { color: #dc3545; font-size: 13px; }
+  
+  /* --- Items Grid --- */
+  .items-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Start with 2 columns on mobile */
+    gap: 15px;
+    padding: 0 15px; /* Padding inside the container */
+  }
+  
+  /* Medium screens (tablets) */
+  @media (min-width: 768px) {
+    .items-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  
+  /* Large screens (desktops) */
+  @media (min-width: 992px) {
+    .items-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+  
+  /* Extra large screens (TARGET: 5 columns) */
+  @media (min-width: 1200px) {
+    .items-grid {
+      grid-template-columns: repeat(5, 1fr);
+       gap: 18px;
+    }
+  }
+  
+  
+  /* --- Item Card --- */
+  .item-card {
+    background-color: #fff;
+    border: 1px solid #eef0f2;
+    border-radius: 6px;
+    overflow: hidden;
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .item-card:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    transform: translateY(-2px);
+  }
+  
+  .item-image-wrapper {
+    position: relative; /* Needed for absolute positioning of children */
+  }
+  
+  .item-image-link {
+    display: block;
+    position: relative;
+    width: 100%;
+    padding-top: 100%; /* 1:1 Aspect ratio */
+    overflow: hidden;
+    background-color: #f8f8f8; /* Background while image loads */
+  }
+  
+  .item-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Show whole image */
+    padding: 8px;
+    box-sizing: border-box;
+    transition: transform 0.3s ease;
+  }
+  
+  .item-card:hover .item-image {
+    transform: scale(1.04); /* Slight zoom on hover */
+  }
+  
+  /* Discount Badge */
+  .discount-badge {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    background-color: #ef4444;
+    color: #fff;
+    padding: 3px 7px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    z-index: 2;
+    line-height: 1.2;
+    pointer-events: none; /* Don't interfere with clicks */
+  }
+  .discount-badge.high-discount {
+      background-color: #dc2626;
+  }
+  
+  /* Action Buttons (Wishlist, Cart) */
+  .item-actions {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    opacity: 0; /* Hidden by default */
+    transform: translateX(10px);
+    transition: opacity 0.2s ease, transform 0.25s ease;
+    z-index: 2; /* Above image but below link overlay if any */
+  }
+  
+  .item-card:hover .item-actions {
+    opacity: 1;
+    transform: translateX(0); /* Slide in */
+  }
+  
+  .action-btn {
+    background-color: rgba(255, 255, 255, 0.95);
+    border: 1px solid #eee;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #555;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+  }
+  
+  .action-btn:hover {
+    background-color: #007bff; /* Or your primary color */
+    color: #fff;
+    transform: scale(1.1);
+    border-color: #007bff;
+  }
+  .action-btn:active {
+    transform: scale(1.0);
+  }
+  
+  .action-btn svg {
+    font-size: 14px;
+  }
+  
+  /* --- Item Details --- */
+  .item-details {
+    padding: 12px;
+    text-align: left;
+    flex-grow: 1; /* Allow details to fill space */
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .item-rating {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    color: #6c757d;
+    margin-bottom: 4px;
+  }
+  
+  .star-icon {
+    color: #ffc107; /* Star color */
+    font-size: 13px;
+  }
+  
+  .item-name-link {
+    text-decoration: none;
+    color: inherit; /* Let parent control color */
+  }
+  
+  .item-name {
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+    margin: 0 0 4px 0;
+    line-height: 1.3;
+    /* Clamp text to 2 lines */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-height: calc(1.3em * 2); /* Reserve space */
+  }
+  .item-name-link:hover .item-name {
+      color: #007bff; /* Or your primary hover color */
+  }
+  
+  .item-unit {
+    font-size: 11px;
+    color: #888;
+    margin: 0 0 8px 0;
+  }
+  
+  .item-price {
+    margin-top: auto; /* Push price to bottom */
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    flex-wrap: wrap; /* Prevent overflow */
+  }
+  
+  .current-price {
+    font-size: 15px;
+    font-weight: 600;
+    color: #10B981; /* Example Green from detail view */
+  }
+  
+  .original-price {
+    font-size: 12px;
+    color: #6c757d;
+    text-decoration: line-through;
+  }
+  
+  /* --- Responsive Adjustments --- */
+  @media (max-width: 767px) {
+    .all-items-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 15px;
+    }
+    .filter-dropdown-container {
+        align-self: flex-end;
+    }
+     .section-heading {
+        font-size: 20px;
+        text-align: center;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .items-grid {
+        gap: 10px;
+         padding: 0 10px;
+    }
+     .item-details { padding: 10px; }
+     .item-name { font-size: 13px; min-height: calc(1.3em * 2); }
+     .current-price { font-size: 14px; }
+     .original-price { font-size: 11px; }
+     .action-btn { width: 30px; height: 30px; }
+     .action-btn svg { font-size: 13px; }
+     .discount-badge { font-size: 10px; padding: 2px 5px; }
+  }

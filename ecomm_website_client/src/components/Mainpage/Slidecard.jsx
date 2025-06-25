@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import shoppingData from "./shoppingData";
+import shoppingData from "./shoppingData"; // Assuming this data is generic enough
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
@@ -9,7 +9,7 @@ const Slidecard = () => {
 
   const handleButtonClick = () => {
     // Redirect the user to the desired page
-    navigate("/all-products"); // Replace '/collections' with the actual path
+    navigate("/all-items"); // Changed from '/all-products' to '/all-items'
   };
 
   const settings = {
@@ -23,6 +23,7 @@ const Slidecard = () => {
     //   return <ul style={{ margin: "0px" }}>{dots}</ul>;
     // },
   };
+
   return (
     <>
       <Slider {...settings}>
@@ -35,7 +36,7 @@ const Slidecard = () => {
                 <button
                   onClick={handleButtonClick}
                   className="btn-primary"
-                  aria-hidden="false"
+                  aria-hidden="false" // Note: aria-hidden="false" is the default and usually not needed explicitly
                 >
                   Visit Collections
                 </button>
@@ -43,7 +44,7 @@ const Slidecard = () => {
               <div className="right">
                 <img
                   src={value.cover}
-                  alt="slider-image"
+                  alt="slider-image" // Consider a more descriptive alt text if possible, e.g., value.title
                   fetchpriority="high"
                 />
               </div>

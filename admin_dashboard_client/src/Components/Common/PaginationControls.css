@@ -1,0 +1,90 @@
+/* src/Components/Common/PaginationControls.css */
+
+.pagination-container {
+    display: flex;
+    justify-content: center; /* Center the pagination */
+    align-items: center;
+    padding: 15px 0; /* Add some vertical padding */
+    margin-top: 20px; /* Space above the pagination */
+  }
+  
+  .pagination-list {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    overflow: hidden; /* Ensure rounded corners clip contents */
+  }
+  
+  .pagination-item {
+    margin: 0; /* Remove default margins */
+  }
+  
+  .pagination-link {
+    display: block;
+    padding: 8px 12px; /* Adjust padding */
+    min-width: 38px; /* Ensure minimum width */
+    text-align: center;
+    border: 1px solid #dee2e6; /* Light border */
+    border-left-width: 0; /* Remove left border for adjacent items */
+    background-color: #fff;
+    color: #007bff; /* Link color */
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    user-select: none; /* Prevent text selection */
+  }
+  
+  /* First item needs left border */
+  .pagination-list .pagination-item:first-child .pagination-link {
+    border-left-width: 1px;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+  }
+  
+  /* Last item needs right radius */
+  .pagination-list .pagination-item:last-child .pagination-link {
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+  }
+  
+  /* Hover effect */
+  .pagination-item:not(.active):not(.disabled) .pagination-link:hover {
+    background-color: #e9ecef; /* Light grey background on hover */
+    color: #0056b3;
+  }
+  
+  /* Active page styling */
+  .pagination-item.active .pagination-link {
+    background-color: #007bff; /* Primary color background */
+    color: #fff; /* White text */
+    border-color: #007bff;
+    cursor: default;
+    z-index: 2; /* Bring active page slightly forward */
+    position: relative;
+  }
+  
+  /* Disabled state styling */
+  .pagination-item.disabled .pagination-link {
+    color: #6c757d; /* Muted text color */
+    background-color: #fff;
+    border-color: #dee2e6;
+    cursor: not-allowed;
+    pointer-events: none; /* Prevent clicks */
+  }
+  
+  /* Ellipsis styling */
+  .pagination-link.ellipsis {
+    color: #6c757d;
+  }
+  
+  /* Optional: Responsive adjustments */
+  @media (max-width: 576px) {
+    .pagination-link {
+      padding: 6px 10px;
+      min-width: 32px;
+      font-size: 0.85rem;
+    }
+  }

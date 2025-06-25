@@ -1,176 +1,438 @@
+/* src/pages/profilepage/ProfilePage.css */
+
+/* Import a nice font, Poppins is a popular choice */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+body { /* Optional: Apply font to the whole body */
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.profile-page-wrapper {
+  background-color: #f4f7f6; /* A clean, light background */
+  min-height: calc(100vh - (height of your Header + height of your Footer)); /* Adjust if header/footer have fixed heights */
+  padding: 30px 0; /* Padding top/bottom for overall page content */
+}
+
 .profile-page-container {
-    padding: 40px 0;
-    min-height: 70vh; /* Ensure it takes up decent space */
+  max-width: 1000px; /* Increased max-width for spacious layout */
+  margin: 0 auto; /* Center the container */
+  padding: 0 20px; /* Horizontal padding on smaller screens */
 }
 
-.profile-page-container h1 {
-    text-align: center;
-    margin-bottom: 30px;
-    color: #333;
+.profile-page-loading {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh; /* Enough space to show loading */
+  font-size: 1.4rem;
+  color: #555e67;
+  text-align: center;
 }
 
-.profile-content {
-    display: grid;
-    grid-template-columns: 1fr; /* Default to single column */
-    gap: 40px;
-    max-width: 800px; /* Adjust max width */
-    margin: 0 auto;
-    background-color: #ffffff; /* White background */
-    padding: 30px 40px; /* More padding */
-    border-radius: 8px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Slightly stronger shadow */
+.profile-page-loading .fa-spinner {
+  font-size: 3rem; /* Larger spinner */
+  margin-bottom: 20px;
+  color: #00796b; /* Theme color */
+  animation: spin 1.5s linear infinite; /* Smooth spin animation */
 }
 
-/* Grid layout for wider screens */
-@media (min-width: 768px) {
-    .profile-content {
-        grid-template-columns: 1fr 2fr; /* Two columns on wider screens */
-    }
-}
-
-
-/* Profile Picture Section */
-.profile-picture-section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    border-right: none; /* Remove border for single column layout initially */
-    padding-bottom: 20px; /* Add padding for single column */
-}
-@media (min-width: 768px) {
-    .profile-picture-section {
-        border-right: 1px solid #eee; /* Add border back for two columns */
-        padding-right: 40px; /* Spacing between columns */
-        padding-bottom: 0;
-    }
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 
-.profile-picture-section h2 {
-    margin-bottom: 20px;
-    color: #333;
-    font-size: 1.4em;
+/* --- Profile Header Card --- */
+.profile-header-card {
+  background: linear-gradient(to right, #00796b, #004d40); /* Gradient background */
+  color: white;
+  padding: 45px 30px; /* Generous padding */
+  border-radius: 18px; /* Very rounded corners */
+  text-align: center;
+  margin-bottom: 40px;
+  box-shadow: 0 10px 30px rgba(0, 121, 107, 0.3); /* Pronounced, themed shadow */
+  position: relative;
+  overflow: hidden;
+  display: flex; /* Use flexbox for alignment */
+  flex-direction: column; /* Stack content vertically */
+  align-items: center; /* Center items horizontally */
+  justify-content: center; /* Center items vertically */
 }
 
-.profile-picture-img {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-bottom: 20px;
-    border: 4px solid #f1f1f1; /* Slightly thicker border */
-    background-color: #eee; /* Background color for placeholder */
+.profile-header-content { /* Wrapper for text content inside header */
+    position: relative;
+    z-index: 1; /* Ensure content is above pseudo-elements */
 }
 
-.picture-upload-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
+.profile-avatar-container {
+  width: 150px; /* Even larger avatar */
+  height: 150px;
+  border-radius: 50%;
+  margin: 0 auto 25px auto; /* Increased bottom margin */
+  background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  border: 6px solid rgba(255, 255, 255, 0.8); /* Thicker border */
+  box-shadow: 0 0 20px rgba(0,0,0,0.15); /* More pronounced shadow */
+}
+
+.profile-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block; /* Prevent extra space below image */
+}
+
+.profile-avatar-placeholder {
     width: 100%;
-}
-
-/* Hide default file input completely */
-.picture-upload-form input[type="file"] {
-   width: 0.1px;
-   height: 0.1px;
-   opacity: 0;
-   overflow: hidden;
-   position: absolute;
-   z-index: -1;
-}
-
-.file-input-label.btn-primary { /* Style the label like a button */
-    display: inline-block; /* Needed for padding */
-    /* Inherits button styles from App.css */
-}
-
-.file-name {
-    font-size: 0.85em;
-    color: #555;
-    margin-top: 5px; /* Space above file name */
-    word-break: break-all;
-    text-align: center;
-}
-
-/* Adjust button styles if needed, inheriting from App.css */
-.picture-upload-form button.btn-primary {
-    margin-top: 5px; /* Space above upload button */
-    width: auto; /* Don't force full width */
-    padding: 8px 20px;
-}
-
-
-/* Profile Details Section */
-.profile-details-section {
-    padding-left: 0; /* Remove padding for single column */
-}
-@media (min-width: 768px) {
-    .profile-details-section {
-         padding-left: 40px; /* Add padding back for two columns */
-    }
-}
-
-.profile-details-section h2 {
-    margin-bottom: 20px;
-    color: #333;
-    font-size: 1.4em;
-}
-
-.profile-details-section p {
-    margin-bottom: 12px;
-    color: #555;
-    line-height: 1.5;
-}
-.profile-details-section p strong {
-    color: #333;
-    min-width: 100px; /* Align labels */
-    display: inline-block;
-}
-
-.profile-update-form {
-    margin-top: 25px;
+    height: 100%;
     display: flex;
-    flex-direction: column;
-    gap: 18px; /* Increased gap */
+    justify-content: center;
+    align-items: center;
+    background-color: #b2dfdb; /* Light teal placeholder color */
+}
+.profile-avatar-placeholder .fa-user,
+.profile-avatar-placeholder .fa-image {
+  color: #004d40; /* Dark teal icon */
+  font-size: 5rem; /* Much larger placeholder icon */
 }
 
-/* Inherit input styles from App.css */
-.profile-update-form label {
-    font-weight: bold; /* Example style for labels */
-    color: #333; /* Darker text color */
-}
-.profile-update-form input[type="text"],
-.profile-update-form input[type="tel"],
-.profile-update-form input[type="date"] {
-     /* Input styling from App.css */
-     background-color: #fdfdfd; /* Slightly off-white */
-}
-.profile-update-form input:disabled {
-    background-color: #eee; /* Disabled style */
-    cursor: not-allowed;
+.profile-display-name {
+  font-size: 2.5rem; /* Significantly larger name */
+  font-weight: 700;
+  margin: 0 0 10px 0;
+  letter-spacing: 1px; /* Spaced out letters */
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.1); /* Subtle text shadow */
 }
 
-/* Verification Status Styles */
-.not-verified, .verified {
-    display: block; /* Put status on new line */
-    font-size: 0.8em;
-    margin-top: 4px;
-    margin-left: 0; /* Remove left margin */
+.profile-email,
+.profile-phone { /* Style both email and phone */
+  font-size: 1.1rem;
+  margin: 5px 0; /* Adjusted margin */
+  opacity: 0.9;
+  font-weight: 300;
 }
-.not-verified {
-    color: #d9534f; /* Bootstrap danger color */
+.profile-email:first-of-type { /* Margin correction if only email is shown */
+    margin-top: 0;
 }
-.verified {
-    color: #5cb85c; /* Bootstrap success color */
+.profile-phone:last-of-type { /* Margin correction before actions */
+    margin-bottom: 30px;
 }
 
 
-/* Save Changes Button */
-.profile-update-form button.btn-primary {
-     /* Button styling from App.css */
-    margin-top: 15px; /* Space above save button */
-    width: auto; /* Don't force full width */
-    align-self: flex-start; /* Align button left */
+/* --- Profile Actions Section --- */
+.profile-actions {
+  margin-top: 20px; /* Space below info */
+  display: flex;
+  flex-direction: column; /* Stack buttons vertically */
+  gap: 15px; /* Space between buttons */
+  width: 100%; /* Take full width of container */
+  max-width: 300px; /* Limit button width */
+  align-items: center; /* Center buttons */
+}
+
+.profile-action-link,
+.profile-action-button {
+  display: flex; /* Use flex to align icon and text */
+  align-items: center; /* Vertically center icon and text */
+  justify-content: center; /* Horizontally center content */
+  padding: 14px 25px; /* Increased padding */
+  border: none; /* Remove default border */
+  border-radius: 8px; /* Nicely rounded corners */
+  font-size: 1.05rem;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+  width: 100%; /* Make buttons fill max-width */
+  box-sizing: border-box;
+}
+
+.profile-action-link { /* Change Password link */
+  background-color: #4db6ac; /* Lighter teal */
+  color: white;
+}
+
+.profile-action-link:hover {
+  background-color: #26a69a; /* Slightly darker teal on hover */
+  transform: translateY(-2px);
+}
+
+.logout-button {
+  background-color: #ef5350; /* Light red for logout */
+  color: white;
+}
+
+.logout-button:hover {
+  background-color: #e53935; /* Darker red on hover */
+   transform: translateY(-2px);
+}
+
+.delete-account-link {
+  position: absolute; /* Position top right */
+  top: 20px;
+  right: 20px;
+  color: #ffcdd2; /* Light red, as per image */
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-decoration: none;
+  padding: 6px 12px;
+  border-radius: 20px; /* Pill shape */
+  background-color: rgba(255, 255, 255, 0.15); /* Subtle light background */
+  transition: background-color 0.2s, color 0.2s;
+  z-index: 2; /* Ensure it's clickable above other elements */
+}
+
+.delete-account-link:hover {
+  background-color: rgba(255, 255, 255, 0.3); /* More visible background on hover */
+  color: #ffebed; /* Lighter redish color */
+}
+
+
+/* --- Profile Options Grid --- */
+.profile-options-grid {
+  display: grid;
+  /* Responsive grid: columns of minimum 220px, fitting as many as possible */
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px; /* Increased gap for better spacing */
+}
+
+.profile-option-card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 25px 20px; /* Increased padding */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  text-decoration: none;
+  color: #37474f;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08); /* More pronounced shadow */
+  transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1), box-shadow 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+  cursor: pointer;
+  border: 1px solid #e0e0e0; /* Subtle border */
+  min-height: 160px; /* Ensure minimum height */
+  justify-content: flex-start; /* Align content from top */
+}
+
+.profile-option-card:hover {
+  transform: translateY(-8px) scale(1.03); /* More noticeable lift and scale */
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+  border-color: #c0c0c0;
+}
+
+.profile-option-icon-wrapper {
+  width: 55px; /* Larger icon wrapper */
+  height: 55px;
+  border-radius: 12px;
+  background-color: #e0f7fa; /* Lightest teal */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 15px; /* More space below icon */
+  transition: background-color 0.2s ease;
+}
+
+.profile-option-card:hover .profile-option-icon-wrapper {
+    background-color: #b2ebf2; /* Darker on hover */
+}
+
+.profile-option-icon-wrapper .fa-solid, /* Target FontAwesome solid icons */
+.profile-option-icon-wrapper .fa-regular, /* Target FontAwesome regular icons */
+.profile-option-icon-wrapper .fa-brands /* Target FontAwesome brands icons */ {
+  color: #00796b; /* Main teal for icon */
+  font-size: 24px; /* Larger icon */
+}
+
+.profile-option-name {
+  font-size: 1rem; /* Standard size */
+  font-weight: 500;
+  color: #37474f;
+  margin-bottom: 10px; /* Space before arrow */
+  line-height: 1.4;
+  flex-grow: 1; /* Allows text to push arrow down if it wraps */
+  display: flex; /* Use flex to center text vertically if needed */
+  align-items: center;
+  justify-content: center;
+  height: auto; /* Allow height to adjust based on content */
+}
+
+.profile-option-arrow {
+  color: #b0bec5;
+  font-size: 1rem; /* Larger arrow */
+  margin-top: auto; /* Push to bottom */
+  opacity: 0.8;
+  transition: color 0.2s ease, opacity 0.2s ease;
+}
+.profile-option-card:hover .profile-option-arrow {
+    color: #78909c;
+    opacity: 1;
+}
+
+/* Responsive Adjustments */
+
+@media (max-width: 1024px) { /* Larger Tablets */
+  .profile-page-container {
+    padding: 0 15px;
+  }
+  .profile-options-grid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Adjust minmax */
+    gap: 18px;
+  }
+}
+
+@media (max-width: 768px) { /* Tablets and larger phones */
+  .profile-page-wrapper {
+    padding: 20px 0;
+  }
+  .profile-page-container {
+    padding: 0 15px;
+  }
+   .profile-header-card {
+    padding: 35px 20px;
+    border-radius: 16px;
+    margin-bottom: 30px;
+  }
+  .profile-avatar-container {
+    width: 130px;
+    height: 130px;
+    margin-bottom: 20px;
+    border-width: 5px;
+  }
+   .profile-avatar-placeholder .fa-user,
+  .profile-avatar-placeholder .fa-image {
+    font-size: 4rem;
+  }
+  .profile-display-name {
+    font-size: 2.2rem;
+  }
+  .profile-email,
+  .profile-phone {
+    font-size: 1rem;
+    margin: 4px 0;
+  }
+  .profile-actions {
+    max-width: 280px; /* Adjust action button max width */
+    gap: 12px;
+  }
+   .profile-action-link,
+  .profile-action-button {
+    padding: 12px 20px;
+    font-size: 1rem;
+     border-radius: 6px;
+  }
+  .delete-account-link {
+    font-size: 0.8rem;
+    padding: 5px 10px;
+    top: 15px;
+    right: 15px;
+  }
+  .profile-options-grid {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* Further adjust minmax */
+    gap: 15px;
+  }
+  .profile-option-card {
+    padding: 20px 15px;
+    border-radius: 10px;
+    min-height: 150px;
+  }
+  .profile-option-icon-wrapper {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 12px;
+  }
+  .profile-option-icon-wrapper .fa-solid,
+   .profile-option-icon-wrapper .fa-regular,
+  .profile-option-icon-wrapper .fa-brands {
+    font-size: 20px;
+  }
+  .profile-option-name {
+    font-size: 0.95rem;
+  }
+   .profile-option-arrow {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) { /* Smaller mobile devices */
+  .profile-page-wrapper {
+    padding: 10px 0;
+  }
+   .profile-page-container {
+    padding: 0 10px;
+  }
+  .profile-header-card {
+    padding: 30px 15px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+  }
+  .profile-avatar-container {
+    width: 100px;
+    height: 100px;
+    border-width: 4px;
+    margin-bottom: 15px;
+  }
+  .profile-avatar-placeholder .fa-user,
+  .profile-avatar-placeholder .fa-image {
+    font-size: 3rem;
+  }
+  .profile-display-name {
+    font-size: 1.8rem;
+    margin-bottom: 5px;
+  }
+  .profile-email,
+  .profile-phone {
+    font-size: 0.9rem;
+     margin: 3px 0;
+  }
+  .profile-actions {
+     max-width: none; /* Allow buttons to fill width if needed */
+     padding: 0 15px; /* Add padding to actions section */
+     box-sizing: border-box;
+  }
+   .profile-action-link,
+  .profile-action-button {
+    padding: 10px 15px;
+    font-size: 0.95rem;
+    border-radius: 5px;
+  }
+  .delete-account-link {
+    font-size: 0.75rem;
+    padding: 4px 8px;
+    top: 10px;
+    right: 10px;
+  }
+  .profile-options-grid {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); /* Two columns on very small screens */
+    gap: 10px;
+  }
+   .profile-option-card {
+    padding: 15px 10px;
+    border-radius: 8px;
+    min-height: 130px;
+  }
+  .profile-option-icon-wrapper {
+    width: 45px;
+    height: 45px;
+    margin-bottom: 10px;
+     border-radius: 10px;
+  }
+  .profile-option-icon-wrapper .fa-solid,
+   .profile-option-icon-wrapper .fa-regular,
+  .profile-option-icon-wrapper .fa-brands {
+    font-size: 18px;
+  }
+  .profile-option-name {
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+  }
+   .profile-option-arrow {
+    font-size: 0.8rem;
+  }
 }

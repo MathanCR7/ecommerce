@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  admin_dashboard_client:
+    build:
+      context: ./admin_dashboard_client
+      dockerfile: Dockerfile
+    container_name: admin_client_prod
+    ports:
+      - "5170:80" # Maps host port 5170 to container's Nginx port 80
+    restart: unless-stopped
+    networks:
+      - mern-app-network
+
+  ecomm_website_client:
+    build:
+      context: ./ecomm_website_client
+      dockerfile: Dockerfile
+    container_name: ecom_client_prod
+    ports:
+      - "5173:80" # Maps host port 5173 to container's Nginx port 80
+    restart: unless-stopped
+    networks:
+      - mern-app-network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: backend_prod
+    ports:
+      - "5000:5000" # Maps host port 5000 to container's backend port 5000
+    env_file:
+      - .env # Loads environment variables from the root .env file
+    restart: unless-stopped
+    networks:
+      - mern-app-network
+    depends_on: [] # No hard dependencies for startup order, but services will wait for network.
+                    # If you have a database container, you'd add it here.
+    volumes: # Optional: if you want to persist uploaded files
+      - backend_uploads:/app/uploads # Persists backend's /app/uploads folder
+
+networks:
+  mern-app-network:
+    driver: bridge
+
+volumes: # Optional: define the named volume
+  backend_uploads:

@@ -1,11 +1,10 @@
 // ========================================================================
 // FILE: client/src/Pages/Admin/Products/Items/ItemListPage.jsx
+// VERSION: Fully Updated for Advanced Item Listing & Search
 // ========================================================================
-
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import itemService from "../../../../Services/itemService";
-import { useAuth } from "../../../../Context/AuthContext";
 import LoadingSpinner from "../../../../Components/Common/LoadingSpinner";
 import ConfirmationModal from "../../../../Components/Common/ConfirmationModal";
 import {
@@ -14,17 +13,23 @@ import {
   FaTrashAlt,
   FaImage,
   FaInfoCircle,
-  FaDollarSign,
-  FaBoxes,
+  FaSearch,
 } from "react-icons/fa";
-// Import the updated CSS file
-import "./ItemListPage.css";
+import "./ItemListPage.css"; // Ensure this CSS is updated for new columns
 
-// Construct base URL for images (relative to server)
 const IMAGE_API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || "").replace(
   "/api",
   ""
 );
+
+const formatCurrency = (value) => {
+  const number = Number(value);
+  if (isNaN(number)) return "N/A";
+  return `₹${number.toLocaleString("en-IN", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })}`;
+};
 
 const ItemListPage = () => {
   const [items, setItems] = useState([]);
@@ -39,12 +44,12 @@ const ItemListPage = () => {
     itemName: "",
     isMultiDelete: false,
   });
+  const [searchTerm, setSearchTerm] = useState("");
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
 
   const navigate = useNavigate();
   const location = useLocation();
-  const { isAuthenticated } = useAuth();
 
-  // Check for messages passed via navigation state
   useEffect(() => {
     if (location.state?.error) {
       setError(location.state.error);
@@ -56,95 +61,97 @@ const ItemListPage = () => {
     }
   }, [location, navigate]);
 
-  // --- Fetch Items ---
+  // Debounce search term
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedSearchTerm(searchTerm);
+    }, 500); // 500ms delay
+    return () => clearTimeout(handler);
+  }, [searchTerm]);
+
   const fetchItems = useCallback(async () => {
-    console.log("Fetching admin items...");
     setIsLoading(true);
-    if (!location.state?.error) setError(null);
-    if (!location.state?.success) setSuccess(null);
+    // Clear previous messages only if not navigating with state (e.g., after create/edit)
+    if (!location.state?.error && !location.state?.success) {
+      setError(null);
+      setSuccess(null);
+    }
     try {
-      const fetchedItems = await itemService.getAllAdminItems();
-      setItems(Array.isArray(fetchedItems) ? fetchedItems : []);
+      const fetchedItemsData = await itemService.getAllAdminItems(
+        null, // categoryId - pass null if not filtering by category
+        debouncedSearchTerm.trim() || null // searchTerm
+      );
+      setItems(Array.isArray(fetchedItemsData) ? fetchedItemsData : []);
     } catch (err) {
       console.error("Failed to fetch items:", err);
-      setError(err.message || "Failed to load items.");
+      setError(
+        err.response?.data?.message || err.message || "Failed to load items."
+      );
       setItems([]);
     } finally {
       setIsLoading(false);
     }
-  }, [location.state]); // Dependency on location.state helps trigger refetch after programmatic nav with state
+  }, [debouncedSearchTerm, location.state]); // location.state in dependency to re-evaluate message clearing logic
 
-  // --- Initial Fetch ---
   useEffect(() => {
-    if (isAuthenticated) {
-      fetchItems();
-    } else {
-      setIsLoading(false);
-      setError("Authentication required to view items.");
-      setItems([]);
-    }
-    // Only depends on auth status and the fetch function itself
-  }, [isAuthenticated, fetchItems]);
+    fetchItems();
+  }, [fetchItems]); // fetchItems itself depends on debouncedSearchTerm
 
-  // --- Message Clearing Timer ---
   useEffect(() => {
     let timer;
     if (success || error) {
       timer = setTimeout(() => {
         setSuccess(null);
         setError(null);
-      }, 7000);
+      }, 7000); // Keep messages for 7 seconds
     }
     return () => clearTimeout(timer);
   }, [success, error]);
 
-  // --- Selection Handlers ---
-  const handleSelectAll = (event) => {
+  const handleSelectAll = (e) =>
     setSelectedItems(
-      event.target.checked ? new Set(items.map((i) => i._id)) : new Set()
+      e.target.checked ? new Set(items.map((i) => i._id)) : new Set()
     );
-  };
-  const handleSelectRow = (event, id) => {
-    const isChecked = event.target.checked;
+
+  const handleSelectRow = (e, id) => {
+    const isChecked = e.target.checked;
     setSelectedItems((prev) => {
-      const newSelected = new Set(prev);
-      if (isChecked) newSelected.add(id);
-      else newSelected.delete(id);
-      return newSelected;
+      const newSet = new Set(prev);
+      if (isChecked) newSet.add(id);
+      else newSet.delete(id);
+      return newSet;
     });
   };
+
   const isAllSelected = useMemo(
     () => items.length > 0 && selectedItems.size === items.length,
-    [items.length, selectedItems.size]
+    [items, selectedItems]
   );
 
-  // --- Deletion Logic ---
-  const openDeleteModal = (id, name) => {
+  const openDeleteModal = (id, name) =>
     setModalState({
       isOpen: true,
       itemId: id,
       itemName: name,
       isMultiDelete: false,
     });
-  };
+
   const openMultiDeleteModal = () => {
-    if (selectedItems.size > 0) {
+    if (selectedItems.size > 0)
       setModalState({
         isOpen: true,
         itemId: null,
         itemName: "",
         isMultiDelete: true,
       });
-    }
   };
-  const closeDeleteModal = () => {
+  const closeDeleteModal = () =>
     setModalState({
       isOpen: false,
       itemId: null,
       itemName: "",
       isMultiDelete: false,
     });
-  };
 
   const handleConfirmDelete = async () => {
     if (isProcessing) return;
@@ -175,154 +182,176 @@ const ItemListPage = () => {
       } else {
         throw new Error("Invalid delete operation state.");
       }
-
       if (modalState.isMultiDelete && response?.errors?.length > 0) {
         setError(
           `Partial success: ${
             response.message || ""
-          }. Some deletions may have failed.`
+          }. Some deletions may have failed. See console for details.`
         );
         console.error("Multi-delete item errors:", response.errors);
       }
-      fetchItems(); // Re-fetch list
+      fetchItems(); // Refetch items after deletion
     } catch (err) {
       console.error("Delete item error:", err);
-      setError(err.message || "Failed to delete item(s).");
+      setError(
+        err.response?.data?.message ||
+          err.message ||
+          "Failed to delete item(s)."
+      );
     } finally {
       setIsProcessing(false);
       closeDeleteModal();
     }
   };
 
-  // --- Format Currency ---
-  const formatCurrency = (value) => {
-    const number = Number(value);
-    if (isNaN(number)) return "N/A";
-    return `₹${number.toLocaleString("en-IN", {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    })}`;
-  };
-
-  // --- Image Error Handler ---
   const handleImageError = (e) => {
-    console.warn(`Failed to load item image: ${e.target.src}`);
-    e.target.style.display = "none";
-    const placeholder = e.target.nextElementSibling;
-    if (
-      placeholder &&
-      placeholder.classList.contains("item-image-placeholder")
-    ) {
-      placeholder.style.display = "inline-flex";
-    }
+    e.target.style.display = "none"; // Hide broken image
+    const placeholder = e.target
+      .closest(".item-image-container")
+      ?.querySelector(".item-image-placeholder");
+    if (placeholder) placeholder.style.display = "inline-flex"; // Show placeholder
   };
 
-  // --- Render Helper ---
   const renderItemRow = (item) => {
-    const relativeImagePath = item.imagePath?.replace(/\\/g, "/");
-    const imageUrl = relativeImagePath
-      ? `${IMAGE_API_BASE_URL}/uploads/${relativeImagePath}`
+    const primaryImage =
+      item.images?.find((img) => img.isPrimary) || item.images?.[0];
+    const imageUrl = primaryImage?.path
+      ? `${IMAGE_API_BASE_URL}/uploads/${primaryImage.path.replace(/\\/g, "/")}`
       : null;
 
     return (
-      <tr key={item._id} className={`status-${item.status}`}>
-        <td className="td-center">
-          {" "}
-          {/* Centered checkbox */}
+      <tr
+        key={item._id}
+        className={`status-row-${item.status || "unknown"} ${
+          selectedItems.has(item._id) ? "row-selected" : ""
+        }`}
+      >
+        <td className="td-checkbox td-center">
           <input
             type="checkbox"
             className="form-checkbox"
             checked={selectedItems.has(item._id)}
             onChange={(e) => handleSelectRow(e, item._id)}
-            aria-label={`Select item ${item.name}`}
+            aria-label={`Select ${item.name}`}
             disabled={isProcessing}
           />
         </td>
-        <td className="td-center">
-          {" "}
-          {/* Centered image */}
+        <td className="td-image td-center">
           <div className="item-image-container">
             {imageUrl ? (
               <img
                 src={imageUrl}
-                alt={item.name || "Item image"}
+                alt={primaryImage?.altText || item.name}
                 className="item-thumbnail"
                 onError={handleImageError}
                 loading="lazy"
               />
-            ) : null}
-            <div
-              className="item-image-placeholder"
-              style={{ display: imageUrl ? "none" : "inline-flex" }}
-              title="No image available"
-            >
-              {" "}
-              <FaImage />{" "}
-            </div>
+            ) : (
+              <div
+                className="item-image-placeholder"
+                title="No image available"
+              >
+                <FaImage />
+              </div>
+            )}
           </div>
         </td>
-        <td className="item-name">{item.name}</td>
-        <td className="item-sku">{item.sku || "-"}</td>
-        <td className="item-category">
+        <td className="td-name">
+          <Link
+            to={`/admin/products/items/edit/${item._id}`}
+            className="item-name-link"
+            title={`Edit ${item.name}`}
+          >
+            {item.name}
+          </Link>
+          {item.brand && (
+            <small className="item-brand-list text-muted">
+              Brand: {item.brand}
+            </small>
+          )}
+        </td>
+        <td className="td-sku">
+          {item.sku || <span className="text-muted">-</span>}
+        </td>
+        <td className="td-category">
           {item.category?.name || <span className="text-muted">N/A</span>}
         </td>
-        <td className="item-price td-right">{formatCurrency(item.price)}</td>{" "}
-        {/* Right aligned price */}
-        <td className="item-stock td-center">
-          {item.stock ?? <span className="text-muted">0</span>}
-        </td>{" "}
-        {/* Centered stock, default 0 */}
-        <td className="item-status td-center">
-          {" "}
-          {/* Centered status */}
+        <td className="td-mrp td-right">{formatCurrency(item.mrp)}</td>
+        <td className="td-price td-right">{formatCurrency(item.price)}</td>
+        <td className="td-stock td-center">
+          {item.manageStock ? (
+            <span
+              className={
+                (item.stock ?? 0) <= (item.lowStockThreshold ?? 0) &&
+                (item.stock ?? 0) > 0
+                  ? "stock-low"
+                  : (item.stock ?? 0) === 0
+                  ? "stock-out"
+                  : ""
+              }
+            >
+              {item.stock ?? 0}
+            </span>
+          ) : (
+            <span className="text-muted" title="Stock not managed">
+              N/M
+            </span>
+          )}
+        </td>
+        <td className="td-status td-center">
           <span
             className={`status-badge status-${item.status || "unknown"}`}
-            title={item.status}
+            title={`Status: ${item.status || "Unknown"}`}
           >
-            {item.status?.replace("-", " ") || "Unknown"}
+            {(item.status || "unknown").replace("-", " ")}
           </span>
         </td>
-        <td className="item-actions">
-          {" "}
-          {/* Actions align right by default */}
+        <td className="td-actions">
           <button
             className="btn-icon btn-edit"
             title={`Edit ${item.name}`}
             onClick={() => navigate(`/admin/products/items/edit/${item._id}`)}
             disabled={isProcessing}
+            aria-label={`Edit item ${item.name}`}
           >
-            {" "}
-            <FaEdit />{" "}
+            <FaEdit />
           </button>
           <button
             className="btn-icon btn-delete"
             title={`Delete ${item.name}`}
             onClick={() => openDeleteModal(item._id, item.name)}
             disabled={isProcessing}
+            aria-label={`Delete item ${item.name}`}
           >
-            {" "}
-            <FaTrashAlt />{" "}
+            <FaTrashAlt />
           </button>
         </td>
       </tr>
     );
   };
 
-  // --- Main Render ---
-  const showLoadingOverlay = isProcessing;
+  const handleSearchChange = (e) => setSearchTerm(e.target.value);
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    setDebouncedSearchTerm(searchTerm); // Trigger fetch immediately if user presses Enter
+  };
+
   const disablePageActions = isLoading || isProcessing;
 
   return (
     <div className="page-container item-list-page">
-      {showLoadingOverlay && (
-        <LoadingSpinner message="Processing..." isFullScreen={true} />
+      {isLoading && items.length === 0 && (
+        <LoadingSpinner message="Loading Items..." isFullScreen={true} />
+      )}
+      {isProcessing && (
+        <LoadingSpinner message="Processing Actions..." isFullScreen={true} />
       )}
 
-      <div className="page-header">
-        <h1 className="page-title">Products / Items</h1>
+      <div className="page-header item-list-header">
+        <h1 className="page-title">Product Items</h1>
         <div className="header-actions">
           <button
-            className="btn btn-danger"
+            className="btn btn-outline-danger btn-with-icon" /* Changed to outline */
             onClick={openMultiDeleteModal}
             disabled={disablePageActions || selectedItems.size === 0}
             title="Delete Selected Items"
@@ -331,7 +360,7 @@ const ItemListPage = () => {
           </button>
           <Link
             to="/admin/products/items/new"
-            className={`btn btn-primary ${
+            className={`btn btn-primary btn-with-icon ${
               disablePageActions ? "disabled-link" : ""
             }`}
             aria-disabled={disablePageActions}
@@ -342,62 +371,102 @@ const ItemListPage = () => {
         </div>
       </div>
 
-      {error && (
-        <div className="alert alert-danger" role="alert">
-          {" "}
-          <FaInfoCircle /> {error}{" "}
-        </div>
-      )}
-      {success && (
-        <div className="alert alert-success" role="alert">
-          {" "}
-          <FaInfoCircle /> {success}{" "}
-        </div>
-      )}
+      <div className="controls-and-feedback-bar">
+        <form
+          onSubmit={handleSearchSubmit}
+          className="search-bar-form item-search-bar"
+          role="search"
+        >
+          <div className="input-with-icon search-input-wrapper">
+            <FaSearch className="icon-prefix search-icon" aria-hidden="true" />
+            <input
+              type="search" /* Use type="search" for better semantics */
+              placeholder="Search by Name, SKU, Brand..."
+              value={searchTerm}
+              onChange={handleSearchChange}
+              className="form-control search-input"
+              disabled={disablePageActions}
+              aria-label="Search items"
+            />
+          </div>
+          {/* Explicit search button can be useful for accessibility and users who prefer it */}
+          {/* <button type="submit" className="btn btn-secondary search-btn" disabled={disablePageActions}>Search</button> */}
+        </form>
 
-      <div className="table-container stylish-table-container">
-        {/* Add class for specific item table styling */}
-        <table className="table stylish-table table-hover item-table">
-          <thead>
-            <tr>
-              <th className="th-center">
-                <input
-                  type="checkbox"
-                  className="form-checkbox"
-                  checked={isAllSelected}
-                  onChange={handleSelectAll}
-                  aria-label="Select all items"
-                  disabled={disablePageActions || items.length === 0}
-                />
-              </th>
-              <th className="th-center">Image</th>
-              <th>Name</th>
-              <th>SKU</th>
-              <th>Category</th>
-              <th className="th-right">Price</th>
-              <th className="th-center">Stock</th>
-              <th className="th-center">Status</th>
-              <th className="th-actions">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {isLoading ? (
+        <div className="feedback-messages">
+          {error && (
+            <div className="alert alert-danger" role="alert">
+              <FaInfoCircle className="alert-icon" /> {error}
+            </div>
+          )}
+          {success && (
+            <div className="alert alert-success" role="alert">
+              <FaInfoCircle className="alert-icon" /> {success}
+            </div>
+          )}
+        </div>
+      </div>
+
+      <div className="table-container stylish-table-container card-style">
+        {" "}
+        {/* Added card-style */}
+        <div className="table-responsive-wrapper">
+          {" "}
+          {/* Wrapper for horizontal scroll on small screens */}
+          <table className="table stylish-table table-hover item-table">
+            <thead>
               <tr>
-                <td colSpan="9" className="text-center">
-                  <LoadingSpinner inline message="Loading items..." />
-                </td>
+                <th className="th-checkbox th-center">
+                  <input
+                    type="checkbox"
+                    className="form-checkbox"
+                    checked={isAllSelected}
+                    onChange={handleSelectAll}
+                    aria-label="Select all items"
+                    disabled={disablePageActions || items.length === 0}
+                    title={isAllSelected ? "Deselect all" : "Select all"}
+                  />
+                </th>
+                <th className="th-image th-center">Image</th>
+                <th className="th-name">Name & Brand</th>
+                <th className="th-sku">SKU</th>
+                <th className="th-category">Category</th>
+                <th className="th-mrp th-right">MRP</th>
+                <th className="th-price th-right">Selling Price</th>
+                <th className="th-stock th-center">Stock</th>
+                <th className="th-status th-center">Status</th>
+                <th className="th-actions th-right">Actions</th>
               </tr>
-            ) : items.length === 0 ? (
-              <tr>
-                <td colSpan="9" className="text-center no-data-message">
-                  {error ? "Could not load items." : "No items found. Add one!"}
-                </td>
-              </tr>
-            ) : (
-              items.map(renderItemRow)
-            )}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {isLoading && items.length === 0 && !error ? (
+                <tr>
+                  <td colSpan="10" className="text-center loading-row">
+                    <LoadingSpinner
+                      inline={true}
+                      message="Fetching items, please wait..."
+                    />
+                  </td>
+                </tr>
+              ) : items.length === 0 ? (
+                <tr>
+                  <td colSpan="10" className="text-center no-data-message">
+                    <FaInfoCircle
+                      style={{ marginRight: "8px", verticalAlign: "middle" }}
+                    />
+                    {error
+                      ? "Could not load items due to an error."
+                      : debouncedSearchTerm
+                      ? `No items found matching "${debouncedSearchTerm}". Try a different search.`
+                      : "No items available. Start by adding a new item!"}
+                  </td>
+                </tr>
+              ) : (
+                items.map(renderItemRow)
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       <ConfirmationModal
@@ -409,10 +478,10 @@ const ItemListPage = () => {
         }
         message={
           modalState.isMultiDelete
-            ? `Are you sure you want to delete the ${selectedItems.size} selected items? This action cannot be undone.`
+            ? `Are you sure you want to delete ${selectedItems.size} selected item(s)? This action cannot be undone.`
             : `Are you sure you want to delete the item "${modalState.itemName}"? This action cannot be undone.`
         }
-        confirmText="Delete"
+        confirmText={isProcessing ? "Deleting..." : "Delete"}
         cancelText="Cancel"
         isLoading={isProcessing}
         isDestructive={true}

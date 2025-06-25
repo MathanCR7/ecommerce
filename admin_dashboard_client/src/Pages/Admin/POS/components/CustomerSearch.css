@@ -1,0 +1,94 @@
+/* src/Pages/Admin/POS/components/CustomerSearch.css */
+.customer-search-wrapper {
+    margin-bottom: 15px;
+    position: relative; /* For dropdown positioning */
+  }
+  
+  .customer-search-wrapper label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+  }
+  
+  .customer-search-input-group {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding-left: 8px; /* Space for icon */
+  }
+  
+  .search-icon-customer {
+    color: #777;
+    margin-right: 5px; /* Space between icon and input */
+  }
+  
+  .customer-search-input {
+    flex-grow: 1;
+    padding: 8px;
+    border: none; /* Border is on the group */
+    border-radius: 0; /* Remove individual input radius */
+    outline: none;
+  }
+  
+  .add-new-customer-btn {
+    padding: 8px 12px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .add-new-customer-btn:hover {
+    background-color: #218838;
+  }
+  
+  .customer-search-results {
+    list-style: none;
+    padding: 0;
+    margin: 5px 0 0 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    max-height: 150px;
+    overflow-y: auto;
+    position: absolute;
+    background-color: white;
+    width: calc(100% - 2px); /* Adjust width based on parent padding/border */
+    z-index: 100;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+  
+  .customer-search-results li {
+    padding: 8px 10px;
+    cursor: pointer;
+  }
+  
+  .customer-search-results li:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .no-results-dropdown {
+      padding: 8px 10px;
+      color: #777;
+      font-style: italic;
+      background-color: white;
+      border: 1px solid #ddd;
+      border-top: none; /* if results list has border top */
+      border-radius: 0 0 4px 4px;
+      position: absolute;
+      width: calc(100% - 2px);
+      z-index: 99; /* Below search results if both somehow show */
+  }
+  .selected-customer-display {
+      font-size: 0.9em;
+      color: #555;
+      margin-top: 5px;
+      padding: 5px;
+      background-color: #e9ecef;
+      border-radius: 3px;
+  }

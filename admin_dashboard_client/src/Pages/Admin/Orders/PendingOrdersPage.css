@@ -1,0 +1,317 @@
+/* ========================================================================
+FILE: client/src/Pages/Admin/Orders/PendingOrdersPage.css
+======================================================================== */
+
+.pending-orders-container {
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    min-height: calc(100vh - 100px); /* Adjust based on header/footer height */
+    color: #333;
+}
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.page-header h2 {
+    margin: 0;
+    font-size: 1.8rem;
+    color: #343a40;
+    display: flex;
+    align-items: center;
+}
+
+.order-count {
+    background-color: #007bff;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 8px;
+    font-size: 0.9rem;
+    margin-left: 10px;
+}
+
+.filter-section {
+    background-color: #ffffff;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.date-range-filter,
+.search-clear-row {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px; /* Space between filter rows */
+    flex-wrap: wrap; /* Allow wrapping */
+}
+
+.date-range-filter {
+     margin-bottom: 15px;
+}
+
+
+.filter-group label {
+    margin-right: 5px;
+    font-weight: bold;
+    color: #555;
+}
+
+.filter-group input[type="date"] {
+    padding: 8px 12px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.filter-group input[type="date"]:focus {
+    border-color: #007bff;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.search-input-group {
+    display: flex;
+    flex-grow: 1; /* Allow search input group to take available space */
+    gap: 0; /* Remove gap between input and button */
+     max-width: 400px; /* Limit search input width */
+}
+
+.search-input-group input[type="text"] {
+    flex-grow: 1; /* Search input takes most of the space */
+    padding: 8px 12px;
+    border: 1px solid #ced4da;
+    border-right: none; /* Remove border between input and button */
+    border-radius: 4px 0 0 4px; /* Rounded only on the left */
+    font-size: 1rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.search-input-group input[type="text"]:focus {
+    border-color: #007bff;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+
+.btn-primary,
+.btn-secondary,
+.btn-search,
+.btn-export {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.15s ease-in-out;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.btn-primary {
+    background-color: #007bff; /* Blue */
+    color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+    background-color: #0056b3;
+}
+
+.btn-secondary {
+    background-color: #6c757d; /* Gray */
+    color: white;
+}
+
+.btn-secondary:hover:not(:disabled) {
+    background-color: #545b62;
+}
+
+.btn-search {
+     background-color: #28a745; /* Green */
+     color: white;
+     border-radius: 0 4px 4px 0; /* Rounded only on the right */
+     padding: 8px 12px; /* Match input padding */
+     border: 1px solid #28a745; /* Add border to match input */
+}
+.search-input-group input[type="text"]:focus + .btn-search {
+     border-color: #007bff; /* Match input focus border */
+}
+.btn-search:hover:not(:disabled) {
+     background-color: #218838;
+     border-color: #1e7e34;
+}
+
+.btn-export {
+     background-color: #ffc107; /* Yellow */
+     color: #212529;
+}
+.btn-export:hover:not(:disabled) {
+     background-color: #e0a800;
+}
+
+/* Disabled button style */
+.btn-primary:disabled,
+.btn-secondary:disabled,
+.btn-search:disabled,
+.btn-export:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+
+.orders-table-wrapper {
+    overflow-x: auto; /* Allow horizontal scrolling on small screens */
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.orders-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 0;
+}
+
+.orders-table th,
+.orders-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #dee2e6;
+    font-size: 0.95rem;
+}
+
+.orders-table th {
+    background-color: #e9ecef;
+    font-weight: bold;
+    color: #495057;
+}
+
+.orders-table tbody tr:hover {
+    background-color: #f2f2f2;
+}
+
+.orders-table tbody tr:nth-child(even) {
+    background-color: #fbfbfb; /* Subtle alternating row color */
+}
+
+.no-orders {
+    text-align: center;
+    padding: 20px;
+    color: #6c757d;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    min-width: 80px; /* Ensure consistent width */
+    white-space: nowrap; /* Prevent wrapping status text */
+}
+
+/* Status Badge Colors (Keep consistent with OrderDetailsPage.css) */
+/* Ensure colors for both Pending and Processing are defined */
+.status-pending { background-color: #ffc107; } /* Warning/Yellow */
+.status-payment-processing { background-color: #17a2b8; } /* Info/Cyan */
+.status-payment-failed { background-color: #dc3545; } /* Danger/Red */
+.status-processing { background-color: #17a2b8; } /* Info/Cyan */ /* Added/Confirmed */
+.status-shipped { background-color: #007bff; } /* Primary/Blue */
+.status-out-for-delivery { background-color: #fd7e14; } /* Orange */
+.status-ready-for-pickup { background-color: #6f42c1; } /* Purple */
+.status-delivered { background-color: #28a745; } /* Success/Green */
+.status-picked-up { background-color: #28a745; } /* Success/Green */
+.status-cancelled { background-color: #dc3545; } /* Danger/Red */
+.status-refunded { background-color: #6c757d; } /* Secondary/Gray */
+.status-unknown { background-color: #dc3545; } /* Fallback color */
+
+
+.action-buttons {
+    display: flex;
+    gap: 5px;
+    white-space: nowrap; /* Prevent buttons from wrapping */
+}
+
+.action-btn {
+    background: none;
+    border: 1px solid #ced4da;
+    color: #007bff; /* Default action color */
+    padding: 5px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.15s ease-in-out, color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+}
+
+.action-btn:hover:not(:disabled) {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+.action-btn.print-btn {
+     color: #28a745; /* Green for print */
+}
+.action-btn.print-btn:hover:not(:disabled) {
+     background-color: #28a745;
+     color: white;
+     border-color: #28a745;
+}
+
+.action-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+
+.pagination-controls {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.pagination-controls button {
+    padding: 8px 15px;
+    border: 1px solid #007bff;
+    background-color: #fff;
+    color: #007bff;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.15s ease-in-out, color 0.15s ease-in-out;
+}
+
+.pagination-controls button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.pagination-controls button:hover:not(:disabled) {
+    background-color: #007bff;
+    color: white;
+}
+
+.pagination-controls span {
+    font-weight: bold;
+}
+
+.error-message {
+    color: #dc3545;
+    text-align: center;
+    padding: 15px;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}

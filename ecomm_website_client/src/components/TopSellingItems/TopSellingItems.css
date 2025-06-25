@@ -1,0 +1,495 @@
+/* src/components/TopSellingItems/TopSellingItems.css */
+
+/* --- Section and Container --- */
+.top-selling-section {
+  padding: 40px 0; /* Vertical padding */
+  background-color: #f8f9fa; /* Light background to make it stand out */
+  transition: background-color 0.3s ease;
+  overflow: hidden; /* Changed to hidden to contain absolutely positioned arrows */
+}
+
+
+.top-selling-section.error {
+     background-color: #ffe9ec;
+     border-top: 1px solid #dc3545;
+     border-bottom: 1px solid #dc3545;
+}
+
+.top-selling-container {
+  max-width: 1200px; /* Match other container widths */
+  margin: 0 auto;
+  padding: 0 15px; /* Horizontal padding */
+  position: relative; /* Needed for absolute positioning of the wrapper */
+  overflow: visible; /* Keep visible here if arrows extend slightly outside */
+}
+
+/* --- Section Heading --- (Copied from previous version) */
+.section-heading-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px; /* Space below heading */
+    gap: 15px;
+    color: #333;
+}
+
+.section-heading-container .fa-bolt {
+    color: #ffc107;
+    font-size: 28px;
+}
+
+.top-selling-container h1 {
+  font-size: 26px;
+  font-weight: 700;
+  margin: 0;
+  color: #333;
+}
+
+/* --- Loading, Error, Empty states --- (Copied from previous version) */
+.loading-state,
+.error-state,
+.empty-state {
+  text-align: center;
+  padding: 40px 15px;
+  font-size: 16px;
+  color: #6c757d;
+}
+
+.loading-state .fa-spin {
+  margin-right: 8px;
+  color: #007bff;
+}
+
+.error-state p {
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #dc3545;
+}
+
+.error-state i {
+  color: #dc3545;
+  font-size: 14px;
+  display: block;
+  margin-top: 5px;
+}
+
+.empty-state {
+  font-style: italic;
+}
+
+
+/* --- Carousel Wrapper for Row Display --- */
+/* This wrapper needs to be relative to the .top-selling-container */
+.top-items-carousel-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    /* Add padding for the arrows to sit within the container's boundaries */
+    padding: 0 45px; /* Increased padding slightly for larger arrows */
+    box-sizing: border-box;
+    overflow: hidden; /* Keep overflow hidden to clip items outside padding */
+}
+
+/* Horizontal Scrollable Row */
+.top-items-row-container {
+  display: flex;
+  flex-wrap: nowrap; /* Prevent wrapping */
+  overflow-x: auto; /* Enable horizontal scrolling */
+  gap: 20px; /* Space between items */
+  padding: 0; /* No padding needed here, it's on the wrapper */
+  padding-bottom: 20px; /* Add bottom padding for potential scrollbar space */
+  scroll-snap-type: x mandatory; /* Enable mandatory snap */
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+
+  /* Hide scrollbar */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+}
+
+.top-items-row-container::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
+}
+
+/* Item cards within the row - define width and prevent shrinking */
+.top-items-row-container .item-card {
+  flex: 0 0 160px; /* Reduced base width */
+  max-width: 160px; /* Reduced max width */
+  height: auto; /* Let content define height */
+  display: flex;
+  flex-direction: column; /* Ensure content stacks */
+  scroll-snap-align: start; /* Snap item to the start */
+}
+
+/* --- Item Card Styling (Adapted for smaller size and no button) --- */
+/* Target item-card specifically within the top-selling section */
+.top-selling-section .item-card {
+  background-color: #fff;
+  border: 1px solid #eef0f2;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  cursor: pointer;
+  position: relative; /* Needed for absolute positioning of badge/future elements */
+  /* Removed padding-bottom as there's no absolute button */
+  /* Removed min-height/height - let content determine */
+}
+
+.top-selling-section .item-card:hover {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); /* Slightly more prominent shadow on hover */
+  transform: translateY(-4px); /* Lift slightly more on hover */
+}
+
+/* The link that covers the main card area (image + details) */
+.top-selling-section .item-link {
+   text-decoration: none;
+   color: inherit;
+   display: flex;
+   flex-direction: column;
+   flex-grow: 1; /* Allow link to grow */
+   /* min-height: 100%; */ /* Ensure link covers the full height */
+   transition: opacity 0.2s ease;
+}
+
+
+.top-selling-section .item-image-wrapper {
+  position: relative;
+  width: 100%;
+  padding-top: 100%; /* 1:1 Aspect ratio */
+  overflow: hidden;
+  background-color: #f8f8f8;
+  /* Optional: Add subtle bottom border or shadow to separate image from details */
+  /* border-bottom: 1px solid #eee; */
+}
+
+.top-selling-section .item-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 10px; /* Padding inside image wrapper */
+  box-sizing: border-box;
+  transition: transform 0.3s ease;
+}
+
+.top-selling-section .item-card:hover .item-image {
+  transform: scale(1.08); /* Slightly more zoom effect on hover */
+}
+
+.top-selling-section .discount-badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background-color: #ef4444;
+  color: #fff;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  z-index: 2;
+  line-height: 1.2;
+  pointer-events: none;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+/* --- Item Details --- */
+.top-selling-section .item-details {
+  padding: 10px; /* Reduced padding inside details */
+  text-align: left;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.top-selling-section .item-rating {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px; /* Slightly smaller rating font */
+  color: #6c757d;
+  margin-bottom: 5px; /* Reduced margin */
+}
+
+.top-selling-section .star-icon {
+  color: #ffc107;
+  font-size: 12px; /* Slightly smaller star icon */
+}
+
+.top-selling-section .item-name {
+  font-size: 13px; /* Reduced name font size */
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 4px 0; /* Reduced margin */
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-height: calc(1.3em * 2); /* Ensure consistent height for 2 lines */
+  transition: color 0.2s ease;
+}
+
+.top-selling-section .item-link:hover .item-name { /* Change name color on link hover */
+  color: #007bff;
+}
+
+.top-selling-section .item-unit {
+  font-size: 10px; /* Reduced unit font size */
+  color: #888;
+  margin: 0 0 8px 0; /* Reduced margin */
+}
+
+.top-selling-section .item-price {
+  margin-top: auto; /* Push price to bottom */
+  display: flex;
+  align-items: baseline; /* Align based on text baseline */
+  gap: 5px; /* Reduced gap */
+  flex-wrap: wrap;
+}
+
+.top-selling-section .current-price {
+  font-size: 15px; /* Reduced current price font size */
+  font-weight: 700;
+  color: #10B981;
+}
+
+.top-selling-section .original-price {
+  font-size: 11px; /* Reduced original price font size */
+  color: #6c757d;
+  text-decoration: line-through;
+}
+
+/* --- REMOVED: Add to Cart Button Styles --- */
+/* .top-selling-section .add-to-cart-button { ... } */
+
+
+/* --- Carousel Arrow Styling (Enhanced & Adjusted Positioning) --- */
+.top-selling-section .carousel-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 45px; /* Slightly larger size */
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 50; /* Above items and wrapper padding */
+
+  /* Enhanced Shadow for depth */
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25), /* Deeper shadow */
+              0 0 0 1px rgba(0, 0, 0, 0.1); /* Slightly stronger outer ring */
+
+  transition: background-color 0.2s ease, box-shadow 0.3s ease, transform 0.2s ease, opacity 0.3s ease;
+  color: #555;
+  font-size: 20px; /* Larger icon size */
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+}
+
+/* Arrow hover state */
+.top-selling-section .carousel-arrow:hover {
+    background-color: #f8f8f8; /* Very subtle background change */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3), /* Stronger shadow on hover */
+                0 0 0 1px rgba(0, 0, 0, 0.15); /* More defined ring */
+    transform: translateY(-50%) scale(1.1); /* More pronounced pop effect */
+}
+
+/* Arrow active state */
+.top-selling-section .carousel-arrow:active {
+    transform: translateY(-50%) scale(0.95);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15); /* Reduced shadow when pressed */
+}
+
+/* Focus state */
+.top-selling-section .carousel-arrow:focus-visible {
+    outline: 2px solid #007bff;
+    outline-offset: 2px;
+}
+
+/* Positioning relative to the wrapper padding */
+.top-selling-section .carousel-arrow.arrow-left {
+    left: 0px; /* Position relative to .top-items-carousel-wrapper padding */
+}
+
+.top-selling-section .carousel-arrow.arrow-right {
+    right: 0px; /* Position relative to .top-items-carousel-wrapper padding */
+}
+
+/* Disabled state */
+.top-selling-section .carousel-arrow:disabled {
+    opacity: 0.4; /* Dim more when disabled */
+    cursor: not-allowed;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1); /* Keep a minimal shadow */
+    transform: translateY(-50%) scale(1); /* No hover/active effect */
+}
+
+
+/* --- Responsive Adjustments --- */
+
+/* Mobile (Up to 576px): Hide arrows, adjust padding, smaller cards */
+@media (max-width: 576px) {
+     .top-selling-section {
+        padding: 30px 0;
+    }
+    .top-selling-container {
+        padding: 0 10px;
+    }
+     .section-heading-container {
+        gap: 10px;
+        margin-bottom: 20px;
+        justify-content: center;
+     }
+     .section-heading-container .fa-bolt {
+         font-size: 24px;
+     }
+    .top-selling-container h1 {
+      font-size: 22px;
+    }
+
+    .top-items-carousel-wrapper {
+        padding: 0 5px; /* Minimal padding when arrows are hidden */
+    }
+    .top-selling-section .carousel-arrow {
+        display: none !important; /* Hide arrows completely */
+    }
+
+    .top-items-row-container {
+        gap: 10px; /* Smaller gap on small screens */
+    }
+
+    .top-items-row-container .item-card {
+      flex: 0 0 140px; /* Even smaller card width */
+      max-width: 140px;
+    }
+
+    .top-selling-section .item-details {
+        padding: 8px; /* Further reduced padding */
+    }
+    .top-selling-section .item-name {
+        font-size: 12px; /* Further reduced font size */
+        margin-bottom: 3px;
+         min-height: calc(1.3em * 2); /* Maintain 2 lines height */
+    }
+     .top-selling-section .item-rating {
+        font-size: 10px;
+        margin-bottom: 3px;
+    }
+    .top-selling-section .item-rating .star-icon {
+        font-size: 11px;
+    }
+    .top-selling-section .item-unit {
+        font-size: 9px;
+        margin-bottom: 5px;
+    }
+    .top-selling-section .item-price {
+        gap: 2px;
+    }
+    .top-selling-section .current-price {
+        font-size: 13px;
+    }
+    .top-selling-section .original-price {
+        font-size: 10px;
+    }
+     .top-selling-section .discount-badge {
+        font-size: 8px;
+        padding: 1px 5px;
+        top: 5px; left: 5px;
+     }
+}
+
+/* Tablets (577px to 767px): Smaller arrows, adjust padding */
+@media (min-width: 577px) and (max-width: 767px) {
+     .top-items-carousel-wrapper {
+        padding: 0 25px; /* Add some padding for arrows */
+     }
+      .top-selling-section .carousel-arrow.arrow-left {
+        left: 0px; /* Arrows closer to edge */
+        width: 35px; height: 35px; font-size: 16px;
+      }
+      .top-selling-section .carousel-arrow.arrow-right {
+        right: 0px;
+         width: 35px; height: 35px; font-size: 16px;
+      }
+       /* Ensure arrows are displayed */
+      .top-selling-section .carousel-arrow {
+           display: flex !important;
+      }
+
+     .top-items-row-container {
+         gap: 15px; /* Adjust gap */
+     }
+
+     .top-items-row-container .item-card {
+         flex: 0 0 150px; /* Adjust card size */
+         max-width: 150px;
+     }
+
+      .top-selling-section .item-details {
+         padding: 10px; /* Standard padding */
+     }
+      .top-selling-section .item-name {
+         font-size: 13px;
+     }
+     .top-selling-section .item-price .current-price {
+         font-size: 14px;
+     }
+      .top-selling-section .item-rating { font-size: 11px; }
+      .top-selling-section .item-unit { font-size: 10px; }
+}
+
+/* Small Desktops (768px to 1023px): Standard arrows, adjust padding/card size */
+@media (min-width: 768px) and (max-width: 1023px) {
+    .top-items-carousel-wrapper {
+        padding: 0 35px; /* Padding for arrows */
+    }
+    .top-selling-section .carousel-arrow.arrow-left { left: 5px; } /* Arrows slightly inset */
+    .top-selling-section .carousel-arrow.arrow-right { right: 5px; }
+     .top-selling-section .carousel-arrow {
+           display: flex !important;
+           width: 40px; height: 40px; font-size: 18px; /* Standard arrow size */
+      }
+
+     .top-items-row-container {
+         gap: 20px; /* Standard gap */
+     }
+      .top-items-row-container .item-card {
+         flex: 0 0 170px; /* Adjust card size */
+         max-width: 170px;
+     }
+      .top-selling-section .item-name { font-size: 14px; }
+      .top-selling-section .item-price .current-price { font-size: 16px; }
+
+}
+
+/* Medium/Large Desktops (1024px and up): Standard sizing */
+@media (min-width: 1024px) {
+    .top-items-carousel-wrapper {
+        padding: 0 45px; /* Standard padding for arrows */
+    }
+     .top-selling-section .carousel-arrow.arrow-left { left: 0px; } /* Arrows at edge */
+    .top-selling-section .carousel-arrow.arrow-right { right: 0px; }
+     .top-selling-section .carousel-arrow {
+          display: flex !important;
+          width: 45px; height: 45px; font-size: 20px; /* Default arrow size */
+     }
+     .top-items-row-container .item-card {
+        flex: 0 0 180px; /* Default card size */
+        max-width: 180px;
+     }
+}
+
+/* Adjust item card width for very wide screens */
+@media (min-width: 1200px) {
+     .top-items-row-container .item-card {
+         flex: 0 0 200px; /* Slightly larger cards on very wide screens */
+         max-width: 200px;
+     }
+}

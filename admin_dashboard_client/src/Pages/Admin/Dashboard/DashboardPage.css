@@ -1,223 +1,555 @@
+/* --- General Dashboard Page Enhancements --- */
+.dashboard-page {
+  padding: 1.5rem;
+  background-color: var(--color-background-grey, #f4f6f9); /* Light grey background */
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap; /* Allow wrapping for smaller screens */
+}
+
 .dashboard-page .page-title {
-      /* Override default page-title margin if needed */
-      margin-bottom: 0.25rem;
-  }
-  .dashboard-page .page-subtitle {
-      margin-top: 0;
-      margin-bottom: 2rem; /* Space below subtitle */
-  }
-  
-  /* --- Stats Grid --- */
-  .stats-grid {
-    display: grid;
-    /* Adjust minmax for desired card width and responsiveness */
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 1.5rem;
-    margin-bottom: 2rem;
-  }
-  
-  .stat-card {
-    background-color: var(--color-background-light);
-    border-radius: var(--border-radius-medium);
-    padding: 1.25rem;
+  margin-bottom: 0;
+  font-size: 1.8rem;
+  color: var(--color-text-dark);
+  margin-right: 1rem; /* Space before dropdown */
+}
+
+/* Styles for the new Dashboard Scope Selector Dropdown */
+.dashboard-scope-selector {
+  /* margin-left: auto; Push to right if title is short */
+}
+
+.dashboard-scope-selector select {
+  padding: 0.5rem 0.8rem;
+  border-radius: var(--border-radius-medium);
+  border: 1px solid var(--color-border-light, #ddd);
+  background-color: var(--color-background-light, #fff);
+  font-size: 0.9rem;
+  color: var(--color-text-dark);
+  min-width: 180px; /* Give it some base width */
+  box-shadow: var(--shadow-xs);
+}
+.dashboard-scope-selector select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-primary) 20%, transparent);
+}
+.dashboard-scope-selector select:disabled {
+  background-color: var(--color-background-grey, #f4f6f9);
+  cursor: not-allowed;
+}
+
+
+/* --- Stats Grid (Adjusted for 8 cards potentially) --- */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* Adjusted minmax for ~4 cards in a row */
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  background-color: var(--color-background-light);
+  border-radius: var(--border-radius-medium);
+  padding: 1rem 1.25rem; 
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  box-shadow: var(--shadow-sm);
+  border-left: 4px solid var(--card-accent-color, var(--color-primary));
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+
+.stat-card-icon {
+  font-size: 1.6rem; 
+  color: var(--card-accent-color, var(--color-primary));
+  background-color: color-mix(in srgb, var(--card-accent-color, var(--color-primary)) 15%, transparent);
+  border-radius: var(--border-radius-round); 
+  width: 45px; 
+  height: 45px; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.stat-card-info .stat-title {
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+  margin-bottom: 0.1rem;
+}
+
+.stat-card-info .stat-value {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--color-text-dark);
+}
+
+/* --- Main Dashboard Grid Layout --- */
+.dashboard-main-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); 
+  gap: 1.5rem;
+}
+
+.dashboard-section-card { 
+  background-color: var(--color-background-light);
+  border-radius: var(--border-radius-medium);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboard-section-card .card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem 1.25rem; 
+  border-bottom: 1px solid var(--color-border-light);
+  flex-wrap: wrap; /* Allow header items to wrap */
+}
+.dashboard-section-card .card-header .card-header-title-group {
     display: flex;
     align-items: center;
-    gap: 1rem;
-    box-shadow: var(--shadow-sm);
-    /* Using CSS variable for accent color set inline */
-    border-left: 5px solid var(--card-accent-color, var(--color-primary));
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-  }
-  
-  .stat-card:hover {
-      transform: translateY(-4px); /* Lift effect on hover */
-      box-shadow: var(--shadow-md);
-  }
-  
-  .stat-card-icon {
-    font-size: 1.8rem; /* Icon size */
-    color: var(--card-accent-color, var(--color-primary));
-    /* Background derived from accent color */
-    background-color: color-mix(in srgb, var(--card-accent-color, var(--color-primary)) 15%, transparent);
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-  }
-  
-  .stat-card-info {
-    flex-grow: 1;
-    overflow: hidden; /* Prevent text overflow */
-  }
-  
-  .stat-title {
-    font-size: 0.9rem;
-    color: var(--color-text-secondary);
-    margin-bottom: 0.25rem;
-    white-space: nowrap; /* Prevent title wrapping */
-  }
-  
-  .stat-value {
-    font-size: 1.6rem; /* Slightly larger value */
-    font-weight: 600;
+    gap: 0.5rem; 
+    margin-right: auto; /* Push extra to the right */
+    flex-grow: 1; /* Allow title group to take space */
+}
+.dashboard-section-card .card-header h3 {
+  font-size: 1.05rem; 
+  font-weight: 600;
+  margin: 0;
+  color: var(--color-text-darker);
+}
+.dashboard-section-card .card-header .view-all-link {
+  font-size: 0.8rem;
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: 500;
+  white-space: nowrap;
+}
+.dashboard-section-card .card-header .view-all-link:hover {
+  text-decoration: underline;
+}
+.dashboard-section-card .card-header-extra {
+    /* margin-left: auto;  Now handled by title group margin-right: auto */
+    flex-shrink: 0; /* Prevent buttons from shrinking too much */
+}
+
+
+.dashboard-section-card .card-body {
+  padding: 1.25rem;
+  flex-grow: 1; 
+  position: relative; 
+  min-height: 250px; /* Adjusted min-height */
+}
+
+/* Specific card sizing based on image */
+.chart-card-large {
+  grid-column: span 2;
+  min-height: 380px; /* Ensure charts have enough space */
+}
+.chart-card-small, .list-card-small {
+  grid-column: span 1;
+  min-height: 380px;
+}
+.list-card-medium {
+  grid-column: span 1; 
+  min-height: 320px; /* Adjusted */
+}
+
+/* Chart containers */
+.chart-card-large .card-body, .chart-card-small .card-body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.doughnut-chart-container {
+    position: relative;
+    width: 100%;
+    max-width: 280px; /* Max width for doughnut, adjusted */
+    height: auto; 
+    margin: auto;
+}
+.doughnut-center-text {
+    position: absolute;
+    top: 28%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    pointer-events: none; 
+}
+.doughnut-center-text .total-value {
+    display: block;
+    font-size: 1rem;
+    font-weight: 700;
     color: var(--color-text-dark);
-    margin-bottom: 0.25rem;
-    line-height: 1.2; /* Adjust line height */
-    white-space: nowrap;
-  }
-  
-  .stat-trend {
-    font-size: 0.85rem;
+}
+.doughnut-center-text .total-label {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--color-text-secondary);
+}
+
+
+/* Timeframe buttons */
+.timeframe-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+.timeframe-buttons button {
+  background-color: transparent;
+  border: 1px solid var(--color-border, #ccc);
+  color: var(--color-text-secondary);
+  padding: 0.3rem 0.7rem;
+  border-radius: var(--border-radius-small);
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+  white-space: nowrap;
+}
+.timeframe-buttons button.active,
+.timeframe-buttons button:hover {
+  background-color: var(--color-primary);
+  color: white;
+  border-color: var(--color-primary);
+}
+
+/* Data Lists (Recent Orders, Top Products, etc.) */
+.data-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  height: 100%; 
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem; 
+}
+.data-list li {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding-bottom: 0.5rem; /* Only padding bottom */
+  border-bottom: 1px solid var(--color-border-extralight, #f0f0f0);
+  font-size: 0.9rem;
+}
+.data-list li:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+/* Styling for links within lists */
+.link-style, .customer-info-link {
+    text-decoration: none;
+    color: var(--color-primary-dark, var(--color-primary)); /* or a specific link color */
     font-weight: 500;
-  }
-  
-  .stat-trend.positive {
-    color: var(--color-success);
-  }
-  
-  .stat-trend.negative {
-    color: var(--color-danger);
-  }
-  
-  /* --- Main Content Grid --- */
-  .dashboard-main-content-grid {
-    display: grid;
-    /* Example: 2/3 for main chart, 1/3 for secondary content */
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
-  }
-  
-  .main-chart-area {
-    grid-column: span 2; /* Main chart takes 2 columns */
-  }
-  
-  .secondary-content-area {
-    grid-column: span 1; /* Secondary content takes 1 column */
+}
+.link-style:hover, .customer-info-link:hover {
+    text-decoration: underline;
+    color: var(--color-primary-darker, var(--color-primary));
+}
+.customer-info-link { /* For top customer links that wrap image and name */
     display: flex;
-    flex-direction: column;
-    gap: 1.5rem; /* Space between items in the secondary column */
+    align-items: center;
+    gap: 0.8rem;
+    flex-grow: 1;
+    color: inherit; /* Inherit color from parent, then override name specifically if needed */
+}
+.customer-info-link .customer-name {
+    color: var(--color-text-dark); /* Ensure name color is consistent */
+}
+.customer-info-link:hover .customer-name {
+    color: var(--color-primary); /* Optional: change name color on hover too */
+}
+
+
+.recent-orders-list li { flex-direction: column; align-items: flex-start; gap: 0.2rem; }
+.recent-orders-list .order-info { display: flex; justify-content: space-between; width: 100%; align-items: center;}
+.recent-orders-list .order-id { /* font-weight: 500; color: var(--color-text-dark); */ /* Handled by .link-style */ }
+.recent-orders-list .order-status-tag {
+  font-size: 0.75rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: var(--border-radius-small);
+  color: white;
+  background-color: var(--color-text-secondary); /* Default */
+  white-space: nowrap;
+}
+/* Add specific status colors for tags */
+.status-pending { background-color: #3E92CC; }
+.status-confirmed { background-color: #28a745; }
+.status-processing, .status-packaging { background-color: #fd7e14; } 
+.status-shipped { background-color: #17a2b8; } /* Added for shipped */
+.status-out-for-delivery { background-color: #17a2b8; }
+.status-delivered, .status-picked-up { background-color: #007bff; }
+.status-cancelled { background-color: #dc3545; }
+.status-returned { background-color: #ffc107; }
+.status-failed-to-deliver { background-color: #6c757d; }
+.status-ready-for-pickup { background-color: #20c997; } /* Tealish green */
+
+
+.recent-orders-list .order-meta { display: flex; justify-content: space-between; width: 100%; font-size: 0.8rem; color: var(--color-text-secondary); }
+.recent-orders-list .order-date { display: flex; align-items: center; gap: 0.3rem; }
+
+
+.top-products-list .item-image, .most-rated-list .item-image {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: var(--border-radius-small);
+  border: 1px solid var(--color-border-light);
+  flex-shrink: 0;
+}
+.top-products-list .item-name, .most-rated-list .item-name { /* .top-customers-list .customer-name handled by .customer-info-link */
+  flex-grow: 1;
+  color: var(--color-text-dark);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-right: 0.5rem; /* Space before sold/rating */
+}
+.top-products-list .item-sold, .most-rated-list .item-rating, .top-customers-list .customer-orders {
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+  margin-left: auto; 
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.most-rated-list .item-rating svg { margin-right: 0.2rem; vertical-align: middle; }
+
+.top-customers-list .customer-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--color-border-light);
+  flex-shrink: 0;
+}
+.top-customers-list .customer-avatar-placeholder {
+  width: 40px;
+  height: 40px;
+  font-size: 2rem; 
+  color: var(--color-text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+
+/* Loading Spinner */
+.loading-spinner-container {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.85); /* Slightly more opaque */
+  z-index: 10;
+  border-radius: inherit; /* Inherit border radius from parent card */
+}
+.loading-spinner {
+  border: 4px solid var(--color-border-light, #e0e0e0);
+  border-top: 4px solid var(--color-primary);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin-bottom: 0.5rem;
+}
+.loading-spinner-container p {
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+
+/* Responsive Adjustments */
+@media (max-width: 1200px) {
+  .stats-grid {
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); /* Allow more cards per row on wider small screens */
   }
-  
-  /* --- Placeholder Card Styles (Shared Structure) --- */
-  .card { /* General card class if used elsewhere */
-    background-color: var(--color-background-light);
-    border-radius: var(--border-radius-medium);
-    box-shadow: var(--shadow-sm);
-    border: 1px solid var(--color-border-light);
-    overflow: hidden; /* Clip content if needed */
+  .dashboard-main-grid {
+    grid-template-columns: repeat(2, 1fr); 
   }
-  
- 
-  
-  .card-header { /* Shared style for card headers */
-      font-size: 1.1rem;
-      font-weight: 600;
-      padding: 1rem 1.25rem;
-      border-bottom: 1px solid var(--color-border-light);
-      margin: 0;
-      color: var(--color-text-dark);
+  .chart-card-large, .chart-card-small, .list-card-small, .list-card-medium {
+    grid-column: span 1; 
   }
-  
-  .card-body { /* Shared style for card bodies */
-      padding: 1.25rem;
+   /* Optionally, make large charts take full width if desired in 2-col layout */
+  .chart-card-large {
+     /* grid-column: span 2; */ /* Uncomment this if you want large charts full width on 2-col */
   }
-  
-  .chart-placeholder-body {
-      min-height: 350px; /* Example height for main chart */
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      color: var(--color-text-secondary);
+}
+
+@media (max-width: 992px) {
+    .dashboard-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    .dashboard-scope-selector {
+        width: 100%; /* Make dropdown full width */
+    }
+    .dashboard-scope-selector select {
+        width: 100%;
+    }
+  .dashboard-main-grid {
+    grid-template-columns: 1fr; 
+  }
+  .chart-card-large, .chart-card-small, .list-card-small, .list-card-medium {
+    grid-column: span 1; 
+  }
+}
+
+@media (max-width: 768px) {
+    .stats-grid {
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    }
+    .dashboard-section-card .card-header { 
+      flex-direction: column; 
+      align-items: flex-start; 
+      gap: 0.75rem;
+    }
+    .dashboard-section-card .card-header .card-header-title-group {
+      margin-right: 0; /* No auto margin when stacked */
+      width: 100%;
+      justify-content: space-between; /* Title and View All spread */
+    }
+    .dashboard-section-card .card-header-extra { 
+      margin-left: 0; 
+      width: 100%; 
+    }
+    .timeframe-buttons { 
+      justify-content: space-around; /* Distribute buttons more evenly */
+      width: 100%;
+    }
+    .timeframe-buttons button { 
+      flex-grow: 1; 
       text-align: center;
-      font-size: 0.95rem;
-  }
-  .chart-placeholder-body svg {
-      /* Style for placeholder icon */
-       opacity: 0.5;
-  }
-  
-  
-  .table-placeholder-body {
-      min-height: 280px; /* Example height for secondary table */
-       color: var(--color-text-secondary);
-       font-size: 0.95rem;
-       display: flex;
-       flex-direction: column;
-       justify-content: space-around; /* Distribute placeholder rows */
-  }
-  .table-placeholder-body p {
-      text-align: center;
-      margin-bottom: 1rem;
-  }
-  .table-placeholder-body .placeholder-row {
-      height: 25px;
-      background-color: color-mix(in srgb, var(--color-border-light) 70%, transparent); /* Slightly lighter */
-      border-radius: var(--border-radius-small);
-      margin-bottom: 1rem;
-      opacity: 0.7;
-      animation: pulse 1.5s infinite ease-in-out; /* Pulsing effect */
-  }
-  .table-placeholder-body .placeholder-row:last-child {
-      margin-bottom: 0;
-  }
-  .table-placeholder-body .placeholder-row:nth-child(odd) {
-      width: 90%; /* Vary width */
-  }
-  .table-placeholder-body .placeholder-row:nth-child(even) {
-      width: 75%; /* Vary width */
-  }
-  
-  
-  /* Keyframes for pulsing placeholder */
-  @keyframes pulse {
-    0% { opacity: 0.6; }
-    50% { opacity: 1; }
-    100% { opacity: 0.6; }
-  }
-  
-  
-  /* Responsive Adjustments */
-  @media (max-width: 1200px) {
-      /* Adjust grid for slightly smaller screens if needed */
-  }
-  
-  @media (max-width: 992px) {
-    .dashboard-main-content-grid {
-      grid-template-columns: 1fr; /* Stack main content columns */
+      padding: 0.4rem 0.5rem; /* Adjust padding for smaller buttons */
     }
-    .main-chart-area,
-    .secondary-content-area {
-      grid-column: span 1; /* Reset spans */
-    }
-    .chart-placeholder-body {
-        min-height: 300px; /* Adjust height */
-    }
+}
+
+
+@media (max-width: 576px) {
+  .dashboard-page { padding: 1rem; }
+  .stats-grid {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); /* Even smaller stat cards */
   }
-  
-  @media (max-width: 576px) {
-      .stats-grid {
-          grid-template-columns: 1fr; /* Stack stat cards fully */
-      }
-       .stat-card {
-           padding: 1rem;
-       }
-       .stat-value {
-           font-size: 1.4rem;
-       }
-       .stat-card-icon {
-           width: 45px;
-           height: 45px;
-           font-size: 1.6rem;
-       }
-       .card-header {
-          font-size: 1rem;
-          padding: 0.8rem 1rem;
-       }
-       .card-body {
-          padding: 1rem;
-       }
-  }
+  .stat-card { padding: 0.8rem 1rem; flex-direction: column; text-align: center; }
+  .stat-card-icon { width: 40px; height: 40px; font-size: 1.4rem; margin-bottom: 0.5rem; }
+  .stat-card-info .stat-value { font-size: 1.3rem; }
+  .stat-card-info .stat-title { font-size: 0.8rem; }
+
+  .dashboard-page .page-title { font-size: 1.5rem; }
+
+  .doughnut-chart-container { max-width: 220px; } /* Smaller doughnut */
+  .doughnut-center-text .total-value { font-size: 1.5rem; }
+  .doughnut-center-text .total-label { font-size: 0.7rem; }
+  .dashboard-section-card .card-body { padding: 1rem; min-height: 200px; }
+}
+/* ... (keep all your existing CSS) ... */
+
+/* Global Filter Dropdown */
+.global-filter-container {
+  /* Styles for the container of the dropdown if needed */
+}
+
+.global-filter-dropdown {
+  padding: 0.5rem 0.8rem;
+  border-radius: var(--border-radius-small);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-background-light);
+  color: var(--color-text-dark);
+  font-size: 0.9rem;
+  min-width: 200px; /* Adjust as needed */
+}
+
+/* Clickable Order ID in Recent Orders */
+.order-id-link {
+  text-decoration: none;
+  color: var(--color-primary-dark); /* Or your link color */
+  font-weight: 500;
+}
+.order-id-link:hover {
+  text-decoration: underline;
+}
+
+/* Clickable Customer in Top Customers */
+.top-customers-list .customer-link {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  text-decoration: none;
+  flex-grow: 1; /* Allow link to take up space for name */
+}
+.top-customers-list .customer-link:hover .customer-name {
+  text-decoration: underline;
+  color: var(--color-primary);
+}
+
+.top-customers-list .customer-name {
+  color: var(--color-text-dark);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+/* Adjustments for timeframe buttons if they are too close to title in card header */
+.dashboard-section-card .card-header-extra {
+    margin-left: auto; /* This should push it to the right */
+    /* If buttons wrap or cause issues, you might need to adjust flex properties
+       on .card-header or .card-header-title-group */
+}
+
+/* Ensure timeframe buttons are styled correctly */
+.timeframe-buttons {
+  display: flex;
+  gap: 0.5rem; /* Keep this */
+}
+.timeframe-buttons button {
+  background-color: transparent;
+  border: 1px solid var(--color-border-light, #dee2e6); /* Softer border */
+  color: var(--color-text-secondary);
+  padding: 0.3rem 0.7rem;
+  border-radius: var(--border-radius-small);
+  font-size: 0.75rem; /* Slightly smaller font */
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+  white-space: nowrap; /* Prevent wrapping text */
+}
+.timeframe-buttons button.active,
+.timeframe-buttons button:hover {
+  background-color: var(--color-primary);
+  color: white;
+  border-color: var(--color-primary);
+}
+
+/* Make dashboard header items align nicely with the new dropdown */
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* Vertically align items */
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap; /* Allow wrapping on smaller screens */
+  gap: 1rem; /* Add gap for wrapped items */
+}
+
+.dashboard-page .page-title {
+  margin-bottom: 0; /* Remove bottom margin if alignment is off */
+}

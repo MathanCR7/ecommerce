@@ -1,0 +1,500 @@
+/* frontend/src/pages/profilesettingspage/ProfileSettingsPage.css */
+
+/* Basic variables (keep your existing variables) */
+:root {
+    --primary-color: #28a745; /* Green */
+    --primary-hover-color: #218838;
+    --secondary-color: #6c757d; /* Grey */
+    --secondary-hover-color: #5a6268;
+    --neutral-color: #007bff; /* Blue for some actions */
+    --neutral-hover-color: #0056b3;
+    --light-bg-color: #f8f9fa;
+    --border-color: #dee2e6;
+    --text-color: #343a40;
+    --text-muted-color: #6c757d;
+    --error-color: #dc3545;
+    --success-color: #28a745;
+    --warning-color: #ffc107;
+    --card-bg: #ffffff;
+    --input-bg: #ffffff;
+    --input-focus-border: #80bdff;
+    --border-radius: 0.375rem;
+    --box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+}
+
+.profile-settings-page-loader {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
+  color: var(--text-muted-color);
+  text-align: center; /* Center text */
+}
+.profile-settings-page-loader p {
+  margin-top: 1rem;
+  font-size: 1.1rem;
+}
+
+.profile-settings-page-container {
+  background-color: var(--light-bg-color);
+  padding: 20px 15px;
+  min-height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.profile-settings-card {
+  background-color: var(--card-bg);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  padding: 30px 40px;
+  width: 100%;
+  max-width: 800px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.profile-header-section {
+  text-align: center;
+  margin-bottom: 30px;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 20px;
+}
+.profile-header-section h1 {
+  color: var(--text-color);
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+.profile-header-section p {
+  color: var(--text-muted-color);
+  font-size: 1rem;
+}
+
+.profile-avatar-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 30px;
+}
+.avatar-wrapper {
+  position: relative;
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  background-color: #e9ecef;
+  overflow: hidden;
+  margin-bottom: 15px;
+  cursor: pointer;
+  border: 3px solid var(--border-color);
+  transition: border-color 0.3s ease;
+}
+.avatar-wrapper:hover {
+    border-color: var(--primary-color);
+}
+.avatar-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.avatar-placeholder-icon {
+  font-size: 60px;
+  color: #adb5bd;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.avatar-upload-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  font-size: 0.9rem;
+}
+.avatar-wrapper:hover .avatar-upload-overlay {
+  opacity: 1;
+}
+.avatar-upload-overlay .svg-inline--fa { /* Target FontAwesomeIcon */
+  font-size: 1.8rem;
+  margin-bottom: 0.3rem;
+}
+.profile-avatar-section h2 {
+  font-size: 1.5rem;
+  color: var(--text-color);
+  margin-bottom: 0.25rem;
+  font-weight: 500;
+}
+.user-email-display {
+    font-size: 0.9rem;
+    color: var(--text-muted-color);
+}
+
+.profile-form .form-section-title,
+.phone-management-section + .form-section-title { /* Style title before phone or subsequent titles */
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: var(--text-color);
+  margin-top: 30px;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border-color);
+}
+.profile-form .form-section-title:first-of-type {
+    margin-top: 0; /* No top margin for the very first title */
+}
+
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px 25px; /* row-gap column-gap */
+}
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0; /* Remove default margin, gap handles it */
+}
+.form-group.full-width {
+    grid-column: 1 / -1;
+}
+.form-group label {
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: var(--text-color);
+  font-size: 0.9rem;
+}
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="date"],
+.form-group input[type="number"],
+.form-group .PhoneInputStyled input, /* Target the input inside PhoneInput */
+.otp-input-field {
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  width: 100%;
+  box-sizing: border-box; /* Include padding and border in element's total width */
+  background-color: var(--input-bg);
+  color: var(--text-color);
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+.form-group input:focus,
+.form-group .PhoneInputStyled:focus-within, /* Style the container on focus */
+.otp-input-field:focus {
+  border-color: var(--input-focus-border);
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+.form-group input[disabled],
+.form-group .PhoneInputStyled input[disabled] { /* Target disabled state for PhoneInput's internal input */
+  background-color: #e9ecef;
+  opacity: 1;
+  cursor: not-allowed;
+}
+.form-group .PhoneInputStyled input[disabled]:focus {
+    box-shadow: none; /* Remove focus shadow if disabled */
+}
+
+/* Style for invalid input */
+.form-group input.input-invalid,
+.PhoneInputStyled.input-invalid {
+  border-color: var(--error-color);
+}
+.form-group input.input-invalid:focus,
+.PhoneInputStyled.input-invalid:focus-within {
+    border-color: var(--error-color);
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25); /* Reddish shadow */
+}
+
+
+.profile-form-actions {
+    text-align: right;
+    margin-top: 25px;
+}
+
+.profile-btn {
+  display: inline-flex; /* For icon alignment */
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem; /* Space between icon and text */
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  text-align: center;
+  transition: background-color 0.2s ease, opacity 0.2s ease, transform 0.1s ease;
+  white-space: nowrap; /* Prevent text from wrapping */
+}
+.profile-btn:hover:not(:disabled) {
+    transform: translateY(-1px); /* Slight lift effect on hover */
+}
+.profile-btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.profile-btn-primary {
+  background-color: var(--primary-color);
+  color: white;
+}
+.profile-btn-primary:hover:not(:disabled) {
+  background-color: var(--primary-hover-color);
+}
+.profile-btn-secondary {
+  background-color: var(--secondary-color);
+  color: white;
+}
+.profile-btn-secondary:hover:not(:disabled) {
+  background-color: var(--secondary-hover-color);
+}
+.profile-btn-neutral {
+    background-color: var(--neutral-color);
+    color: white;
+}
+.profile-btn-neutral:hover:not(:disabled) {
+    background-color: var(--neutral-hover-color);
+}
+.profile-btn-danger {
+  background-color: var(--error-color);
+  color: white;
+}
+.profile-btn-danger:hover:not(:disabled) {
+  background-color: #c82333; /* Darker red */
+}
+.profile-btn-warning {
+  background-color: var(--warning-color);
+  color: #212529; /* Dark text for yellow bg */
+}
+.profile-btn-warning:hover:not(:disabled) {
+  background-color: #e0a800;
+}
+
+
+/* --- Phone Number Section Specific Styles --- */
+.phone-management-section {
+    margin-top: 20px;
+}
+
+.phone-display-verified, .phone-display-unverified {
+  padding: 15px;
+  background-color: var(--light-bg-color); /* Use a lighter background */
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  margin-bottom: 20px;
+}
+.phone-display-verified label, .phone-display-unverified label {
+  font-weight: 500;
+  color: var(--text-color);
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+.phone-number-text {
+  font-size: 1.1rem;
+  color: var(--text-color);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem; /* Space below the number text */
+}
+.phone-number-text .verified-icon {
+  color: var(--success-color);
+}
+.phone-number-text.unverified-text {
+    color: var(--warning-color); /* Use warning color for text */
+    font-weight: 500;
+}
+.phone-number-text.unverified-text .unverified-icon {
+    color: var(--warning-color);
+}
+
+
+.edit-phone-btn, .verify-now-btn, .add-phone-btn {
+  /* Buttons below the phone number display */
+  display: inline-block; /* Allows text-align: center on parent or just inline flow */
+}
+.add-phone-btn {
+    display: block; /* Make "Add Phone" button full width */
+    width: 100%;
+    text-align: center;
+}
+
+
+/* Input and Action Button Group */
+.phone-input-actions-group,
+.otp-input-actions-group {
+  display: flex;
+  gap: 10px; /* Space between input and button */
+  align-items: flex-start; /* Align items to the top */
+}
+
+/* React-Phone-Number-Input Custom Styling */
+.PhoneInputStyled {
+    flex-grow: 1; /* Allow the input to take available space */
+    border: 1px solid var(--border-color); /* Apply the border to the container */
+    border-radius: var(--border-radius);
+    overflow: hidden; /* Ensure content respects border-radius */
+    display: flex; /* Make container a flex container */
+    align-items: center; /* Vertically center items inside */
+    background-color: var(--input-bg);
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+.PhoneInputStyled input {
+    border: none; /* Remove default input border */
+    flex-grow: 1;
+    min-width: 0; /* Allow input to shrink */
+    padding: 0.75rem 1rem; /* Match other inputs */
+    box-sizing: border-box;
+    background: none; /* Use container background */
+    color: var(--text-color);
+}
+.PhoneInputStyled input:focus {
+    box-shadow: none; /* Remove input focus shadow, container handles it */
+}
+.PhoneInputStyled .PhoneInputCountrySelect {
+    border: none; /* Remove select border */
+    padding: 0.75rem 1rem 0.75rem 0.5rem; /* Adjust padding */
+    background-color: #f0f0f0; /* Slightly different background for country select */
+    border-right: 1px solid var(--border-color);
+    cursor: pointer;
+}
+.PhoneInputStyled .PhoneInputCountryIcon {
+    box-shadow: none !important; /* Override default icon shadow */
+}
+.PhoneInputStyled .PhoneInputCountrySelect:focus {
+    outline: none; /* Remove default focus outline */
+}
+.PhoneInputStyled--disabled {
+    background-color: #e9ecef;
+    cursor: not-allowed;
+    opacity: 1;
+}
+.PhoneInputStyled--disabled .PhoneInputCountrySelect {
+     cursor: not-allowed;
+}
+
+
+.phone-action-btn {
+    /* Button next to the phone input or OTP input */
+    padding: 0.75rem 1.5rem; /* Match standard button padding */
+    margin-top: 0; /* Ensure vertical alignment with input */
+}
+
+
+/* Status messages below inputs */
+.phone-status {
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding-left: 10px; /* Indent slightly to align with input */
+}
+.phone-status.verified { color: var(--success-color); }
+.phone-status.unverified { color: var(--warning-color); } /* Use warning color for invalid format too */
+.phone-status.info { color: var(--neutral-color); } /* Blueish info status */
+
+
+/* OTP Input Section */
+.otp-input-section {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #e9f2ff; /* Light blue background for emphasis */
+    border-radius: var(--border-radius);
+    border: 1px solid #cce5ff; /* Corresponding border color */
+}
+.otp-info-text {
+    font-size: 0.9rem;
+    color: var(--text-muted-color);
+    margin-bottom: 15px; /* Space below info text */
+}
+.otp-input-field {
+    letter-spacing: 0.25rem; /* Add spacing between digits */
+    text-align: center;
+    flex-grow: 1;
+    max-width: 150px; /* Limit width of OTP input field */
+}
+
+.cancel-edit-phone-btn {
+  margin-top: 15px;
+}
+
+
+/* --- Responsiveness --- */
+@media (max-width: 768px) {
+  .profile-settings-card {
+    padding: 20px;
+    margin: 10px;
+  }
+  .form-grid {
+    grid-template-columns: 1fr; /* Stack form elements */
+    gap: 15px;
+  }
+
+  .profile-form-actions {
+    text-align: center; /* Center save button */
+  }
+
+  /* Stack input/button groups */
+  .phone-input-actions-group,
+  .otp-input-actions-group {
+    flex-direction: column;
+    align-items: stretch; /* Make buttons full width */
+    gap: 10px; /* Space between stacked items */
+  }
+
+  .phone-input-actions-group .PhoneInputStyled {
+      width: 100%; /* Ensure PhoneInput takes full width */
+      flex-grow: 0; /* Reset flex-grow in stacked layout */
+  }
+   .phone-input-actions-group .phone-action-btn,
+   .otp-input-actions-group .phone-action-btn {
+     margin-top: 0; /* Reset margin */
+     width: 100%; /* Make buttons full width */
+     flex-grow: 0; /* Reset flex-grow */
+   }
+
+   .otp-input-actions-group .otp-input-field {
+       max-width: 100%; /* Allow OTP input to take full width */
+   }
+
+  .edit-phone-btn,
+  .cancel-edit-phone-btn,
+  .verify-now-btn {
+      width: 100%; /* Make standalone buttons full width */
+      margin-left: 0;
+      margin-right: 0;
+  }
+
+  .phone-status {
+      padding-left: 0; /* Remove indent on smaller screens */
+      justify-content: center; /* Center the status message */
+  }
+}
+
+@media (max-width: 480px) {
+    .profile-header-section h1 { font-size: 1.5rem; }
+    .profile-header-section p { font-size: 0.9rem; }
+    .avatar-wrapper { width: 100px; height: 100px; }
+    .avatar-placeholder-icon { font-size: 40px; }
+    .profile-avatar-section h2 { font-size: 1.25rem; }
+    .profile-btn { padding: 0.6rem 1rem; font-size: 0.9rem; }
+    .form-group input, .PhoneInputStyled input, .otp-input-field { padding: 0.6rem 0.8rem; font-size: 0.9rem; }
+    .PhoneInputStyled .PhoneInputCountrySelect { padding: 0.6rem 0.8rem 0.6rem 0.4rem; }
+    .otp-info-text { font-size: 0.85rem; }
+}

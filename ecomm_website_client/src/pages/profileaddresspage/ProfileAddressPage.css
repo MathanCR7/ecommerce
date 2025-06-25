@@ -1,0 +1,220 @@
+/* frontend/src/pages/profileaddresspage/ProfileAddressPage.css */
+.profile-address-page-container {
+    max-width: 950px;
+    margin: 40px auto;
+    padding: 30px 40px;
+    background-color: #fcfdff; /* Lighter, cleaner background */
+    border-radius: 12px;
+    box-shadow: 0 6px 25px rgba(0, 87, 184, 0.08); /* Softer, themed shadow */
+    min-height: calc(100vh - 200px); /* Adjust if header/footer height changes */
+  }
+
+  .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 35px;
+    padding-bottom: 25px;
+    border-bottom: 1px solid #e3e8f0; /* Lighter border */
+  }
+
+  .page-header h1 {
+    margin: 0;
+    font-size: 2rem; /* Slightly larger */
+    color: #2c3e50; /* Darker, more professional blue/grey */
+    font-weight: 600;
+  }
+
+  /* General Stylish Button - can be moved to a global CSS */
+  .stylish-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 12px 24px; /* More padding */
+    border-radius: 8px; /* Softer radius */
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: background-color 0.25s ease, transform 0.15s ease, box-shadow 0.25s ease;
+    box-shadow: 0 2px 5px rgba(0, 123, 255, 0.2);
+  }
+
+  .stylish-button:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+  }
+
+  .stylish-button:active {
+    transform: translateY(0px);
+    box-shadow: 0 2px 5px rgba(0, 123, 255, 0.2);
+  }
+
+  .stylish-button.primary { /* For primary actions if different from default */
+    background-color: #28a745; /* Green for primary actions like "Add First" */
+    box-shadow: 0 2px 5px rgba(40, 167, 69, 0.2);
+  }
+  .stylish-button.primary:hover {
+    background-color: #1e7e34;
+    box-shadow: 0 4px 10px rgba(40, 167, 69, 0.3);
+  }
+
+
+  .stylish-button svg {
+    font-size: 1.2rem;
+  }
+
+ 
+
+  .loading-state-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    min-height: 300px;
+    text-align: center;
+    color: #555;
+  }
+
+  .spinner-icon {
+    font-size: 3rem;
+    color: #007bff;
+    animation: spin 1.5s linear infinite;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  .loading-state-container p {
+    margin-top: 20px;
+    font-size: 1.1rem;
+  }
+
+  .error-message.page-error { /* Specific to page-level errors */
+    color: #842029;
+    background-color: #f8d7da;
+    border: 1px solid #f5c2c7;
+    padding: 15px 20px;
+    border-radius: 8px;
+    margin: 0 0 25px 0; /* Margin at bottom if there are addresses, or full width if it's the only content */
+    font-size: 1rem;
+    text-align: center;
+  }
+
+  .no-addresses-found {
+    text-align: center;
+    padding: 50px 30px;
+    background-color: #f0f6ff; /* Very light blue */
+    border: 1px dashed #c2d9f3;
+    border-radius: 10px;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .no-address-icon {
+    font-size: 4rem;
+    color: #007bff;
+    margin-bottom: 10px;
+    opacity: 0.7;
+  }
+
+  .no-addresses-found h2 {
+    font-size: 1.6rem;
+    color: #333;
+    margin-bottom: 5px;
+  }
+
+  .no-addresses-found p {
+    font-size: 1rem;
+    color: #555b6e; /* Softer grey */
+    line-height: 1.6;
+    max-width: 500px;
+  }
+
+  .no-addresses-found .stylish-button {
+    margin-top: 20px;
+  }
+
+  .addresses-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 25px; /* Increased gap */
+  }
+
+  /* Responsive adjustments */
+  @media (min-width: 768px) {
+    .addresses-list {
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); /* Enable responsive columns */
+    }
+  }
+
+  @media (max-width: 768px) {
+    .profile-address-page-container {
+      margin: 25px;
+      padding: 25px;
+    }
+    .page-header {
+      flex-direction: column;
+      gap: 20px;
+      align-items: flex-start;
+      text-align: center;
+    }
+    .page-header h1 {
+      font-size: 1.7rem;
+      align-self: center;
+    }
+    .add-address-button {
+      align-self: stretch; /* Make button full width on small screens */
+      justify-content: center;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .profile-address-page-container {
+      margin: 15px;
+      padding: 20px;
+      border-radius: 10px;
+    }
+    .page-header h1 {
+      font-size: 1.5rem;
+    }
+    .no-addresses-found {
+      padding: 30px 20px;
+    }
+    .no-address-icon {
+      font-size: 3rem;
+    }
+    .no-addresses-found h2 {
+      font-size: 1.4rem;
+    }
+    .no-addresses-found p {
+      font-size: 0.95rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .profile-address-page-container {
+      margin: 0;
+      padding: 20px 15px;
+      border-radius: 0;
+      box-shadow: none;
+      min-height: calc(100vh - 160px); /* Adjust header/footer */
+    }
+    .page-header {
+      padding-bottom: 15px;
+      margin-bottom: 20px;
+    }
+    .add-address-button {
+      padding: 10px 15px;
+      font-size: 0.9rem;
+    }
+  }

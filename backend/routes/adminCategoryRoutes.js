@@ -7,7 +7,8 @@ import {
   updateAdminCategory,
   deleteAdminCategory, // Original delete (cascades items)
   deleteMultipleAdminCategories, // Original multi-delete (cascades items)
-  moveItemsAndDeleteCategory, // New controller for move & delete
+  moveItemsAndDeleteCategory,
+  getActiveCategoriesForSelect, // New controller for move & delete
 } from "../controllers/adminCategoryController.js";
 import { protect as protectAdmin } from "../middleware/adminAuthMiddleware.js";
 import { uploadCategoryImage } from "../config/multerConfig.js";
@@ -21,6 +22,7 @@ const router = express.Router();
 // Apply admin authentication middleware to ALL routes in this file
 router.use(protectAdmin);
 
+router.get("/list-for-select", getActiveCategoriesForSelect);
 // --- Define Routes ---
 
 // POST /api/admin/categories/delete-multiple

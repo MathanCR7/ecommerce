@@ -1,0 +1,439 @@
+/* src/pages/supportpage/SupportPage.css */
+
+/* Base styling for the container */
+.support-page-container {
+    max-width: 900px; /* Limit content width */
+    margin: 40px auto; /* Center and add vertical space */
+    padding: 0 20px; /* Horizontal padding */
+    font-family: 'Arial', sans-serif; /* Readable font */
+    color: #333; /* Dark grey text */
+    line-height: 1.6; /* Improve readability */
+    background-color: #ffffff; /* White background */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    border-radius: 10px; /* More rounded corners */
+}
+
+/* Headings */
+.support-page-container h1 {
+    text-align: center;
+    color: #1a4d2e; /* Dark green */
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    font-size: 2.8em; /* Larger main heading */
+    font-weight: 700;
+    border-bottom: 3px solid #4c9a2a; /* Bright green underline */
+    line-height: 1.2;
+}
+
+.support-page-container h2 {
+    color: #4c9a2a; /* Bright green */
+    margin-top: 35px;
+    margin-bottom: 20px;
+    font-size: 1.9em;
+    font-weight: 600;
+    border-bottom: 1px dashed #c8e6c9; /* Light dashed underline */
+    padding-bottom: 5px;
+}
+
+/* Introduction paragraph */
+.support-intro {
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 1.1em;
+    color: #555;
+}
+
+/* Section padding */
+.support-page-container section {
+    margin-bottom: 40px;
+    padding: 20px;
+    background-color: #f9f9f9; /* Light background for sections */
+    border-radius: 8px;
+    border: 1px solid #eee;
+}
+
+/* FAQ Section */
+.faq-section .faq-list {
+    margin-top: 20px;
+}
+
+.faq-section details {
+    background-color: #e8f5e9; /* Very light green */
+    border: 1px solid #c8e6c9; /* Light green border */
+    border-radius: 5px;
+    margin-bottom: 10px;
+    padding: 12px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.faq-section details:hover {
+    background-color: #dcedc8; /* Slightly darker green on hover */
+}
+
+.faq-section summary {
+    font-weight: bold;
+    color: #1a4d2e; /* Dark green */
+    outline: none; /* Remove outline on focus */
+    /* Use a custom arrow if needed */
+    display: flex;
+    align-items: center;
+}
+
+.faq-section summary::-webkit-details-marker {
+    display: none; /* Hide default marker */
+}
+.faq-section summary::before {
+    content: '+'; /* Custom '+' marker */
+    margin-right: 10px;
+    font-weight: bold;
+    color: #4c9a2a;
+    transition: transform 0.3s ease;
+}
+.faq-section details[open] summary::before {
+    content: '−'; /* Custom '−' marker when open */
+    transform: rotate(0deg); /* Ensure no rotation if using arrows */
+}
+
+
+.faq-section details p {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #c8e6c9; /* Separator line */
+    font-size: 0.95em;
+    color: #555;
+}
+
+
+/* Contact Form Section */
+.contact-form .form-group {
+    margin-bottom: 20px;
+}
+
+.contact-form label {
+    display: block; /* Label on its own line */
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #1a4d2e; /* Dark green */
+}
+
+.contact-form input[type="text"],
+.contact-form input[type="email"],
+.contact-form textarea {
+    width: calc(100% - 24px); /* Adjust for padding and border */
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+    box-sizing: border-box; /* Include padding and border in element's total width and height */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.contact-form input[type="text"]:focus,
+.contact-form input[type="email"]:focus,
+.contact-form textarea:focus {
+    border-color: #4c9a2a; /* Highlight on focus */
+    box-shadow: 0 0 5px rgba(76, 154, 42, 0.3); /* Subtle shadow on focus */
+    outline: none;
+}
+
+.contact-form textarea {
+    resize: vertical; /* Allow vertical resizing */
+}
+
+.contact-form .submit-button {
+    display: block; /* Button on its own line */
+    width: 100%; /* Full width */
+    padding: 15px;
+    background-color: #4c9a2a; /* Bright green background */
+    color: white; /* White text */
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+.contact-form .submit-button:hover {
+    background-color: #3a7e20; /* Darker green on hover */
+}
+
+.contact-form .submit-button:active {
+    transform: scale(0.98); /* Slightly shrink on click */
+}
+
+/* Chatbot Section */
+.chatbot-section {
+    background-color: #e3f2fd; /* Very light blue for contrast */
+    border-color: #bbdefb; /* Light blue border */
+    text-align: center; /* Center heading and disclaimer */
+}
+
+.chatbot-container {
+    border: 1px solid #90caf9; /* Light blue border */
+    border-radius: 8px;
+    overflow: hidden; /* Hide overflowing content */
+    display: flex;
+    flex-direction: column; /* Stack messages and input vertically */
+    height: 400px; /* Fixed height for the chat window */
+    background-color: #fff; /* White background inside chat */
+    box-shadow: inset 0 1px 5px rgba(0,0,0,0.05); /* Inner shadow */
+}
+
+.chat-messages {
+    flex-grow: 1; /* Messages area takes up available space */
+    padding: 15px;
+    overflow-y: auto; /* Add scrollbar if messages overflow */
+    display: flex;
+    flex-direction: column; /* Stack messages */
+    gap: 10px; /* Space between messages */
+}
+
+.chat-message {
+    max-width: 80%; /* Limit message width */
+    padding: 10px 15px;
+    border-radius: 18px; /* Rounded corners for chat bubbles */
+    word-wrap: break-word; /* Prevent long words from overflowing */
+}
+
+.chat-message.user {
+    align-self: flex-end; /* Align user messages to the right */
+    background-color: #4caf50; /* Green bubble for user */
+    color: white;
+    border-bottom-right-radius: 2px; /* Sharpen one corner */
+}
+
+.chat-message.bot {
+    align-self: flex-start; /* Align bot messages to the left */
+    background-color: #e0e0e0; /* Grey bubble for bot */
+    color: #333;
+    border-bottom-left-radius: 2px; /* Sharpen one corner */
+}
+
+.chat-input-form {
+    display: flex; /* Arrange input field and button side-by-side */
+    padding: 15px;
+    border-top: 1px solid #eee; /* Separator */
+    background-color: #f1f1f1; /* Light grey background */
+    gap: 10px; /* Space between input and button */
+}
+
+.chat-input-form input[type="text"] {
+    flex-grow: 1; /* Input takes up most space */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 20px; /* Pill shape input */
+    font-size: 1em;
+    outline: none;
+}
+
+.chat-input-form button {
+    padding: 10px 20px;
+    background-color: #4c9a2a; /* Bright green */
+    color: white;
+    border: none;
+    border-radius: 20px; /* Pill shape button */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 1em;
+}
+
+.chat-input-form button:hover {
+    background-color: #3a7e20; /* Darker green */
+}
+
+.chatbot-disclaimer {
+    margin-top: 15px;
+    font-size: 0.9em;
+    color: #666;
+}
+
+/* Other Contact Methods Section */
+.other-contact-methods a {
+    color: #4c9a2a; /* Green link */
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.other-contact-methods a:hover {
+    text-decoration: underline;
+}
+
+/* --- Responsive Design --- */
+
+/* Tablet and smaller (max-width 768px) */
+@media (max-width: 768px) {
+    .support-page-container {
+        margin: 20px auto; /* Reduce margin */
+        padding: 0 15px; /* Adjust padding */
+    }
+
+    .support-page-container h1 {
+        font-size: 2.2em; /* Reduce font size */
+    }
+
+    .support-page-container h2 {
+        font-size: 1.6em; /* Reduce font size */
+        margin-top: 30px;
+        margin-bottom: 15px;
+    }
+
+    .support-intro {
+        font-size: 1em;
+        margin-bottom: 30px;
+    }
+
+    .support-page-container section {
+        padding: 15px; /* Reduce section padding */
+        margin-bottom: 30px;
+    }
+
+    .faq-section summary {
+        font-size: 0.95em; /* Slightly smaller font */
+    }
+
+    .faq-section details p {
+         font-size: 0.9em; /* Slightly smaller font */
+    }
+
+
+    .contact-form input[type="text"],
+    .contact-form input[type="email"],
+    .contact-form textarea {
+        width: calc(100% - 20px); /* Adjust padding */
+        padding: 10px;
+        font-size: 0.95em;
+    }
+
+    .contact-form .submit-button {
+        padding: 12px;
+        font-size: 1em;
+    }
+
+    .chatbot-container {
+        height: 350px; /* Reduce chat height */
+    }
+
+    .chat-message {
+         max-width: 85%; /* Allow messages to be slightly wider */
+         padding: 8px 12px;
+    }
+
+    .chat-input-form {
+        padding: 10px;
+        gap: 8px;
+    }
+
+     .chat-input-form input[type="text"] {
+         padding: 8px;
+         font-size: 0.95em;
+     }
+
+     .chat-input-form button {
+         padding: 8px 15px;
+         font-size: 0.95em;
+     }
+
+     .chatbot-disclaimer {
+        font-size: 0.85em;
+     }
+}
+
+/* Mobile (max-width 480px) */
+@media (max-width: 480px) {
+    .support-page-container {
+         margin: 15px auto;
+         padding: 0 10px;
+    }
+
+     .support-page-container h1 {
+        font-size: 1.8em;
+        margin-bottom: 15px;
+        padding-bottom: 5px;
+     }
+
+    .support-page-container h2 {
+        font-size: 1.4em;
+        margin-top: 25px;
+        margin-bottom: 10px;
+    }
+
+     .support-intro {
+        font-size: 0.95em;
+        margin-bottom: 25px;
+    }
+
+    .support-page-container section {
+        padding: 10px; /* Further reduce section padding */
+        margin-bottom: 25px;
+    }
+
+    .faq-section details {
+        padding: 10px 12px; /* Adjust FAQ padding */
+    }
+
+     .faq-section summary {
+        font-size: 0.9em;
+     }
+
+     .faq-section details p {
+         font-size: 0.85em;
+     }
+
+    .contact-form .form-group {
+        margin-bottom: 15px; /* Reduce space between form groups */
+    }
+
+     .contact-form label {
+        margin-bottom: 6px;
+        font-size: 0.95em;
+     }
+
+    .contact-form input[type="text"],
+    .contact-form input[type="email"],
+    .contact-form textarea {
+        width: calc(100% - 16px); /* Adjust padding */
+        padding: 8px;
+        font-size: 0.9em;
+    }
+
+    .contact-form .submit-button {
+        padding: 10px;
+        font-size: 0.9em;
+    }
+
+     .chatbot-container {
+        height: 300px; /* Further reduce chat height */
+    }
+
+     .chat-message {
+         max-width: 90%; /* Allow messages to be wider */
+         padding: 7px 10px;
+         font-size: 0.9em;
+     }
+
+     .chat-input-form {
+        padding: 8px;
+        gap: 6px;
+     }
+
+     .chat-input-form input[type="text"],
+     .chat-input-form button {
+         padding: 7px;
+         font-size: 0.9em;
+     }
+
+     .chat-input-form button {
+         padding: 7px 12px; /* Adjust button padding */
+     }
+
+     .chatbot-disclaimer {
+        font-size: 0.8em;
+        margin-top: 10px;
+     }
+
+     .other-contact-methods p {
+        font-size: 0.9em;
+     }
+}
