@@ -52,100 +52,16 @@ Follow these instructions to get the project up and running on your local machin
 - MongoDB (local instance or a cloud URI from MongoDB Atlas)
 - Docker (optional, for containerized setup)
 
-### 1. Clone the Repository
-```bash
-git clone https://github.com/your-username/your-repo-name.git
-cd your-repo-name
+  
+## 👨‍💻 Author & Contact
 
-2. Configure Environment Variables
-Navigate to the backend directory and create a .env file by copying the example:
-Generated bash
-cd backend
-cp .env.example .env
-Use code with caution.
-Bash
-Now, open the .env file and fill in your credentials for the database, JWT secrets, frontend URLs, and all integrated services (Razorpay, Google, Twilio, etc.).
-3. Install Dependencies & Run
-You will need to run the backend and both frontend clients in separate terminals.
-Terminal 1: Start the Backend Server
-Generated bash
-cd backend
-npm install
-npm run dev
-# Server will start on http://localhost:5000 (or your configured PORT)
-Use code with caution.
-Bash
-Terminal 2: Start the E-commerce Client
-Generated bash
-cd ecomm_website_client
-npm install
-npm run dev
-# App will be available at http://localhost:5173
-Use code with caution.
-Bash
-Terminal 3: Start the Admin Dashboard Client
-Generated bash
-cd admin_dashboard_client
-npm install
-npm run dev
-# App will be available at http://localhost:5170
-Use code with caution.
-Bash
-🔑 Environment Variables (backend/.env)
-Your .env file in the backend directory should look like this. Never commit your actual .env file to version control.
-Generated env
-# --- Server Configuration ---
-NODE_ENV=development
-PORT=5000
+This project was created with ❤️ by **MATHAN C**.
 
-# --- Database ---
-MONGODB_URI=YOUR_MONGODB_CONNECTION_STRING
+Feel free to connect with me and check out my other work!
 
-# --- Frontend URLs (for CORS) ---
-FRONTEND_URLS=http://localhost:5173,http://localhost:5170
-ECOM_FRONTEND_URL=http://localhost:5173
-ADMIN_FRONTEND_URL=http://localhost:5170
-
-# --- Security / Session / JWT (Generate your own secrets) ---
-SESSION_SECRET=YOUR_RANDOM_SESSION_SECRET
-JWT_SECRET=YOUR_RANDOM_JWT_SECRET
-COOKIE_DOMAIN=localhost
-COOKIE_EXPIRES_IN_MS=86400000
-
-# --- Twilio ---
-TWILIO_ACCOUNT_SID=YOUR_TWILIO_ACCOUNT_SID
-TWILIO_AUTH_TOKEN=YOUR_TWILIO_AUTH_TOKEN
-TWILIO_VERIFY_SERVICE_SID=YOUR_TWILIO_VERIFY_SID
-TWilio_PHONE_NUMBER=YOUR_TWILIO_PHONE_NUMBER
-
-# --- Email (Nodemailer with Gmail) ---
-EMAIL_HOST=smtp.gmail.com
-EMAIL_PORT=465
-EMAIL_USER=your-email@gmail.com
-EMAIL_PASS=your-gmail-app-password
-EMAIL_FROM="Your Store Name <your-email@gmail.com>"
-
-# --- Google OAuth ---
-GOOGLE_CLIENT_ID=YOUR_GOOGLE_CLIENT_ID
-GOOGLE_CLIENT_SECRET=YOUR_GOOGLE_CLIENT_SECRET
-GOOGLE_CALLBACK_URL=http://localhost:5000/api/auth/google/callback
-
-# --- Razorpay ---
-RAZORPAY_KEY_ID=YOUR_RAZORPAY_KEY_ID
-RAZORPAY_KEY_SECRET=YOUR_RAZORPAY_KEY_SECRET
-RAZORPAY_CURRENCY=INR
-
-# --- Delivery Zone Polygon Coordinates ---
-# Example: A square around a central point
-DELIVERY_ZONE_POLYGON_COORDINATES='[[[LAT, LNG],[LAT, LNG],[LAT, LNG],[LAT, LNG],[LAT, LNG]]]'
-Use code with caution.
-Env
-<br>
-<br>
-<p align="center">
-<h2>👨‍💻 Author & Contact</h2>
-<p>This project was created with ❤️ by <strong>MATHAN C</strong>.</p>
-<p>Feel free to connect with me and check out my other work!</p>
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/mathan-c/)
+ 
+[![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/MathanCR7)
 <p>
 <a href="https://www.linkedin.com/in/mathan-c/" target="_blank">
 <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn">
