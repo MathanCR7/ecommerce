@@ -52,7 +52,6 @@ Follow these instructions to get the project up and running on your local machin
 - MongoDB (local instance or a cloud URI from MongoDB Atlas)
 - Docker (optional, for containerized setup)
 
-  
 ## 👨‍💻 Author & Contact
 
 This project was created with ❤️ by **MATHAN C**.
@@ -62,13 +61,3 @@ Feel free to connect with me and check out my other work!
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/mathan-c/)
  
 [![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/MathanCR7)
-<p>
-<a href="https://www.linkedin.com/in/mathan-c/" target="_blank">
-<img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn">
-</a>
-&nbsp;
-<a href="https://github.com/MathanCR7" target="_blank">
-<img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" alt="GitHub">
-</a>
-</p>
-</p>
