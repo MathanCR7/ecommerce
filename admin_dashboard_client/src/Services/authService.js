@@ -1,5 +1,5 @@
 // ========================================================================
-// FILE: client/src/Services/authService.js
+// FILE: client/src/Services/authService.js (Updated with Fixes)
 // ========================================================================
 
 import api from "./api"; // Import the configured Axios instance
@@ -108,7 +108,7 @@ const register = async (
  *
  * @param {string} username - The username (or email) used for login.
  * @param {string} password - The user's password.
- * @returns {Promise<object>} Response data, typically { success, message, user: userInfo } on success.
+ * @returns {Promise<object>} Response data, typically { success, message, user: userInfo, token: '...' } on success.
  * @throws {object} Throws the processed error object on failure.
  */
 const login = async (username, password) => {
@@ -118,9 +118,25 @@ const login = async (username, password) => {
       password,
     });
     console.log("Admin Login Service Success:", data);
+    
+    // <<< UPDATE START >>>
+    // If login is successful and a token is received, store the entire
+    // user info object (which includes the token) in localStorage.
+    // The interceptor in `api.js` will read this.
+    if (data && data.token) {
+      localStorage.setItem("adminInfo", JSON.stringify(data));
+    }
+    // <<< UPDATE END >>>
+    
     return data;
   } catch (error) {
     console.error("Admin Login Service Error:", error.message, error);
+    
+    // <<< UPDATE START >>>
+    // As a safety measure, clear any old/invalid admin info from storage on a failed login.
+    localStorage.removeItem("adminInfo");
+    // <<< UPDATE END >>>
+
     throw error;
   }
 };
@@ -137,9 +153,21 @@ const logout = async () => {
   try {
     const data = await api.post(`${API_URL_PREFIX}/logout`);
     console.log("Admin Logout Service Success:", data);
+    
+    // <<< UPDATE START >>>
+    // Always remove admin info from storage on logout.
+    localStorage.removeItem("adminInfo");
+    // <<< UPDATE END >>>
+    
     return data;
   } catch (error) {
     console.error("Admin Logout Service Error:", error.message, error);
+
+    // <<< UPDATE START >>>
+    // Also remove admin info if the API call fails, ensuring the user is logged out on the client side.
+    localStorage.removeItem("adminInfo");
+    // <<< UPDATE END >>>
+
     throw error;
   }
 };
