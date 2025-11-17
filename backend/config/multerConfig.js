@@ -3,24 +3,34 @@ import multer from "multer";
 import path from "path";
 import fs from "fs";
 import { fileURLToPath } from "url";
+import os from "os"; // UNIFIED CHANGE: Import 'os' module for Vercel's temp directory
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Resolve PROJECT_ROOT one level up from 'config' directory
-const PROJECT_ROOT = path.resolve(__dirname, "..", ".."); // Adjusted to go up two levels if config is inside backend
-// If your project structure is backend/config, backend/uploads, backend/controllers etc., then:
-// const PROJECT_ROOT = path.resolve(__dirname, ".."); // This would be correct
+// --- UNIFIED CHANGE: Dynamically determine the base upload directory ---
+let BASE_UPLOADS_DIR;
+const UPLOADS_DIR_NAME = "uploads";
 
-const UPLOADS_DIR_NAME = "uploads"; // Define the uploads directory name
-const UPLOADS_DIR_PATH_FROM_BACKEND_ROOT = path.join(
-  "backend",
-  UPLOADS_DIR_NAME
-); // Path relative to project root for deletion
-const ABSOLUTE_UPLOADS_DIR = path.join(
-  PROJECT_ROOT,
-  UPLOADS_DIR_PATH_FROM_BACKEND_ROOT
-);
+if (process.env.NODE_ENV === "production") {
+  // --- VERCEL / PRODUCTION ENVIRONMENT ---
+  // Use the only writable directory in a serverless environment.
+  BASE_UPLOADS_DIR = path.join(os.tmpdir(), UPLOADS_DIR_NAME);
+  console.log(
+    `[Multer Config] Production mode detected. Using temporary directory for uploads: ${BASE_UPLOADS_DIR}`
+  );
+} else {
+  // --- LOCAL DEVELOPMENT ENVIRONMENT ---
+  // Use the original logic to create a persistent 'uploads' folder in your project.
+  // This assumes your structure is `project-root/backend/config`, and you want `project-root/backend/uploads`.
+  const backendRoot = path.resolve(__dirname, "..");
+  BASE_UPLOADS_DIR = path.join(backendRoot, UPLOADS_DIR_NAME);
+  console.log(
+    `[Multer Config] Development mode detected. Using local directory for uploads: ${BASE_UPLOADS_DIR}`
+  );
+}
+// For clarity, let's call the final exportable variable ABSOLUTE_UPLOADS_DIR to minimize changes elsewhere.
+const ABSOLUTE_UPLOADS_DIR = BASE_UPLOADS_DIR;
 
 const ensureDirExistsAbsolute = (absolutePath) => {
   if (!fs.existsSync(absolutePath)) {
@@ -32,21 +42,29 @@ const ensureDirExistsAbsolute = (absolutePath) => {
         `[Multer Config] Error creating directory ${absolutePath}:`,
         err
       );
-      throw err; // Propagate error to stop server initialization if critical
+      throw err;
     }
   }
   return absolutePath;
 };
 
-// Initialize base UPLOADS_DIR on module load
-ensureDirExistsAbsolute(ABSOLUTE_UPLOADS_DIR);
+// UNIFIED CHANGE: Only run directory creation on startup for LOCAL development.
+// This was the line causing the Vercel crash.
+if (process.env.NODE_ENV !== "production") {
+  ensureDirExistsAbsolute(ABSOLUTE_UPLOADS_DIR);
+}
 
 const createStorage = (destinationSubDir, filenamePrefix) => {
-  const absoluteUploadPathWithSubDir = ensureDirExistsAbsolute(
-    path.join(ABSOLUTE_UPLOADS_DIR, destinationSubDir)
+  // UNIFIED CHANGE: This function now uses the dynamic ABSOLUTE_UPLOADS_DIR.
+  const absoluteUploadPathWithSubDir = path.join(
+    ABSOLUTE_UPLOADS_DIR,
+    destinationSubDir
   );
+
   return multer.diskStorage({
     destination: (req, file, cb) => {
+      // UNIFIED CHANGE: Create the directory just-in-time. This is safe for both environments.
+      ensureDirExistsAbsolute(absoluteUploadPathWithSubDir);
       cb(null, absoluteUploadPathWithSubDir);
     },
     filename: (req, file, cb) => {
@@ -75,6 +93,8 @@ const imageFileFilter = (req, file, cb) => {
 
 const MAX_SIZE_MB = parseInt(process.env.MAX_FILE_UPLOAD_SIZE_MB || "5", 10);
 const fileSizeLimit = MAX_SIZE_MB * 1024 * 1024;
+
+// --- Your Original Multer Instances (No changes needed here) ---
 
 // User Profile Picture
 const userStorage = createStorage("users", "user-profile");
@@ -118,7 +138,7 @@ const uploadBannerImageMiddleware = multer({
 }).single("bannerImage");
 
 /**
- * Deletes a file from the uploads directory.
+ * Deletes a file from the uploads directory (works for both local and Vercel).
  * @param {string} relativePathFromUploadsDir - The path of the file relative to the UPLOADS_DIR.
  *                                               Example: "items/item-image-123.jpg"
  * @returns {Promise<boolean>} True if deletion was successful or file didn't exist, false on error.
@@ -134,7 +154,7 @@ const deleteFile = async (relativePathFromUploadsDir) => {
     return false;
   }
 
-  // Construct absolute path from the base ABSOLUTE_UPLOADS_DIR
+  // UNIFIED CHANGE: Uses the dynamic ABSOLUTE_UPLOADS_DIR to find the correct file.
   const absolutePath = path.join(
     ABSOLUTE_UPLOADS_DIR,
     relativePathFromUploadsDir
